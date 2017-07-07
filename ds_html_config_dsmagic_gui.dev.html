@@ -1,0 +1,340 @@
+<div class='ds-config-gui'>
+	<div class='ds-config-gui-top-menu'>
+		<table align='left' border='0' cellpadding='0' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td>
+						<button type='button' class='ds-psudo-button ds-config-btn-save'><span class='ds-config-btn'><i class='fa fa-gears'></i>&nbsp;Save</span></button>
+					</td>
+					<td>
+						<button type='button' class='ds-psudo-button ds-config-btn-cancel'><span class='ds-config-btn'><i class='fa fa-close'></i>&nbsp;Cancel</span></button>
+					</td>
+					<td>
+						<button type='button' class='ds-psudo-button ds-config-btn-new'><span class='ds-config-btn'><i class='fa fa-plus-circle'></i>&nbsp;New</span></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<h3 class='ds-config-section-header' restListName='' tabIndex=''>
+		<table class='ds-config-section-header-content-wrapper' border='0' cellpadding='2' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td>
+						{<span class='ds-config-section-index'></span>}
+					</td>
+					<td class='ds-config-section-header-name'></td>
+					<td class='ds-config-section-guiControl-move-up'>
+						<span class='ds-config-section-move-up'><i class='fa fa-arrow-up'></i>&nbsp;Up</span>
+					</td>
+					<td class='ds-config-section-guiControl-move-down'>
+						<span class='ds-config-section-move-down'><i class='fa fa-arrow-down'></i>&nbsp;Down</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</h3>
+	<div class='ds-config-section-wrapper' restListName='' tabIndex=''>
+		<table class='ds-config-section-table-wrapper' border='0' cellpadding='2' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<h3 class='ds-config-section-header masterSettings'>
+		<table class='ds-config-section-header-content-wrapper' border='0' cellpadding='2' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td>
+						{<span class='ds-config-section-index'>0</span>}
+					</td>
+					<td class='ds-config-section-header-name'>master settings</td>
+				</tr>
+			</tbody>
+		</table>
+	</h3>
+	<div class='ds-config-section-wrapper masterSettings'>
+		<table class='ds-config-section-table-wrapper' border='0' cellpadding='2' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td colspan='3'>
+						<input type='checkbox' checked='checked' id='chkHideAddRelatedRecordsButtons' value=''/>
+						<label for='chkHideAddRelatedRecordsButtons'>Hide add related records buttons</label>
+					</td>
+				</tr>
+				<tr>
+					<td colspan='3'>
+						<input type='checkbox' checked='checked' id='chkHideFilterTab' value=''/>
+						<label for='chkHideFilterTab'>Hide filter tab</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2 title='Optional'>initFx (javascript function) <img border='0' src='_layouts/images/helpicon.gif' title='Double click the code to update the syntax highlighting'/></h2>
+						<div class='ds-masterSettings-initFx-wrapper'>
+							<pre><code class='hljs javascript js'><div contenteditable='true' class='ms-rtestate-write ms-rteflags-0 ms-rtestate-field ds-masterSettings-initFx-js hljs javascript js'></div></code></pre>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2 title='Optional'>afterFx (javascript function) <img border='0' src='_layouts/images/helpicon.gif' title='Double click the code to update the syntax highlighting'/></h2>
+						<div class='ds-masterSettings-afterFx-wrapper'>
+							<pre><code class='hljs javascript js'><div contenteditable='true' class='ms-rtestate-write ms-rteflags-0 ms-rtestate-field ds-masterSettings-afterFx-js hljs javascript js'></div></code></pre>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<style type='text/css'>
+	.ds-config-section-header {
+		cursor: pointer;
+		line-height: 2em;
+		vertical-align: middle;
+		position: relative;
+	}
+	.ds-config-section-wrapper {
+		border: 1px solid black;
+		position: relative;
+	}
+	/*
+	.ds-config-section-wrapper:nth-of-type(even) {
+		background-color: #a7c9e0;
+	}
+	.ds-config-section-wrapper:nth-of-type(odd) {
+		background-color: #ccff99;
+	}
+	*/
+	.ds-config-gui-top-menu {
+		border-bottom: 3px double grey;
+		display: block;
+		min-height: 80px;
+	}
+	.ds-config-gui { 
+		border: 3px solid black;
+		background-color: #E6E6E6;
+		padding: 3px 6px 3px 6px;
+		width: 100%;
+		min-height: 350px;
+		overflow-y: scroll;
+	}
+	.ds-config-section-table-wrapper {
+		width: 100%;
+	}
+	.ds-config-section-header-content-wrapper {
+		table-layout: fixed;
+		border-collapse: collapse;
+		width: 100%;
+	}
+	.ds-config-section-header-content-wrapper > TBODY > TR > TD {
+		color: black;
+	}
+	.ds-config-section-header-content-wrapper > TBODY > TR > TD:nth-child(1) {
+		width: 5%;
+		text-align: left;
+		vertical-align: middle;
+	}
+	.ds-config-section-header-content-wrapper > TBODY > TR > TD:nth-child(2) {
+		text-align: left;
+		vertical-align: middle;
+	}
+	.ds-config-section-header-content-wrapper > TBODY > TR > TD:nth-child(3),
+	.ds-config-section-header-content-wrapper > TBODY > TR > TD:nth-child(4) {
+		width: 7%;
+		text-align: right;
+		vertical-align: middle;
+		padding-right: 2em;
+		font-size: 0.7em;
+	}
+	.ds-config-section-move-up, .ds-config-section-move-down {
+		cursor: pointer;
+	}
+	.ds-config-gui .ds-config-section-header:not(.masterSettings):nth-of-type(2) .ds-config-section-move-up {
+		cursor: not-allowed;
+		color: gray;
+	}
+	.ds-config-gui .ds-config-section-header:not(.masterSettings):last-of-type .ds-config-section-move-down {
+		cursor: not-allowed;
+		color: gray;
+	}
+	.ds-masterSettings-afterFx-js,
+	.ds-masterSettings-initFx-js {
+		max-height: 500px;
+		max-width: 90%;
+		overflow-y: scroll;
+		white-space: pre-wrap;
+	}
+	pre code {
+		background-color: transparent !important;
+		padding: 0.25em !important;
+	}
+	.ds-masterSettings-initFx-wrapper,
+	.ds-masterSettings-afterFx-wrapper	{
+		width: 90%;
+	}
+	</style>
+	<script type="text/javascript">
+	var dsMagicConfig = {
+		saveDsMagicSettings: function(jsonBlob){
+			var jsonBlob = {"masterSettings": dsMagicConfig.captureMasterSettings(),"relatedRecords": dsMagicConfig.captureAllTabsUISettings()};
+			// get record ID from dsFormSettings to update
+			var nID = 0;
+			var lisOrLibraryName = ds.util.findList("Id",_spPageContextInfo.pageListId.replace("{","").replace("}","")).EntityTypeName;
+			var formOrPageName = _spPageContextInfo.serverRequestPath.substring(_spPageContextInfo.serverRequestPath.indexOf("/"+lisOrLibraryName+"/")+(2+lisOrLibraryName.length),200);
+			formOrPageName = formOrPageName.substring(0,formOrPageName.indexOf("."));
+			var bSaved = false;
+			ds.util.getSettingsForCurrentPage(function(formSettings){
+				console.log("returned form settings");
+				console.dir(formSettings);
+				if ( ds.stor.existingFormSettings === false ) {
+					// this is a new record save operation
+					ds.util.log("saving a new record to dsFormSettings for current page", true);
+					ds.rest.list.item.add({"Title":lisOrLibraryName,"FormNameURL":formOrPageName,"blbRelRecs":JSON.stringify(jsonBlob)}, ds.lists.dsformsettings.Id, function(){
+						bSaved = true;
+						var bResponse = confirm("settings have been saved. reload the page?");
+						if ( bResponse === false ) {
+							ds.$(".ds-psudoPopupWrapper").remove();
+							ds.$(".ds-relatedRecordsUI").show();
+						}
+						else {
+							window.location.reload();
+						}
+					});
+
+				}
+				else {
+					nID = ds.lists.dsformsettings.items.results[0].Id;
+					ds.util.log("found record to update in dsFormSettings for current form ("+ nID +")", true);
+					ds.rest.list.item.update({"blbRelRecs":JSON.stringify(jsonBlob)}, ds.lists.dsformsettings.Id, nID, function(){
+						bSaved = true;
+						var bResponse = confirm("settings have been saved. reload the page?");
+						if ( bResponse === false ) {
+							ds.$(".ds-psudoPopupWrapper").remove();
+							ds.$(".ds-relatedRecordsUI").show();
+						}
+						else {
+							window.location.reload();
+						}
+					});
+				}
+			},false,true);
+		},
+		captureMasterSettings: function(){
+			var masterSettings = {};
+			masterSettings.hideAddRelatedRecordButtons = ds.$("#chkHideAddRelatedRecordsButtons").prop("checked");
+			masterSettings.hideFilterTab = ds.$("#chkHideFilterTab").prop("checked");
+			masterSettings.initFx = ds.util.escapeJS(ds.util.minifyJS(ds.$(".ds-masterSettings-initFx-js").text()));
+			masterSettings.afterFx = ds.util.escapeJS(ds.util.minifyJS(ds.$(".ds-masterSettings-afterFx-js").text()));
+			return masterSettings;
+		},
+		captureAllTabsUISettings: function(){
+			var arrAllTabSettings = [];
+			ds.$(".ds-config-tab-wrapper:not(.masterSettings)").each(function(){
+				var $tabWrapper = ds.$(this);
+				if ( ds.$(this).hasClass("ds-htmlTab") === false ) {
+					arrAllTabSettings.push(dsMagicConfig.captureRelatedRecordsTabSettings($tabWrapper));
+				}
+				else {
+					arrAllTabSettings.push(dsMagicConfig.captureHTMLTabSettings($tabWrapper));
+				}
+			});
+			return arrAllTabSettings;
+		},
+		captureRelatedRecordsTabSettings: function($tabWrapper){
+			var thisTab = {};
+			thisTab.listName = $tabWrapper.find(".ds-tab-list-name").val();
+			thisTab.listFaClass = $tabWrapper.find(".ds-tab-list-Fa-class").val();
+			thisTab.tabText = $tabWrapper.find(".ds-tab-display-text").val();
+			thisTab.tabHeaderHTML = ds.util.escapeJS(ds.util.minifyJS($tabWrapper.find(".ds-tab-header-html").text()));
+			thisTab.tabTableFields = [];
+			$tabWrapper.find(".ds-tab-table-fields-tbody TR").each(function(){
+				var oTF = {};
+				oTF.fin = ds.$(this).find(".ds-tab-table-field-fin OPTION:selected").val();
+				oTF.label = ds.$(this).find(".ds-tab-table-field-label").val();
+				try{oTF.formatAs = ds.$(this).find(".ds-tab-table-field-formatAs").val();}catch(err){oTF.formatAs = '';}
+				if ( oTF.fin === 'HTMLSnippit' ) {
+					try{
+						oTF.formatAs = ds.util.escapeJS(ds.util.minifyJS(ds.$(this).find(".ds-tab-table-field-htmlsnippit").text()));
+					}
+					catch(err){
+						oTF.formatAs = '';
+					}
+				}
+				try{oTF.formatString = ds.$(this).find(".ds-tab-table-field-formatString").val();}catch(err){oTF.formatString = '';}
+				try{oTF.widthPx = ds.$(this).find(".ds-tab-table-field-widthPx").val();}catch(err){oTF.widthPx = '';}
+				try{oTF.textAlign = ds.$(this).find(".ds-tab-table-field-textAlign").val();}catch(err){oTF.textAlign = '';}
+				try{oTF.verticalAlign = ds.$(this).find(".ds-tab-table-field-verticalAlign").val();}catch(err){oTF.verticalAlign = '';}
+				thisTab.tabTableFields.push(oTF);
+			});
+			thisTab.tabFooterHTML = ds.util.escapeJS(ds.util.minifyJS($tabWrapper.find(".ds-tab-footerButton-html").text()));
+			thisTab.psudoPopupSaveNewFx = ds.util.escapeJS(ds.util.minifyJS($tabWrapper.find(".ds-tab-saveNewFx-js").text()));
+			thisTab.psudoPopupSaveUpdateFx = ds.util.escapeJS(ds.util.minifyJS($tabWrapper.find(".ds-tab-saveUpdateFx-js").text()));
+			return thisTab;
+		},
+		captureHTMLTabSettings: function($tabWrapper){
+			var thisTab = {};
+			thisTab.listName = "HTML";
+			thisTab.tabText = $tabWrapper.find(".ds-tab-display-text").val();
+			thisTab.listFaClass = $tabWrapper.find(".ds-tab-list-Fa-class").val();
+			thisTab.tabHeaderHTML = ds.util.escapeJS(ds.util.minifyJS($tabWrapper.find(".ds-htmlTab-html-content").text()));
+			thisTab.tabFooterHTML = ds.util.escapeJS(ds.util.minifyJS($tabWrapper.find(".ds-htmlTab-afterFx-js").text()));
+			return thisTab;
+		},
+		populateCurrentSettings: function() {
+			ds.util.getSettingsForCurrentPage(function(formSettings){
+				var masterSettings = formSettings.masterSettings;
+				ds.stor.masterConfigNew = ds.$(".ds-config-section-wrapper:not(.masterSettings)").eq(0);
+				ds.stor.masterConfigNewHeader = ds.$(".ds-config-section-header:not(.masterSettings)").eq(0);
+				ds.$(".ds-config-section-wrapper:not(.masterSettings)").eq(0).remove();
+				ds.$(".ds-config-section-header:not(.masterSettings)").eq(0).remove();
+				if ( masterSettings.hideAddRelatedRecordButtons === true ) {
+					ds.$("#chkHideAddRelatedRecordsButtons").prop("checked",true);
+				}
+				else {
+					ds.$("#chkHideAddRelatedRecordsButtons").prop("checked",false);
+				}
+				if ( masterSettings.hideFilterTab === true ) {
+					ds.$("#chkHideFilterTab").prop("checked",true);
+				}
+				else {
+					ds.$("#chkHideFilterTab").prop("checked",false);
+				}
+				try{
+					eval("formSettings.masterSettings.initFx = "+ formSettings.masterSettings.initFx +";");
+					ds.$(".ds-masterSettings-initFx-js").text(js_beautify(ds.util.getFunctionCode(formSettings.masterSettings.initFx)));
+				}catch(err){}
+				try{
+					eval("formSettings.masterSettings.afterFx = "+ formSettings.masterSettings.afterFx +";");
+					ds.$(".ds-masterSettings-afterFx-js").text(js_beautify(ds.util.getFunctionCode(formSettings.masterSettings.afterFx)));
+				}catch(err){}
+				dsMagicConfig.setupEvents();
+			});
+		},
+		setupEvents: function(){
+			hljs.configure({languages: ['html','css','javascript']});
+			// setup syntax highlighting for all codeEditor widgets
+			ds.util.log("ds.controls.tabs.config.setupTabEventsForConfigGUI... calling ds.controls.codeEditor.setupEventsFx('.ds-masterSettings-initFx-js,.ds-masterSettings-afterFx-js')",true);
+			ds.controls.codeEditor.setupEventsFx(".ds-masterSettings-initFx-js,.ds-masterSettings-afterFx-js");
+		},
+		init: setTimeout(function(){
+			dsMagicConfig.populateCurrentSettings();
+		}, 234)
+	};
+	</script>
+</div>
+<script type="text/javascript">
+	// global cancel button (hide configure GUI)
+	ds.$(".ds-config-btn-cancel").click(function(){
+		ds.$(".ds-psudoPopupWrapper").remove();
+	});
+	// global cancel button (hide configure GUI)
+	ds.$(".ds-config-btn-save").click(function(){
+		var blob = {"masterSettings": dsMagicConfig.captureMasterSettings()};
+		dsMagicConfig.saveDsMagicSettings(JSON.stringify(blob));
+	});
+</script>

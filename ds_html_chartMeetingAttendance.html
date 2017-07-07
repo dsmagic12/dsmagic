@@ -1,0 +1,168 @@
+<DIV ID="chart_material" style="height: 100px; border: 1px solid gray;"></DIV>
+<script type="text/javascript">
+var arrChartDates = [];
+var arrChartCategories = [];
+var arrChartData1 = [];
+var existingRow, arrDataRowKeys, arrMeetingNames, hAxisTicks, dataArr;
+var iRec, thisRow, thisDataRow;
+var iMeeting, meetingArrIndex, iDR;
+var i, data, options, chart, arrDataRows;
+
+ds.rest.list.getData.fromList("MeetingAttendance");
+
+setTimeout(function(){
+	ds.$.getCachedScript("https://www.gstatic.com/charts/loader.js").done(function(){
+		ds.$.getCachedScript("https://www.google.com/jsapi").done(function(){
+			for ( i = 0; i < ds.lists.meetingattendance.items.results.length; i++ ) {
+				var recKey = ds.lists.meetingattendance.items.results[i].MeetingName+"|"+moment(ds.lists.meetingattendance.items.results[i].MeetingDateJSDateMS).format("M/D/YYYY");
+				var bDkey = false;
+				for ( var iKey = 0; iKey < arrChartData1.length; iKey++ ) {
+					if ( arrChartData1[iKey][0] === recKey ) {
+						arrChartData1[iKey][3] = arrChartData1[iKey][3] + 1;
+						bDkey = true;
+						break;
+					}
+				}
+				if ( bDkey === false ) {
+					arrChartData1.push([recKey, ds.lists.meetingattendance.items.results[i].MeetingName, moment(ds.lists.meetingattendance.items.results[i].MeetingDateJSDateMS), 1]);
+				}
+			}
+			google.charts.load('current', {'packages':['corechart']});
+			google.charts.setOnLoadCallback(drawLineChart);
+		});
+	});
+}, 2000);
+
+
+function drawColumnChart () {
+	data = new google.visualization.DataTable();	
+	data.addColumn('date', 'Date');
+	arrMeetingNames = [];
+	for ( iRec = 0; iRec < arrChartData1.length; iRec++ ) {
+		if ( arrMeetingNames.indexOf(arrChartData1[iRec][1]) < 0 ) {
+			arrMeetingNames.push(arrChartData1[iRec][1]);
+			data.addColumn('number', arrChartData1[iRec][1]);
+		}
+	}
+	arrDataRowKeys = [];
+	arrDataRows = [];
+	for ( i = 0; i < arrChartData1.length; i++ ) {
+		thisRow = arrChartData1[i];
+		if ( arrDataRowKeys.indexOf(thisRow[2].format("YYYY-MM-DD")) < 0 ) {
+			thisDataRow = [];
+			thisDataRow.push(thisRow[2]._d);
+			arrDataRowKeys.push(thisRow[2].format("YYYY-MM-DD"));
+			for ( iMeeting = 0; iMeeting < arrMeetingNames.length; iMeeting++ ) {
+				if ( arrMeetingNames[iMeeting] === thisRow[1] ) {
+					thisDataRow.push(thisRow[3]);
+				}
+				else {
+					thisDataRow.push(0);
+				}
+			}
+			arrDataRows.push(thisDataRow);
+		}
+		else {
+			thisDataRow = arrDataRows[arrDataRowKeys.indexOf(thisRow[2].format("YYYY-MM-DD"))];
+			meetingArrIndex = 1+arrMeetingNames.indexOf(thisRow[1]);
+			thisDataRow[meetingArrIndex] = thisRow[3] + thisDataRow[meetingArrIndex];
+			arrDataRows[arrDataRowKeys.indexOf(thisRow[2].format("YYYY-MM-DD"))] = thisDataRow;
+		}
+	}
+	for ( iDR = 0; iDR < arrDataRows.length; iDR++ ) {
+		data.addRows([arrDataRows[iDR]]);
+	}
+	data.sort({column: 0});
+
+	hAxisTicks = [];
+	for ( i = 0; i < moment(moment().add(2, 'days') - moment(arrDataRows[0][0]).subtract(2, 'days')).format("DDD"); i = i + 5 ) {
+		hAxisTicks.push(moment(arrDataRows[0][0]).subtract(2, 'days').add(i, 'days')._d);
+	}
+	
+	options = {
+	  width: 1200,
+	  height: 800,
+	  chart: {
+		title: 'Meeting Attendance'
+	  },
+	  isStacked: true,
+	  hAxis: { 
+		format:'yyyy-MM-dd',
+		ticks: hAxisTicks,
+		slantedText: true,
+		slantedTextAngle: 34,
+		showTextEvery: 1
+	  }
+	};
+
+	var chart = new google.visualization.ColumnChart(document.getElementById('chart_material'));
+    chart.draw(data, options);
+}
+
+function drawLineChart () {
+	data = new google.visualization.DataTable();
+	
+	data.addColumn('date', 'Date');
+	arrMeetingNames = [];
+	for ( iRec = 0; iRec < arrChartData1.length; iRec++ ) {
+		if ( arrMeetingNames.indexOf(arrChartData1[iRec][1]) < 0 ) {
+			arrMeetingNames.push(arrChartData1[iRec][1]);
+			data.addColumn('number', arrChartData1[iRec][1]);
+		}
+	}
+	arrDataRowKeys = [];
+	arrDataRows = [];
+	for ( i = 0; i < arrChartData1.length; i++ ) {
+		thisRow = arrChartData1[i];
+		if ( arrDataRowKeys.indexOf(thisRow[2].format("YYYY-MM-DD")) < 0 ) {
+			thisDataRow = [];
+			thisDataRow.push(thisRow[2]._d);
+			arrDataRowKeys.push(thisRow[2].format("YYYY-MM-DD"));
+			for ( iMeeting = 0; iMeeting < arrMeetingNames.length; iMeeting++ ) {
+				if ( arrMeetingNames[iMeeting] === thisRow[1] ) {
+					thisDataRow.push(thisRow[3]);
+				}
+				else {
+					thisDataRow.push(0);
+				}
+			}
+			arrDataRows.push(thisDataRow);
+		}
+		else {
+			thisDataRow = arrDataRows[arrDataRowKeys.indexOf(thisRow[2].format("YYYY-MM-DD"))];
+			meetingArrIndex = 1+arrMeetingNames.indexOf(thisRow[1]);
+			thisDataRow[meetingArrIndex] = thisRow[3] + thisDataRow[meetingArrIndex];
+			arrDataRows[arrDataRowKeys.indexOf(thisRow[2].format("YYYY-MM-DD"))] = thisDataRow;
+		}
+	}
+	for ( iDR = 0; iDR < arrDataRows.length; iDR++ ) {
+		data.addRows([arrDataRows[iDR]]);
+	}
+	data.sort({column: 0});
+
+	hAxisTicks = [];
+	for ( i = 0; i < moment(moment().add(2, 'days') - moment(arrDataRows[0][0]).subtract(2, 'days')).format("DDD"); i = i + 5 ) {
+		hAxisTicks.push(moment(arrDataRows[0][0]).subtract(2, 'days').add(i, 'days')._d);
+	}
+	
+	options = {
+	  width: 1200,
+	  height: 800,
+	  chart: {
+		title: 'Meeting Attendance'
+	  },
+	  isStacked: true,
+	  hAxis: { 
+		format:'yyyy-MM-dd',
+		ticks: hAxisTicks,
+		slantedText: true,
+		slantedTextAngle: 34,
+		showTextEvery: 1
+	  },
+	  pointSize: 5
+	};
+
+	var chart = new google.visualization.LineChart(document.getElementById('chart_material'));
+    chart.draw(data, options);
+}
+</script>

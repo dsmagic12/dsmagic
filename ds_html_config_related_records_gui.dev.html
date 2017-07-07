@@ -1,0 +1,1284 @@
+<div class='ds-config-gui-tabs ds-accordion'>
+	<div class='ds-tabs-config-gui-top-menu'>
+		<table align='left' border='0' cellpadding='0' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td>
+						<button type='button' class='ds-psudo-button ds-tabs-config-btn-save'><span class='ds-tabs-config-btn'><i class='fa fa-gears'></i>&nbsp;Save</span></button>
+					</td>
+					<td>
+						<button type='button' class='ds-psudo-button ds-tabs-config-btn-cancel'><span class='ds-tabs-config-btn'><i class='fa fa-close'></i>&nbsp;Cancel</span></button>
+					</td>
+					<td>
+						<button type='button' class='ds-psudo-button ds-tabs-config-btn-collapseListForm'><span class='ds-tabs-config-btn'><i class='fa fa-chevron-up'></i>&nbsp;Collapse List Form</span></button>
+					</td>
+					<td>
+						<button type='button' class='ds-psudo-button ds-tabs-config-btn-new'><span class='ds-tabs-config-btn'><i class='fa fa-plus-circle'></i>&nbsp;New</span></button>
+					</td>
+					<td>
+						<button type='button' class='ds-psudo-button ds-tabs-config-btn-new-htmlTab'><span class='ds-tabs-config-btn'><i class='fa fa-code'></i>&nbsp;New HTML</span></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div>
+	<h3 class='ds-config-tab-header' restListName='' tabIndex=''>
+		<table class='ds-config-tab-header-content-wrapper' border='0' cellpadding='2' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td>
+						{<span class='ds-config-tab-index'></span>}
+					</td>
+					<td class='ds-config-tab-header-tabName'></td>
+					<td class='ds-config-tab-guiControl-move-up'>
+						<span class='ds-config-tab-move-up'><i class='fa fa-arrow-up'></i>&nbsp;Up</span>
+					</td>
+					<td class='ds-config-tab-guiControl-move-down'>
+						<span class='ds-config-tab-move-down'><i class='fa fa-arrow-down'></i>&nbsp;Down</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</h3>
+	<div class='ds-config-tab-wrapper' restListName='' tabIndex=''>
+		<table class='ds-config-tab-table-wrapper' border='0' cellpadding='2' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td>
+						<h2>Tab source list name</h2>
+						<div class='ds-tab-list-name-wrapper'>
+							<select class='ds-tab-list-name'>
+								<option value=''></option>
+							</select>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2 title='You should see a preview of the font awesome icon after updating the field below and moving to the next field'>Tab list FA icon class</h2>
+						<div class='ds-tab-list-Fa-class-wrapper'>
+							<input type='text' size='75' maxlength='255' value='' class='ds-tab-list-Fa-class' />
+							<i class='ds-tab-list-Fa-class-preview fa'></i>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2>Tab list display text</h2>
+						<div class='ds-tab-display-text-wrapper'>
+							<input type='text' size='75' maxlength='255' value='' class='ds-tab-display-text' />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2 title='set to nothing to omit the header, otherwise populate with the html content you wish to see above the related records table'>Tab header html <img border='0' src='_layouts/images/helpicon.gif' title='Double click the code to update the syntax highlighting'/></h2>
+						<div class='ds-tab-header-html-wrapper'>
+							<pre><code class='hljs html'><div contenteditable='true' class='ms-rtestate-write ms-rteflags-0 ms-rtestate-field ds-tab-header-html hljs html'></div></code></pre>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2>Configure fields for this tab's related records</h2>
+						<div class='ds-tab-table-fields-wrapper'>
+							<div class='ds-tabs-table-fields-top-menu'>
+								<button type='button' class='ds-psudo-button ds-tab-table-fields-config-btn-new'><span class='ds-tab-table-fields-config-btn'><i class='fa fa-plus-circle'></i>&nbsp;New</span></button>
+							</div>
+							<table border='0' cellpadding='2' cellspacing='2' class='ds-tab-all-table-fields'>
+								<thead>
+									<tr class='ds-tab-table-fields-header'>
+										<th>fin</th>
+										<th>label <img border='0' src='_layouts/images/helpicon.gif' title='This will be the column lable in the related records display'/></th>
+										<th>formatAs <img border='0' src='_layouts/images/helpicon.gif' title='Descriptions:
+String = Plain text
+Date = format date with moment.js
+Percent = output the number as a percentage
+PersonLookup = output the SP user ID as the user name
+MultiPersonLookup = output the array of SP user Ids as the names
+TitleAsDisplayLink = output the item title property as a link to the item display form
+EventDowloadButton = output the field as a calendar download link
+EditButton = output the ID field as a link to the item edit form
+DisplayButton = output the ID field as a link to the item display form
+DeleteButton = output the ID field as a button to delete the item
+SaveButton = output the ID field as a button to save the item
+CancelButton = output the ID field as a button to cancel the item
+CheckBox = render a yes/no boolean field as a checked or unchecked box
+MailTo = output the field as a mailto link'/></th>
+										<th>formatString <img border='0' src='_layouts/images/helpicon.gif' title='For date and time formatting, use moment.js formatting strings'/></th>
+										<th>widthPx</th>
+										<th>textAlign</th>
+										<th>verticalAlign</th>
+										<th>index</th>
+										<th class='ds-tab-table-field-guiControl-delete'>delete</th>
+										<th class='ds-tab-table-field-guiControl-clone'>clone</th>
+										<th class='ds-tab-table-field-guiControl-up'>up</th>
+										<th class='ds-tab-table-field-guiControl-down'>down</th>
+									</tr>
+								</thead>
+								<tbody class='ds-tab-table-fields-tbody'>
+									<tr class='ds-tab-table-field'>
+										<td>
+											<select class='ds-tab-table-field-fin'>
+												<option value=''></option>
+												<option value='HTMLSnippit'>HTMLSnippit</option>
+											</select>
+										</td>
+										<td>
+											<input type='text' value='' class='ds-tab-table-field-label'/>
+										</td>
+										<td>
+											<select class='ds-tab-table-field-formatAs'>
+												<option value=''></option>
+												<option value='String'>String</option>
+												<option value='Date'>Date</option>
+												<option value='Percent'>Percent</option>
+												<option value='PersonLookup'>PersonLookup</option>
+												<option value='MultiPersonLookup'>MultiPersonLookup</option>
+												<option value='TitleAsDisplayLink'>TitleAsDisplayLink</option>
+												<option value='EventDowloadButton'>EventDowloadButton</option>
+												<option value='EditButton'>EditButton</option>
+												<option value='DisplayButton'>DisplayButton</option>
+												<option value='DeleteButton'>DeleteButton</option>
+												<option value='SaveButton'>SaveButton</option>
+												<option value='CancelButton'>CancelButton</option>
+												<option value='CheckBox'>CheckBox</option>
+												<option value='MailTo'>MailTo</option>
+											</select>
+										</td>
+										<td>
+											<input type='text' value='' class='ds-tab-table-field-formatString'/>
+										</td>
+										<td>
+											<input type='number' value='' min='1' max='1600' class='ds-tab-table-field-widthPx'/>
+										</td>
+										<td>
+											<select class='ds-tab-table-field-textAlign'>
+												<option value=''></option>
+												<option value='Left'>Left</option>
+												<option value='Center'>Center</option>
+												<option value='Right'>Right</option>
+												<option value='Justify'>Justify</option>
+											</select>
+										</td>
+										<td>
+											<select class='ds-tab-table-field-verticalAlign'>
+												<option value=''></option>
+												<option value='Top'>Top</option>
+												<option value='Middle'>Middle</option>
+												<option value='Bottom'>Bottom</option>
+											</select>
+										</td>
+										<td>
+											<span class='ds-tab-table-field-index'>0</span>
+										</td>
+										<td class='ds-tab-table-field-guiControl-delete'>
+											<span class='ds-tab-table-field-gui-delete'><i class='fa fa-trash-o'></i>&nbsp;Delete</span>
+										</td>
+										<td class='ds-tab-table-field-guiControl-clone'>
+											<span class='ds-tab-table-field-gui-clone'><i class='fa fa-clone'></i>&nbsp;Clone</span>
+										</td>
+										<td class='ds-tab-table-field-guiControl-up'>
+											<span class='ds-tab-table-field-gui-up'><i class='fa fa-arrow-up'></i>&nbsp;Up</span>
+										</td>
+										<td class='ds-tab-table-field-guiControl-down'>
+											<span class='ds-tab-table-field-gui-down'><i class='fa fa-arrow-down'></i>&nbsp;Down</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2 title='set to nothing to omit the footer, otherwise populate with the html content you wish to see below the related records table'>Tab footer HTML <img border='0' src='_layouts/images/helpicon.gif' title='Double click the code to update the syntax highlighting'/></h2>
+						<div class='ds-tab-table-footerButton-wrapper'>
+							<pre><code><div contenteditable='true' class='ms-rtestate-write ms-rteflags-0 ms-rtestate-field ds-tab-footerButton-html'></div></code></pre>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2>Save new related record JS function <img border='0' src='_layouts/images/helpicon.gif' title='Double click the code to update the syntax highlighting'/></h2>
+						<div class='ds-tab-table-saveNewFx-wrapper'>
+							<pre>
+								<code>
+									<div contenteditable='true' class='ms-rtestate-write ms-rteflags-0 ms-rtestate-field ds-tab-saveNewFx-js'></div>
+								</code>
+							</pre>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2>Update existing related record JS function <img border='0' src='_layouts/images/helpicon.gif' title='Double click the code to update the syntax highlighting'/></h2>
+						<div class='ds-tab-table-saveUpdateFx-wrapper'>
+							<pre>
+								<code>
+									<div contenteditable='true' class='ms-rtestate-write ms-rteflags-0 ms-rtestate-field ds-tab-saveUpdateFx-js'></div>
+								</code>
+							</pre>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class='ds-tab-table-gui-delete-wrapper'>
+							<span class='ds-config-tab-table-gui-delete'><i class='fa fa-trash-o'></i>&nbsp;Delete this tab</span>
+						</span>
+						&nbsp;
+						<span class='ds-tab-table-gui-clone-wrapper'>
+							<span class='ds-config-tab-table-gui-clone'><i class='fa fa-clone'></i>&nbsp;Clone this tab</span>
+						</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<h3 class='ds-config-tab-header masterSettings'>
+		<table class='ds-config-tab-header-content-wrapper' border='0' cellpadding='2' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td>
+						{<span class='ds-config-tab-index'>0</span>}
+					</td>
+					<td class='ds-config-tab-header-tabName'>tabs control master settings</td>
+				</tr>
+			</tbody>
+		</table>
+	</h3>
+	<div class='ds-config-tab-wrapper masterSettings'>
+		<table class='ds-config-tab-table-wrapper' border='0' cellpadding='2' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td colspan='3'>
+						<input type='checkbox' checked='checked' id='chkHideAddRelatedRecordsButtons' value=''/>
+						<label for='chkHideAddRelatedRecordsButtons'>Hide add related records buttons</label>
+					</td>
+				</tr>
+				<tr>
+					<td colspan='3'>
+						<input type='checkbox' checked='checked' id='chkHideFilterTab' value=''/>
+						<label for='chkHideFilterTab'>Hide filter tab</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2 title='Optional'>initFx (javascript function) <img border='0' src='_layouts/images/helpicon.gif' title='Double click the code to update the syntax highlighting'/></h2>
+						<div class='ds-tabs-masterSettings-initFx-wrapper'>
+							<pre><code class='hljs javascript'><div contenteditable='true' class='ms-rtestate-write ms-rteflags-0 ms-rtestate-field ds-tabs-masterSettings-initFx-js hljs javascript'></div></code></pre>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2 title='Optional'>afterFx (javascript function) <img border='0' src='_layouts/images/helpicon.gif' title='Double click the code to update the syntax highlighting'/></h2>
+						<div class='ds-tabs-masterSettings-afterFx-wrapper'>
+							<pre><code class='hljs javascript'><div contenteditable='true' class='ms-rtestate-write ms-rteflags-0 ms-rtestate-field ds-tabs-masterSettings-afterFx-js hljs javascript'></div></code></pre>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<h3 class='ds-config-tab-header ds-htmlTab' tabIndex=''>
+		<table class='ds-config-tab-header-content-wrapper' border='0' cellpadding='2' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td>
+						{<span class='ds-config-tab-index'></span>}
+					</td>
+					<td class='ds-config-tab-header-tabName'></td>
+					<td class='ds-config-tab-guiControl-move-up'>
+						<span class='ds-config-tab-move-up'><i class='fa fa-arrow-up'></i>&nbsp;Up</span>
+					</td>
+					<td class='ds-config-tab-guiControl-move-down'>
+						<span class='ds-config-tab-move-down'><i class='fa fa-arrow-down'></i>&nbsp;Down</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</h3>
+	<div class='ds-config-tab-wrapper ds-htmlTab' tabIndex=''>
+		<table class='ds-config-tab-table-wrapper' border='0' cellpadding='2' cellspacing='2'>
+			<tbody>
+				<tr>
+					<td>
+						<h2 title='You should see a preview of the font awesome icon after updating the field below and moving to the next field'>Tab list FA icon class</h2>
+						<div class='ds-tab-list-Fa-class-wrapper'>
+							<input type='text' size='75' maxlength='255' value='' class='ds-tab-list-Fa-class' />
+							<i class='ds-tab-list-Fa-class-preview fa'></i>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2>Tab display text</h2>
+						<div class='ds-tab-display-text-wrapper'>
+							<input type='text' size='75' maxlength='255' value='' class='ds-tab-display-text' />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2 title='Optional'>initial content (html) <img border='0' src='_layouts/images/helpicon.gif' title='Double click the code to update the syntax highlighting'/></h2>
+						<div class='ds-htmlTab-initial-html-content-wrapper'>
+							<pre><code class='hljs html'><div contenteditable='true' class='ms-rtestate-write ms-rteflags-0 ms-rtestate-field ds-htmlTab-html-content hljs html'></div></code></pre>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2 title='Optional'>afterFx (javascript function) <img border='0' src='_layouts/images/helpicon.gif' title='Double click the code to update the syntax highlighting'/></h2>
+						<div class='ds-htmlTab-afterFx-wrapper'>
+							<pre><code class='hljs javascript'><div contenteditable='true' class='ms-rtestate-write ms-rteflags-0 ms-rtestate-field ds-htmlTab-afterFx-js hljs javascript'></div></code></pre>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<style type='text/css'>
+	.ds-tabs-config-btn {
+		margin: 0.5em 0.65em 0.5em 0.65em;
+		font-size: 1.3em;
+		cursor: pointer;
+	}
+	.ds-tab-table-fields-config-btn {
+		margin: 1em 1.3em 1em 1.3em;
+		font-size: 1.1em;
+		cursor: pointer;		
+	}
+	.ds-config-tab-header {
+		cursor: pointer;
+		line-height: 2em;
+		vertical-align: middle;
+		position: relative;
+	}
+	DIV.ds-config-tab-wrapper {
+		border: 1px solid black;
+		position: relative;
+	}
+	DIV.ds-config-tab-wrapper:nth-of-type(even) {
+		background-color: #a7c9e0;
+	}
+	DIV.ds-config-tab-wrapper:nth-of-type(odd) {
+		background-color: #ccff99;
+	}
+	TABLE.ds-tab-all-table-fields {
+		background-color: transparent;
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	TABLE.ds-tab-all-table-fields > TBODY > TR > TD {
+		border: 1px solid black;
+	}
+	TABLE.ds-tab-all-table-fields > TBODY > TR:nth-child(even) {
+		background-color: #ffff99;
+	}
+	TABLE.ds-tab-all-table-fields > TBODY > TR:nth-child(odd) {
+		background-color: #ffcc99;
+	}
+	.ds-tab-table-field-fin, 
+	.ds-tab-table-field-formatAs {
+		width: 9em;
+	}
+	.ds-tab-table-field-label, 
+	.ds-tab-table-field-textAlign, 
+	.ds-tab-table-field-verticalAlign {
+		width: 5em;
+	}
+	.ds-tab-table-field-gui-delete,
+	.ds-tab-table-field-gui-clone,
+	.ds-tab-table-field-gui-up,
+	.ds-tab-table-field-gui-down{
+		cursor: pointer;
+		font-size: 0.75em;
+	}
+	.ds-config-tab-table-gui-clone,
+	.ds-config-tab-table-gui-delete,
+	.ds-config-tab-table-gui-up,
+	.ds-config-tab-table-gui-down{
+		cursor: pointer;
+		font-size: 1.5em;
+	}
+	.ds-tab-list-Fa-class-preview {
+		margin: 0px 3px 0px 3px;
+		font-size: 1.75em;
+		padding: 3px 3px 3px 3px;
+	}
+	.ds-tab-saveUpdateFx-js,
+	.ds-tab-saveNewFx-js,
+	.ds-tabs-masterSettings-afterFx-js,
+	.ds-tabs-masterSettings-initFx-js {
+		max-height: 500px;
+		max-width: 90%;
+		overflow-y: scroll;
+		white-space: pre-wrap;
+	}
+	.ds-tab-table-footerButton-wrapper,
+	.ds-tab-header-html-wrapper {
+		max-width: 90%;
+		height: 100%;
+		/*white-space: pre-wrap;*/
+	}
+	.ds-tab-table-field-htmlsnippit {
+		max-width: 480px;
+		white-space: pre-wrap;
+	}
+	.ds-tabs-config-gui-top-menu {
+		border-bottom: 3px double grey;
+		display: block;
+		min-height: 80px;
+	}
+	.ds-config-gui-tabs { 
+		border: 3px solid black;
+		background-color: #E6E6E6;
+		padding: 3px 6px 3px 6px;
+		width: 100%;
+		min-height: 350px;
+	}
+	pre code {
+		background-color: transparent !important;
+		padding: 0.25em !important;
+	}
+	.ds-config-tab-table-wrapper {
+		width: 100%;
+	}
+	.ds-tabs-masterSettings-initFx-wrapper,
+	.ds-tabs-masterSettings-afterFx-wrapper,
+	.ds-tab-table-footerButton-wrapper,
+	.ds-tab-header-html-wrapper	{
+		width: 90%;
+	}
+	.ds-config-tab-header-content-wrapper {
+		table-layout: fixed;
+		border-collapse: collapse;
+		width: 100%;
+	}
+	.ds-config-tab-header-content-wrapper > TBODY > TR > TD {
+		color: black;
+	}
+	.ds-config-tab-header-content-wrapper > TBODY > TR > TD:nth-child(1) {
+		width: 5%;
+		text-align: left;
+		vertical-align: middle;
+	}
+	.ds-config-tab-header-content-wrapper > TBODY > TR > TD:nth-child(2) {
+		text-align: left;
+		vertical-align: middle;
+	}
+	.ds-config-tab-header-content-wrapper > TBODY > TR > TD:nth-child(3),
+	.ds-config-tab-header-content-wrapper > TBODY > TR > TD:nth-child(4) {
+		width: 7%;
+		text-align: right;
+		vertical-align: middle;
+		padding-right: 2em;
+		font-size: 0.7em;
+	}
+	.ds-config-tab-move-up, .ds-config-tab-guiControl-move-down {
+		cursor: pointer;
+	}
+	.ds-config-gui-tabs .ds-config-tab-header:not(.masterSettings):nth-of-type(2) .ds-config-tab-move-up {
+		cursor: not-allowed;
+		color: gray;
+	}
+	.ds-config-gui-tabs .ds-config-tab-header:not(.masterSettings):last-of-type .ds-config-tab-move-down {
+		cursor: not-allowed;
+		color: gray;
+	}
+	</style>
+</div>
+<script type="text/javascript">
+ds.controls.tabs.configure.init = function(){
+	ds.util.log("ds.controls.tabs.configure.init... hiding .ds-relatedRecordsUI", true);
+	ds.$(".ds-relatedRecordsUI").hide();
+	ds.util.log("ds.controls.tabs.configure.init... calling ds.controls.tabs.configure.setupGlobalEventsForConfigGUI();", true);
+	ds.controls.tabs.configure.setupGlobalEventsForConfigGUI();
+	ds.util.log("ds.controls.tabs.configure.init... calling ds.util.getAllListsRelatedToTasks();", true);
+	ds.stor.relatedLists = ds.util.getAllListsRelatedToTasks();
+	ds.$(".ds-tab-list-name").each(function(){
+		if ( ds.$(this).children().length <= 1 ) {
+			for ( var i = 0; i < ds.stor.relatedLists.length; i++ ) {
+				ds.$(this).append("<option value='"+ ds.stor.relatedLists[i] +"'>"+ ds.stor.relatedLists[i] +"</option>");
+			}
+		}							
+	});
+	
+	// capture the list's fields' rest names under ds.stor.listFields (will populate these in the FIN dropdown later)
+	ds.util.log("ds.controls.tabs.configure.init... capturing each related list's restfieldnames", true);
+	ds.stor.listFields = {};
+	ds.$(".ds-tab-list-name").each(function(){
+		for ( var i = 0; i < ds.stor.relatedLists.length; i++ ) {
+			var lN = ds.stor.relatedLists[i];
+			var fx = function(listName){
+				ds.stor.listFields[listName] = {};
+				ds.rest.getDataFromURI(ds.lists[listName].Items.__deferred.uri+"?$top=1", function(data, textStaus, jqXHR){
+					var oResult = data.d.results[0];
+					for ( fieldName in oResult ) {
+						if ( typeof(data.d.results[0][fieldName]) !== "object" ) {
+							ds.stor.listFields[listName][fieldName] = fieldName;
+						}
+					}
+					
+				}, true, true);
+			}
+			fx(lN);
+		}
+	});
+	ds.util.log("ds.controls.tabs.configure.init... configuring hljs languages", true);
+	hljs.configure({languages: ['html','css','javascript']});
+	ds.util.log("ds.controls.tabs.configure.init... calling ds.controls.tabs.configure.getCurrentSettings();", true);
+	setTimeout(ds.controls.tabs.configure.getCurrentSettings,15);
+};
+ds.controls.tabs.configure.getCurrentSettings = function(){
+	ds.util.getSettingsForCurrentPage(function(formSettings){
+		var masterSettings = formSettings.masterSettings;
+		if ( typeof(formSettings.relatedRecords) !== "undefined" ) {
+			for ( var iFS = 0; iFS < formSettings.relatedRecords.length; iFS++ ) {
+				var currRelatedListSettings = formSettings.relatedRecords[iFS]; 
+				ds.controls.tabs.configure.populateCurrentSettings(currRelatedListSettings);
+			}
+		}
+		ds.stor.tabsConfigNew = ds.$(".ds-config-tab-wrapper").eq(0);
+		ds.stor.tabsConfigNewHeader = ds.$(".ds-config-tab-header").eq(0);
+		ds.$(".ds-config-tab-wrapper").eq(0).remove();
+		ds.$(".ds-config-tab-header").eq(0).remove();
+		ds.stor.newHTMLTabHeader = ds.$("H3.ds-htmlTab").eq(0);
+		ds.stor.newHTMLTabContent = ds.$("DIV.ds-htmlTab").eq(0);
+		ds.$("H3.ds-htmlTab").eq(0).remove();
+		ds.$("DIV.ds-htmlTab").eq(0).remove();
+		if ( masterSettings.hideAddRelatedRecordButtons === true ) {
+			ds.$("#chkHideAddRelatedRecordsButtons").prop("checked",true);
+		}
+		else {
+			ds.$("#chkHideAddRelatedRecordsButtons").prop("checked",false);
+		}
+		if ( masterSettings.hideFilterTab === true ) {
+			ds.$("#chkHideFilterTab").prop("checked",true);
+		}
+		else {
+			ds.$("#chkHideFilterTab").prop("checked",false);
+		}
+		try{
+			eval("formSettings.masterSettings.initFx = "+ formSettings.masterSettings.initFx +";");
+			ds.$(".ds-tabs-masterSettings-initFx-js,.ds-masterSettings-initFx-js").text(js_beautify(ds.util.getFunctionCode(formSettings.masterSettings.initFx)));
+		}catch(err){}
+		try{
+			eval("formSettings.masterSettings.afterFx = "+ formSettings.masterSettings.afterFx +";");
+			ds.$(".ds-tabs-masterSettings-afterFx-js,.ds-masterSettings-afterFx-js").text(js_beautify(ds.util.getFunctionCode(formSettings.masterSettings.afterFx)));
+		}catch(err){}
+		setTimeout(ds.controls.tabs.configure.setupTabEventsForConfigGUI,15);
+	});
+};
+ds.controls.tabs.configure.populateCurrentSettings = function(currFS){
+	var tabIndex = ds.$(".ds-config-tab-header:not(.masterSettings)").length - 1;
+	if ( currFS.listName !== "HTML" ) {
+		var $clonedHeader = ds.$(".ds-config-tab-header").eq(0).clone(true);
+		$clonedHeader.attr("restListName",currFS.listName.toLowerCase());
+		$clonedHeader.find(".ds-config-tab-header-tabName").text(currFS.listName);
+		$clonedHeader.find(".ds-config-tab-index").text(tabIndex);
+		$clonedHeader.attr("tabIndex",tabIndex);
+		$clonedHeader.appendTo(ds.$(".ds-config-gui-tabs").eq(0));
+		var $cloned = ds.$(".ds-config-tab-wrapper").eq(0).clone(true);
+		$cloned.attr("restListName",currFS.listName.toLowerCase());
+		$cloned.attr("tabIndex",tabIndex);
+		$cloned.find(".ds-tab-list-name").val(currFS.listName.toLowerCase());
+		$cloned.find(".ds-tab-list-Fa-class").val(currFS.listFaClass);
+		$cloned.find(".ds-tab-display-text").val(currFS.tabText);
+		$cloned.find(".ds-tab-header-html").text(html_beautify(currFS.tabHeaderHTML));
+		// Add fields available via REST to this list's tab config fieldInternalName drop-down
+		for ( restFieldName in ds.stor.listFields[currFS.listName.toLowerCase()] ) {
+			if ( typeof(restFieldName) !== "object" ) {
+				if ( $cloned.find(".ds-tab-table-field-fin OPTION:contains('"+ restFieldName +"')").length < 1 ) {
+					$cloned.find(".ds-tab-table-field-fin").append("<option value='"+ restFieldName +"'>"+ restFieldName +"</option>");
+				}
+			}
+		}
+		// Populate tab table fields section with currently defined configuration
+		for ( var fld = 0; fld < currFS.tabTableFields.length; fld++ ) {
+			var $cFld = $cloned.find(".ds-tab-table-field").eq(0).clone();
+			// select fin
+			$cFld.find(".ds-tab-table-field-fin OPTION").each(function(){
+				if ( ds.$(this).text().toLowerCase() === currFS.tabTableFields[fld].fin.toLowerCase() ) {
+					ds.$(this).prop("selected",true);
+					return false;
+				}
+			});
+			$cFld.find(".ds-tab-table-field-fin").attr("oldValue",currFS.tabTableFields[fld].fin.toLowerCase());
+			// some fins for lookup fields have Id at the end of the field name, others don't
+			if ( $cFld.find(".ds-tab-table-field-fin").val() === "" ) {
+				$cFld.find(".ds-tab-table-field-fin OPTION").each(function(){
+					if ( ds.$(this).text().toLowerCase() === currFS.tabTableFields[fld].fin.replace("Id","").toLowerCase() ) {
+						ds.$(this).prop("selected",true);
+						return false;
+					}
+				});
+			}
+			$cFld.find(".ds-tab-table-field-label").val(currFS.tabTableFields[fld].label);
+			if ( $cFld.find(".ds-tab-table-field-fin").val() === "HTMLSnippit" ) {
+				$cFld.find(".ds-tab-table-field-formatAs").parents("TD").eq(0).remove();
+				$cFld.find(".ds-tab-table-field-formatString").parents("TD").eq(0).remove();
+				$cFld.find(".ds-tab-table-field-widthPx").val(currFS.tabTableFields[fld].widthPx);
+				$cFld.find(".ds-tab-table-field-textAlign").val(currFS.tabTableFields[fld].textAlign);
+				$cFld.find(".ds-tab-table-field-verticalAlign").val(currFS.tabTableFields[fld].verticalAlign);
+				$cFld.children("TD").eq(1).after("<td colspan='2'>"+ds.controls.codeEditor.generate("html","ds-tab-table-field-htmlsnippit")+"</td>");
+				$cFld.find(".ds-tab-table-field-htmlsnippit").text(currFS.tabTableFields[fld].formatAs);
+				$cFld.find(".ds-tab-table-field-fin").children().each(function(){
+					if ( ds.$(this).val() !== 'HTMLSnippit' ) {
+						ds.$(this).remove();
+					}
+				});
+			}
+			else { 
+				$cFld.find(".ds-tab-table-field-formatAs").val(currFS.tabTableFields[fld].formatAs);
+				$cFld.find(".ds-tab-table-field-formatString").val(currFS.tabTableFields[fld].formatString);
+				$cFld.find(".ds-tab-table-field-widthPx").val(currFS.tabTableFields[fld].widthPx);
+				$cFld.find(".ds-tab-table-field-textAlign").val(currFS.tabTableFields[fld].textAlign);
+				$cFld.find(".ds-tab-table-field-verticalAlign").val(currFS.tabTableFields[fld].verticalAlign);
+			}
+			$cFld.find(".ds-tab-table-field-index").text(fld);
+			$cFld.appendTo($cloned.find('.ds-tab-table-fields-tbody'));
+		}
+		$cloned.find(".ds-tab-table-field").eq(0).remove();
+		$cloned.find(".ds-tab-footerButton-html").text(html_beautify(currFS.tabFooterHTML));
+		$cloned.find(".ds-tab-saveNewFx-js").text(js_beautify(ds.util.getFunctionCode(currFS.psudoPopupSaveNewFx)));
+		$cloned.find(".ds-tab-saveUpdateFx-js").text(js_beautify(ds.util.getFunctionCode(currFS.psudoPopupSaveUpdateFx)));
+		$cloned.appendTo(ds.$(".ds-config-gui-tabs").eq(0));
+	}
+	else {
+		var $clonedHeader = ds.$(".ds-config-tab-header.ds-htmlTab").eq(0).clone(true);
+		$clonedHeader.attr("restListName",currFS.listName.toLowerCase());
+		$clonedHeader.find(".ds-config-tab-header-tabName").text(currFS.listName+": "+currFS.tabText);
+		$clonedHeader.find(".ds-config-tab-index").text(tabIndex);
+		$clonedHeader.attr("tabIndex",tabIndex);
+		$clonedHeader.appendTo(ds.$(".ds-config-gui-tabs").eq(0));
+		var $cloned = ds.$(".ds-config-tab-wrapper.ds-htmlTab").eq(0).clone(true);
+		$cloned.attr("restListName",currFS.listName.toLowerCase());
+		$cloned.attr("tabIndex",tabIndex);
+		$cloned.find(".ds-tab-list-name").val(currFS.listName.toLowerCase());
+		$cloned.find(".ds-tab-list-Fa-class").val(currFS.listFaClass);
+		$cloned.find(".ds-tab-display-text").val(currFS.tabText);
+		$cloned.find(".ds-htmlTab-html-content").text(html_beautify(currFS.tabHeaderHTML));
+		$cloned.find(".ds-htmlTab-afterFx-js").text(html_beautify(currFS.tabFooterHTML));
+		$cloned.appendTo(ds.$(".ds-config-gui-tabs").eq(0));
+	}
+};
+ds.controls.tabs.configure.setupGlobalEventsForConfigGUI = function(){
+	// global cancel button (hide configure GUI)
+	ds.$(".ds-tabs-config-btn-cancel").click(function(){
+		if ( ds.$("#accordionListForm_"+ds.$("#pageContentTitle").text().trim()).length > 0 ) {
+			ds.$("#DeltaPlaceHolderMain > DIV:eq(1)").append(ds.$("#onetIDListForm"));
+			ds.$("#pageContentTitle").show();
+			ds.$("#accordionListForm_"+ds.$("#pageContentTitle").text().trim()).remove();
+		}
+		ds.$(".ds-config-gui-tabs").remove();
+		ds.$(".ds-relatedRecordsUI").show();
+	});
+	// global save configuration button
+	ds.$(".ds-tabs-config-btn-save").click(function(){
+		var arrAllTabSettings = [];
+		ds.$(".ds-config-tab-wrapper:not(.masterSettings)").each(function(){
+			if ( ds.$(this).hasClass("ds-htmlTab") === false ) {
+				var thisTab = {};
+				thisTab.listName = ds.$(this).find(".ds-tab-list-name").val();
+				thisTab.listFaClass = ds.$(this).find(".ds-tab-list-Fa-class").val();
+				thisTab.tabText = ds.$(this).find(".ds-tab-display-text").val();
+				thisTab.tabHeaderHTML = ds.util.escapeJS(ds.util.minifyJS(ds.$(this).find(".ds-tab-header-html").text()));
+				thisTab.tabTableFields = [];
+				ds.$(this).find(".ds-tab-table-fields-tbody TR").each(function(){
+					var oTF = {};
+					oTF.fin = ds.$(this).find(".ds-tab-table-field-fin OPTION:selected").val();
+					oTF.label = ds.$(this).find(".ds-tab-table-field-label").val();
+					try{oTF.formatAs = ds.$(this).find(".ds-tab-table-field-formatAs").val();}catch(err){oTF.formatAs = '';}
+					if ( oTF.fin === 'HTMLSnippit' ) {
+						try{
+							oTF.formatAs = ds.util.escapeJS(ds.util.minifyJS(ds.$(this).find(".ds-tab-table-field-htmlsnippit").text()));
+						}
+						catch(err){
+							oTF.formatAs = '';
+						}
+					}
+					try{oTF.formatString = ds.$(this).find(".ds-tab-table-field-formatString").val();}catch(err){oTF.formatString = '';}
+					try{oTF.widthPx = ds.$(this).find(".ds-tab-table-field-widthPx").val();}catch(err){oTF.widthPx = '';}
+					try{oTF.textAlign = ds.$(this).find(".ds-tab-table-field-textAlign").val();}catch(err){oTF.textAlign = '';}
+					try{oTF.verticalAlign = ds.$(this).find(".ds-tab-table-field-verticalAlign").val();}catch(err){oTF.verticalAlign = '';}
+					thisTab.tabTableFields.push(oTF);
+				});
+				thisTab.tabFooterHTML = ds.util.escapeJS(ds.util.minifyJS(ds.$(this).find(".ds-tab-footerButton-html").text()));
+				thisTab.psudoPopupSaveNewFx = ds.util.escapeJS(ds.util.minifyJS(ds.$(this).find(".ds-tab-saveNewFx-js").text()));
+				thisTab.psudoPopupSaveUpdateFx = ds.util.escapeJS(ds.util.minifyJS(ds.$(this).find(".ds-tab-saveUpdateFx-js").text()));
+				arrAllTabSettings.push(thisTab);
+			}
+			else {
+				var thisTab = {};
+				thisTab.listName = "HTML";
+				thisTab.tabText = ds.$(this).find(".ds-tab-display-text").val();
+				thisTab.listFaClass = ds.$(this).find(".ds-tab-list-Fa-class").val();
+				thisTab.tabHeaderHTML = ds.util.escapeJS(ds.util.minifyJS(ds.$(this).find(".ds-htmlTab-html-content").text()));
+				thisTab.tabFooterHTML = ds.util.escapeJS(ds.util.minifyJS(ds.$(this).find(".ds-htmlTab-afterFx-js").text()));
+				arrAllTabSettings.push(thisTab);
+			}
+		});
+		var masterSettings = {};
+		masterSettings.hideAddRelatedRecordButtons = ds.$("#chkHideAddRelatedRecordsButtons").prop("checked");
+		masterSettings.hideFilterTab = ds.$("#chkHideFilterTab").prop("checked");
+		masterSettings.initFx = ds.util.escapeJS(ds.util.minifyJS(ds.$(".ds-tabs-masterSettings-initFx-js").text()));
+		masterSettings.afterFx = ds.util.escapeJS(ds.util.minifyJS(ds.$(".ds-tabs-masterSettings-afterFx-js").text()));
+		var jsonBlob = {"masterSettings": masterSettings};
+		if ( arrAllTabSettings.length > 0 ) {
+			jsonBlob["relatedRecords"] = arrAllTabSettings;
+		}
+		// get record ID from dsFormSettings to update
+		var nID = 0;
+		var thisPageURL = window.location.href.replace(ds.p.root,"");
+		for ( var iFS = 0; iFS < ds.lists.dsformsettings.items.results.length; iFS++ ) {
+			var fsListName = ds.lists.dsformsettings.items.results[iFS].Title;
+			var fsFormName = ds.lists.dsformsettings.items.results[iFS].FormNameURL;
+				ds.util.log("Checking if current page is for |"+ fsListName +"| and page |"+ fsFormName +"|");
+				if ( thisPageURL.indexOf("Lists/"+ fsListName +"/"+ fsFormName +".aspx") >= 0 ) {
+					ds.util.log("found record to update in dsFormSettings for current form", true);
+					nID = ds.lists.dsformsettings.items.results[iFS].ID;
+					ds.rest.list.item.update({"blbRelRecs":JSON.stringify(jsonBlob)}, ds.lists.dsformsettings.Id, nID, function(){
+						var bResponse = confirm("settings have been saved. reload the page?");
+						if ( bResponse === false ) {
+							ds.$(".ds-config-gui-tabs").remove();
+							ds.$(".ds-relatedRecordsUI").show();
+						}
+						else {
+							window.location.reload();
+						}
+					});
+					break;
+				}
+		}
+	});
+	// global add new tab button
+	ds.$(".ds-tabs-config-btn-new").click(function(){
+		var tabIndex = ds.$(".ds-config-tab-wrapper:not(.masterSettings)").length+1;
+		var tabName = prompt("Enter tab rest list name");
+		var $head = ds.$(ds.stor.tabsConfigNewHeader).clone(true);
+		$head.attr("restlistname",tabName).attr("tabindex",tabIndex);
+		$head.find(".ds-config-tab-index").text(tabIndex);
+		$head.find(".ds-config-tab-header-tabName").text(tabName);
+		ds.$(".ds-config-gui-tabs").eq(0).append($head);
+		var $content = ds.$(ds.stor.tabsConfigNew).clone(true);
+		$content.attr("tabindex",tabIndex).attr("restlistname",tabName);
+		$content.find(".ds-tab-display-text").val(tabName);
+		ds.$(".ds-config-gui-tabs").eq(0).append($content);
+		// need to setup events
+		$content.find(".ds-tab-list-name OPTION:contains('"+tabName+"')").prop("selected",true);
+		// Add fields available via REST to this list's tab config fieldInternalName drop-down
+		for ( restFieldName in ds.stor.listFields[tabName] ) {
+			if ( typeof(restFieldName) !== "object" ) {
+				if ( $content.find(".ds-tab-table-field-fin OPTION:contains('"+ restFieldName +"')").length < 1 ) {
+					$content.find(".ds-tab-table-field-fin").append("<option value='"+ restFieldName +"'>"+ restFieldName +"</option>");
+				}
+			}
+		}
+		// show list rest fields when the tab list name dropdown is changed
+		$content.find(".ds-tab-list-name").each(function(){
+			ds.$(this).change(function(){
+				ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-table-field-fin OPTION").each(function(iFIN, elmFIN){
+					if ( iFIN <= 1 ) { 
+						//nothing
+					}
+					else {
+						ds.$(this).remove();
+					}
+				});
+				var restListName = ds.$(this).val();
+				for ( restFieldName in ds.stor.listFields[restListName] ) {
+					if ( typeof(restFieldName) !== "object" ) {
+						if ( ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-table-field-fin OPTION:contains('"+ restFieldName +"')").length < 1 ) {
+							ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-table-field-fin").append("<option value='"+ restFieldName +"'>"+ restFieldName +"</option>");
+						}
+					}
+				}
+			});
+		});
+		// setup this tab config's accordion functionality
+		$head.find(".ds-config-tab-header-tabName").on("click", function(){
+			if ( ds.$(this).parents(".ds-config-tab-header").eq(0).next().css("display") === "none" ) {
+				ds.$(this).parents(".ds-config-tab-header").eq(0).next().slideDown();
+			}
+			else {
+				ds.$(this).parents(".ds-config-tab-header").eq(0).next().slideUp();
+			}
+		});
+		$head.find(".ds-config-tab-move-up").click(function(){
+			ds.util.log("Attempting to move tab up... css cursor = "+ ds.$(this).css("cursor") ,true);
+			if ( ds.$(this).css("cursor") === "pointer" ) {
+				var $head = ds.$(this).parents(".ds-config-tab-header").eq(0);
+				var $content = ds.$(this).parents(".ds-config-tab-header").next().eq(0);
+				var currIndex = parseInt($head.attr("tabindex"),10);
+				$head.insertBefore(".ds-config-tab-header[tabindex='"+(currIndex-1)+"']");
+				$content.insertBefore(".ds-config-tab-header[tabindex='"+(currIndex-1)+"']");
+				ds.$(".ds-config-tab-header[tabindex='"+(currIndex-1)+"']").attr("tabindex",currIndex).find(".ds-config-tab-index").text(currIndex);
+				ds.$(".ds-config-tab-wrapper[tabindex='"+(currIndex-1)+"']").attr("tabindex",currIndex);
+				$head.attr("tabindex",(currIndex-1));
+				$head.find(".ds-config-tab-index").text((currIndex-1));
+				$content.attr("tabindex",(currIndex-1));
+			}
+		});
+		$head.find(".ds-config-tab-move-down").click(function(){
+			ds.util.log("Attempting to move tab down... css cursor = "+ ds.$(this).css("cursor") ,true);
+			if ( ds.$(this).css("cursor") === "pointer" ) {
+				var $head = ds.$(this).parents(".ds-config-tab-header").eq(0);
+				var $content = ds.$(this).parents(".ds-config-tab-header").next().eq(0);
+				var currIndex = parseInt($head.attr("tabindex"),10);
+				$content.insertAfter(".ds-config-tab-wrapper[tabindex='"+(currIndex+1)+"']");
+				$head.insertAfter(".ds-config-tab-wrapper[tabindex='"+(currIndex+1)+"']");
+				ds.$(".ds-config-tab-header[tabindex='"+(currIndex+1)+"']").attr("tabindex",currIndex).find(".ds-config-tab-index").text(currIndex);
+				ds.$(".ds-config-tab-wrapper[tabindex='"+(currIndex+1)+"']").attr("tabindex",currIndex);
+				$head.attr("tabindex",(currIndex+1));
+				$head.find(".ds-config-tab-index").text((currIndex+1));
+				$content.attr("tabindex",(currIndex+1));
+			}
+		});
+		// setup auto-preview functionality for FA icon class
+		$content.find(".ds-tab-list-Fa-class").change(function(){
+			ds.$(this).next().removeClass();
+			ds.$(this).next().addClass("ds-tab-list-Fa-class-preview").addClass("fa");
+			ds.$(this).next().addClass(ds.$(this).val());
+		}).dblclick(function(){
+			ds.$(this).next().removeClass();
+			ds.$(this).next().addClass("ds-tab-list-Fa-class-preview").addClass("fa");
+			ds.$(this).next().addClass(ds.$(this).val());
+		});
+		// setup codeEditor events
+		$content.find(".ds-tab-saveNewFx-js").html("function(){}");
+		$content.find(".ds-tab-saveUpdateFx-js").html("function(nID){}");
+		ds.controls.codeEditor.setupEventsFx($content.find(".ds-tab-header-html"));
+		ds.controls.codeEditor.setupEventsFx($content.find(".ds-tab-footerButton-html"));
+		ds.controls.codeEditor.setupEventsFx($content.find(".ds-tab-saveNewFx-js"));
+		ds.controls.codeEditor.setupEventsFx($content.find(".ds-tab-saveUpdateFx-js"));
+		// setup related records fields buttons
+		$content.find(".ds-tab-table-field-gui-clone").click(function(){
+			var $cloned = ds.$(this).parents("tr").eq(0).clone(true);
+			var tabRestListName = ds.$(this).parents(".ds-config-tab-wrapper").attr("restlistname");
+			$cloned.find(".ds-tab-table-field-index").text(ds.controls.tabs.configure.getNextTabTableFieldIndex(".ds-config-tab-wrapper[restlistname='"+tabRestListName+"']"));
+			$cloned.appendTo(ds.$(this).parents("tbody").eq(0));
+		});
+		$content.find(".ds-tab-table-field-gui-delete").click(function(){
+			ds.$(this).parents("tr").eq(0).remove();
+		});
+		$content.find(".ds-tab-table-field-gui-up").click(function(){
+			var moveRow = ds.$(this).parents("tr").eq(0);
+			var newIndex = ds.$(this).parents("tr").eq(0).prev().find(".ds-tab-table-field-index").text();
+			var oldIndex = ds.$(this).parents("tr").eq(0).find(".ds-tab-table-field-index").text();
+			moveRow.find(".ds-tab-table-field-index").text(newIndex);
+			ds.$(this).parents("tr").eq(0).prev().find(".ds-tab-table-field-index").text(oldIndex);
+			ds.$(this).parents("tr").eq(0).prev().before(moveRow);
+		});
+		$content.find(".ds-tab-table-field-gui-down").click(function(){
+			var moveRow = ds.$(this).parents("tr").eq(0);
+			var newIndex = ds.$(this).parents("tr").eq(0).next().find(".ds-tab-table-field-index").text();
+			var oldIndex = ds.$(this).parents("tr").eq(0).find(".ds-tab-table-field-index").text();
+			moveRow.find(".ds-tab-table-field-index").text(newIndex);
+			ds.$(this).parents("tr").eq(0).next().find(".ds-tab-table-field-index").text(oldIndex);
+			ds.$(this).parents("tr").eq(0).next().after(moveRow);
+		});
+		$content.find(".ds-tab-table-fields-config-btn-new").click(function(){
+			var tabRestListName = ds.$(this).parents(".ds-config-tab-wrapper").find(".ds-tab-list-name").val();
+			var tabTableFieldIndex = ds.controls.tabs.configure.getNextTabTableFieldIndex(".ds-config-tab-wrapper[restlistname='"+tabRestListName+"']");
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY").append(ds.stor.tabTableFieldsNew.clone());
+			ds.util.log("Adding tab table field row for list |"+ ds.$(this).parents(".ds-config-tab-wrapper").find(".ds-tab-list-name").val() +"|", true);
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-index").text(tabTableFieldIndex);
+			// Add fields available via REST to this list's tab config fieldInternalName drop-down
+			for ( prop in ds.lists[ds.$(this).parents(".ds-config-tab-wrapper").find(".ds-tab-list-name").val()].items.results[0] ) {
+				var restFieldName = prop;
+				if ( typeof(restFieldName) !== "object" ) {
+					ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-fin").append("<option value='"+ restFieldName +"'>"+ restFieldName +"</option>");
+				}
+			}
+			// setup clone and delete events
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-gui-clone").click(function(){
+				ds.$(this).parents("tr").eq(0).clone(true).appendTo(ds.$(this).parents("tbody").eq(0));
+			});
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-gui-delete").click(function(){
+				ds.$(this).parents("tr").eq(0).remove();
+			});
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-gui-up").click(function(){
+				var moveRow = ds.$(this).parents("tr").eq(0);
+				var newIndex = ds.$(this).parents("tr").eq(0).prev().find(".ds-tab-table-field-index").text();
+				var oldIndex = ds.$(this).parents("tr").eq(0).find(".ds-tab-table-field-index").text();
+				moveRow.find(".ds-tab-table-field-index").text(newIndex);
+				ds.$(this).parents("tr").eq(0).prev().find(".ds-tab-table-field-index").text(oldIndex);
+				ds.$(this).parents("tr").eq(0).prev().before(moveRow);
+			});
+			
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-gui-down").click(function(){
+				var moveRow = ds.$(this).parents("tr").eq(0);
+				var newIndex = ds.$(this).parents("tr").eq(0).next().find(".ds-tab-table-field-index").text();
+				var oldIndex = ds.$(this).parents("tr").eq(0).find(".ds-tab-table-field-index").text();
+				moveRow.find(".ds-tab-table-field-index").text(newIndex);
+				ds.$(this).parents("tr").eq(0).next().find(".ds-tab-table-field-index").text(oldIndex);
+				ds.$(this).parents("tr").eq(0).next().after(moveRow);
+			});
+			// setup HTMLSnippit
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-fin").each(function(){
+				ds.$(this).change(function(){
+					if ( ds.$(this).val() === 'HTMLSnippit' ) {
+						ds.$(this).children().each(function(){
+							if ( ds.$(this).val() !== 'HTMLSnippit' ) {
+								ds.$(this).remove();
+							}
+						});
+						ds.$(this).parents("tr").eq(0).children("TD").each(function(iTD, elmTD){
+							if ( iTD >= 2 && iTD <= 3 ) {
+								$(elmTD).remove();
+							}
+						});
+						ds.$(this).parents("tr").eq(0).children("TD").eq(1).after("<td colspan='2'>"+ds.controls.codeEditor.generate("html","ds-tab-table-field-htmlsnippit")+"</td>");
+						ds.controls.codeEditor.setupEventsFx(".ds-tab-table-field-htmlsnippit");
+					}
+				});
+			});
+		});
+		// setup HTMLSnippit functionality
+		$content.find(".ds-tab-table-field-fin").each(function(){
+			ds.$(this).change(function(){
+				if ( ds.$(this).val() === 'HTMLSnippit' ) {
+					ds.$(this).children().each(function(){
+						if ( ds.$(this).val() !== 'HTMLSnippit' ) {
+							ds.$(this).remove();
+						}
+					});
+					ds.$(this).parents("tr").eq(0).children("TD").each(function(iTD, elmTD){
+						if ( iTD >= 2 && iTD <= 3 ) {
+							$(elmTD).remove();
+						}
+					});
+					ds.$(this).parents("tr").eq(0).children("TD").eq(1).after("<td colspan='2'>"+ds.controls.codeEditor.generate("html","ds-tab-table-field-htmlsnippit")+"</td>");
+					ds.controls.codeEditor.setupEventsFx(".ds-tab-table-field-htmlsnippit");
+				}
+			});
+		});
+		// setup bottom buttons for whole tab
+		$content.find(".ds-config-tab-table-gui-delete").click(function(){
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).prev().remove();
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).remove();
+		});
+		$content.find(".ds-config-tab-table-gui-clone").click(function(){
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).clone(true).appendTo(ds.$(this).parents(".ds-config-gui-tabs").eq(0));
+		});
+	});
+	ds.$(".ds-tabs-config-btn-new-htmlTab").click(function(){
+		//var tabIndex = ds.controls.tabs.configure.getNextTabTableFieldIndex(".ds-config-tab-wrapper:not(.masterSettings)");
+		var tabIndex = ds.$(".ds-config-tab-wrapper:not(.masterSettings)").length+1;
+		var tabName = prompt("Enter tab name");
+		var $head = ds.stor.newHTMLTabHeader.clone(true);
+		var $content = ds.stor.newHTMLTabContent.clone(true);
+		$head.find(".ds-config-tab-index").text(tabIndex);
+		$head.find(".ds-config-tab-header-tabName").text(tabName);
+		$head.attr("tabIndex",tabIndex);
+		$content.find(".ds-tab-display-text").val(tabName);
+		$content.attr("tabIndex",tabIndex);
+		//$content.append(ds.controls.codeEditor.generate("html","ds-codeEditor-html","htmlTabContent"+$head.attr("tabIndex")));
+		$head.appendTo(".ds-config-gui-tabs");
+		$content.appendTo(".ds-config-gui-tabs");
+		// setup this tab config's accordion functionality
+		$head.find(".ds-config-tab-header-tabName").on("click", function(){
+			if ( ds.$(this).parents(".ds-config-tab-header").eq(0).next().css("display") === "none" ) {
+				ds.$(this).parents(".ds-config-tab-header").eq(0).next().slideDown();
+			}
+			else {
+				ds.$(this).parents(".ds-config-tab-header").eq(0).next().slideUp();
+			}
+		});
+		// setup auto-preview functionality for FA icon class
+		$content.find(".ds-tab-list-Fa-class").change(function(){
+			ds.$(this).next().removeClass();
+			ds.$(this).next().addClass("ds-tab-list-Fa-class-preview").addClass("fa");
+			ds.$(this).next().addClass(ds.$(this).val());
+		}).dblclick(function(){
+			ds.$(this).next().removeClass();
+			ds.$(this).next().addClass("ds-tab-list-Fa-class-preview").addClass("fa");
+			ds.$(this).next().addClass(ds.$(this).val());
+		});
+		// setup codeEditor events
+		ds.controls.codeEditor.setupEventsFx($content.find(".ds-htmlTab-html-content"));
+		ds.controls.codeEditor.setupEventsFx($content.find(".ds-htmlTab-afterFx-js"));
+	});
+};
+ds.controls.tabs.configure.getNextTabTableFieldIndex = function(jqSelTabConfigWrapper){
+	var iLastIndex = new Number(ds.$(jqSelTabConfigWrapper).find(".ds-tab-all-table-fields TR.ds-tab-table-field").eq(ds.$(jqSelTabConfigWrapper).find(".ds-tab-all-table-fields TR.ds-tab-table-field").length - 1).find(".ds-tab-table-field-index").text());
+	iLastIndex = iLastIndex + 1;
+	return iLastIndex;
+};
+ds.controls.tabs.configure.tabTableFieldHTMLSnippit = function(){
+	ds.$(".ds-config-tab-wrapper").find(".ds-tab-all-table-fields > TBODY > TR").find(".ds-tab-table-field-fin").each(function(){
+		ds.$(this).off("change").on("change", ds.controls.tabs.configure.dsTabTableFieldFinChange);
+	});
+};
+ds.controls.tabs.configure.dsTabTableFieldFinChange = function(e){
+	if ( ds.$(this).val() === 'HTMLSnippit' ) {
+		ds.$(this).children().each(function(){
+			if ( ds.$(this).val() !== 'HTMLSnippit' ) {
+				if ( !ds.$(this).parent().attr("oldvalue") === false ) {
+					if ( ds.$(this).parent().attr("oldvalue").toLowerCase() !== ds.$(this).val().toLowerCase() ) {
+						ds.util.log("hiding |"+ds.$(this).val().toLowerCase()+"| because it is not === |"+ ds.$(this).parent().attr("oldvalue") +"|");
+						ds.$(this).hide();
+					}
+				}
+				else {
+					ds.util.log("hiding |"+ds.$(this).val().toLowerCase()+"|");
+					ds.$(this).hide();
+				}
+			}
+		});
+		ds.$(this).parents("tr").eq(0).children("TD").each(function(iTD, elmTD){
+			if ( iTD >= 2 && iTD <= 3 ) {
+				$(elmTD).hide();
+			}
+		});
+		ds.$(this).parents("tr").eq(0).children("TD").eq(1).after("<td colspan='2'>"+ds.controls.codeEditor.generate("html","ds-tab-table-field-htmlsnippit")+"</td>");
+		ds.controls.codeEditor.setupEventsFx(".ds-tab-table-field-htmlsnippit");
+	}
+	else {
+		ds.$(this).attr("oldvalue",ds.$(this).val());
+		ds.$(this).parents("tr").eq(0).find("TD[colspan=2]").remove();
+		ds.$(this).parents("tr").eq(0).children("TD").each(function(iTD, elmTD){
+			ds.$(this).show();
+		});
+		ds.$(this).children().each(function(){
+			ds.$(this).show();
+		});
+	}
+};
+ds.controls.tabs.configure.tabTableFieldClone = function(e){
+	var $cloned = ds.$(this).parents("tr").eq(0).clone(true);
+	var tabRestListName = ds.$(this).parents(".ds-config-tab-wrapper").attr("restlistname");
+	ds.$(this).parents("tr").eq(0).find("TD SELECT").each(function(i,elm){
+		$cloned.find("TD SELECT").eq(i).val($(this).val());
+	});
+	$cloned.find(".ds-tab-table-field-index").text(ds.controls.tabs.configure.getNextTabTableFieldIndex(".ds-config-tab-wrapper[restlistname='"+tabRestListName+"']"));
+	$cloned.appendTo(ds.$(this).parents("tbody").eq(0));			
+};
+ds.controls.tabs.configure.tabTableFieldWidthAdjust = function(e){
+	try{
+		ds.$(".ds-relatedRecordsUI").show();
+		ds.$(".ds-config-gui-tabs").hide();
+		ds.$("li.ds-psudo-tab[listname='"+ds.$(this).parents(".ds-config-tab-wrapper").attr("restlistname")+"']").click();
+		var iCol = new Number(ds.$(this).parents("TR").eq(0).find(".ds-tab-table-field-index").text());
+		ds.util.log(ds.$(this).parents(".ds-config-tab-wrapper").find(".ds-tab-display-text").val(),true);
+		var $content = ds.$(".ds-tabContentDiv#tabs"+ds.$(this).parents(".ds-config-tab-wrapper").find(".ds-tab-display-text").val());
+		ds.util.log($content,true);
+		ds.util.log($content.find(".ds-tabContentHeader > table tr.ds-headerRow > td").eq(iCol).length,true);
+		var newWidth = $(this).val();
+		$content.find(".ds-tabContentHeader > table tr.ds-headerRow > td").eq(iCol).width(newWidth);
+		ds.util.log($content.find(".ds-tabContentScroll > table tr.ds-dataRow").length,true);
+		$content.find(".ds-tabContentScroll > table tr.ds-dataRow").each(function(){
+			ds.$(this).find("td").eq(iCol).width(newWidth);
+		});
+		setTimeout(function(){
+			ds.$(".ds-relatedRecordsUI").hide();
+			ds.$(".ds-config-gui-tabs").show();
+		},3210);
+	}
+	catch(err){
+		ds.$(".ds-relatedRecordsUI").hide();
+		ds.$(".ds-config-gui-tabs").show();
+	}
+};
+ds.controls.tabs.configure.tabTableFieldDelete = function(e){
+	ds.$(this).parents("tr").eq(0).remove();
+};
+ds.controls.tabs.configure.tabTableFieldUp = function(e){
+	var moveRow = ds.$(this).parents("tr").eq(0);
+	var newIndex = ds.$(this).parents("tr").eq(0).prev().find(".ds-tab-table-field-index").text();
+	var oldIndex = ds.$(this).parents("tr").eq(0).find(".ds-tab-table-field-index").text();
+	moveRow.find(".ds-tab-table-field-index").text(newIndex);
+	ds.$(this).parents("tr").eq(0).prev().find(".ds-tab-table-field-index").text(oldIndex);
+	ds.$(this).parents("tr").eq(0).prev().before(moveRow);
+};
+ds.controls.tabs.configure.tabTableFieldDown = function(e){
+	var moveRow = ds.$(this).parents("tr").eq(0);
+	var newIndex = ds.$(this).parents("tr").eq(0).next().find(".ds-tab-table-field-index").text();
+	var oldIndex = ds.$(this).parents("tr").eq(0).find(".ds-tab-table-field-index").text();
+	moveRow.find(".ds-tab-table-field-index").text(newIndex);
+	ds.$(this).parents("tr").eq(0).next().find(".ds-tab-table-field-index").text(oldIndex);
+	ds.$(this).parents("tr").eq(0).next().after(moveRow);
+};
+ds.controls.tabs.configure.tabTableFieldNew = function(e){
+	var tabRestListName = ds.$(this).parents(".ds-config-tab-wrapper").find(".ds-tab-list-name").val();
+	var tabTableFieldIndex = ds.controls.tabs.configure.getNextTabTableFieldIndex(".ds-config-tab-wrapper[restlistname='"+tabRestListName+"']");
+	ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY").append(ds.stor.tabTableFieldsNew.clone());
+	ds.util.log("Adding tab table field row for list |"+ ds.$(this).parents(".ds-config-tab-wrapper").find(".ds-tab-list-name").val() +"|", true);
+	ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-index").text(tabTableFieldIndex);
+	// Add fields available via REST to this list's tab config fieldInternalName drop-down
+	for ( prop in ds.lists[ds.$(this).parents(".ds-config-tab-wrapper").find(".ds-tab-list-name").val()].items.results[0] ) {
+		var restFieldName = prop;
+		if ( typeof(restFieldName) !== "object" ) {
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-fin").append("<option value='"+ restFieldName +"'>"+ restFieldName +"</option>");
+		}
+	}
+	// setup clone and delete events
+	ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-gui-clone").click(function(){
+		ds.$(this).parents("tr").eq(0).clone(true).appendTo(ds.$(this).parents("tbody").eq(0));
+	});
+	ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-gui-delete").click(function(){
+		ds.$(this).parents("tr").eq(0).remove();
+	});
+	ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-gui-up").click(function(){
+		var moveRow = ds.$(this).parents("tr").eq(0);
+		var newIndex = ds.$(this).parents("tr").eq(0).prev().find(".ds-tab-table-field-index").text();
+		var oldIndex = ds.$(this).parents("tr").eq(0).find(".ds-tab-table-field-index").text();
+		moveRow.find(".ds-tab-table-field-index").text(newIndex);
+		ds.$(this).parents("tr").eq(0).prev().find(".ds-tab-table-field-index").text(oldIndex);
+		ds.$(this).parents("tr").eq(0).prev().before(moveRow);
+	});
+	
+	ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-gui-down").click(function(){
+		var moveRow = ds.$(this).parents("tr").eq(0);
+		var newIndex = ds.$(this).parents("tr").eq(0).next().find(".ds-tab-table-field-index").text();
+		var oldIndex = ds.$(this).parents("tr").eq(0).find(".ds-tab-table-field-index").text();
+		moveRow.find(".ds-tab-table-field-index").text(newIndex);
+		ds.$(this).parents("tr").eq(0).next().find(".ds-tab-table-field-index").text(oldIndex);
+		ds.$(this).parents("tr").eq(0).next().after(moveRow);
+	});
+	// setup HTMLSnippit
+	ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-all-table-fields > TBODY > TR:last-child").find(".ds-tab-table-field-fin").off("change").on("change", ds.controls.tabs.configure.dsTabTableFieldFinChange);
+};
+ds.controls.tabs.configure.dsConfigTabMoveUp = function(e){
+	ds.util.log("Attempting to move tab up... css cursor = "+ ds.$(this).css("cursor") ,true);
+	if ( ds.$(this).css("cursor") === "pointer" ) {
+		var $head = ds.$(this).parents(".ds-config-tab-header").eq(0);
+		var $content = ds.$(this).parents(".ds-config-tab-header").next().eq(0);
+		var currIndex = parseInt($head.attr("tabindex"),10);
+		$head.insertBefore(".ds-config-tab-header[tabindex='"+(currIndex-1)+"']");
+		$content.insertBefore(".ds-config-tab-header[tabindex='"+(currIndex-1)+"']");
+		ds.$(".ds-config-tab-header[tabindex='"+(currIndex-1)+"']").attr("tabindex",currIndex).find(".ds-config-tab-index").text(currIndex);
+		ds.$(".ds-config-tab-wrapper[tabindex='"+(currIndex-1)+"']").attr("tabindex",currIndex);
+		$head.attr("tabindex",(currIndex-1));
+		$head.find(".ds-config-tab-index").text((currIndex-1));
+		$content.attr("tabindex",(currIndex-1));
+	}
+};
+ds.controls.tabs.configure.dsConfigTabMoveDown = function(e){
+	ds.util.log("Attempting to move tab down... css cursor = "+ ds.$(this).css("cursor") ,true);
+	if ( ds.$(this).css("cursor") === "pointer" ) {
+		var $head = ds.$(this).parents(".ds-config-tab-header").eq(0);
+		var $content = ds.$(this).parents(".ds-config-tab-header").next().eq(0);
+		var currIndex = parseInt($head.attr("tabindex"),10);
+		$content.insertAfter(".ds-config-tab-wrapper[tabindex='"+(currIndex+1)+"']");
+		$head.insertAfter(".ds-config-tab-wrapper[tabindex='"+(currIndex+1)+"']");
+		ds.$(".ds-config-tab-header[tabindex='"+(currIndex+1)+"']").attr("tabindex",currIndex).find(".ds-config-tab-index").text(currIndex);
+		ds.$(".ds-config-tab-wrapper[tabindex='"+(currIndex+1)+"']").attr("tabindex",currIndex);
+		$head.attr("tabindex",(currIndex+1));
+		$head.find(".ds-config-tab-index").text((currIndex+1));
+		$content.attr("tabindex",(currIndex+1));
+	}
+};
+ds.controls.tabs.configure.setupTabEventsForConfigGUI = function(){
+	ds.$(".ds-tab-table-field-gui-clone").on("click",ds.controls.tabs.configure.tabTableFieldClone);
+	ds.$(".ds-tab-table-field-gui-delete").on("click",ds.controls.tabs.configure.tabTableFieldDelete);
+	ds.$(".ds-tab-table-field-gui-up").on("click",ds.controls.tabs.configure.tabTableFieldUp);
+	ds.$(".ds-tab-table-field-gui-down").on("click",ds.controls.tabs.configure.tabTableFieldDown);
+	ds.$(".ds-tab-table-fields-config-btn-new").on("click",ds.controls.tabs.configure.tabTableFieldNew);
+	ds.$(".ds-tab-table-field-widthPx").on("change",ds.controls.tabs.configure.tabTableFieldWidthAdjust);
+	// events for whole tab
+	
+	// config delete button for the whole tab
+	ds.$(".ds-config-tab-table-gui-delete").click(function(){
+		ds.$(this).parents(".ds-config-tab-wrapper").eq(0).prev().remove();
+		ds.$(this).parents(".ds-config-tab-wrapper").eq(0).remove();
+	});
+	// config clone button for the whole tab
+	ds.$(".ds-config-tab-table-gui-clone").click(function(){
+		ds.$(this).parents(".ds-config-tab-wrapper").eq(0).clone(true).appendTo(ds.$(this).parents(".ds-config-gui-tabs").eq(0));
+	});
+	// show initial fa icon previews
+	ds.$(".ds-tab-list-Fa-class-preview").each(function(){
+		ds.$(this).removeClass();
+		ds.$(this).addClass("ds-tab-list-Fa-class-preview").addClass("fa");
+		ds.$(this).addClass(ds.$(this).siblings(".ds-tab-list-Fa-class").val());
+	});
+	// setup syntax highlighting for all codeEditor widgets
+	ds.util.log("ds.controls.tabs.config.setupTabEventsForConfigGUI... calling ds.controls.codeEditor.setupEventsFx('.ds-tab-header-html,.ds-tab-footerButton-html,.ds-tab-saveNewFx-js,.ds-tab-saveUpdateFx-js,.ds-tabs-masterSettings-afterFx-js,.ds-tabs-masterSettings-initFx-js,.ds-masterSettings-initFx-js,.ds-masterSettings-afterFx-js,.ds-htmlTab-html-content,.ds-htmlTab-afterFx-js')",true);
+	ds.controls.codeEditor.setupEventsFx(".ds-tab-header-html,.ds-tab-footerButton-html,.ds-tab-saveNewFx-js,.ds-tab-saveUpdateFx-js,.ds-tabs-masterSettings-afterFx-js,.ds-tabs-masterSettings-initFx-js,.ds-masterSettings-initFx-js,.ds-masterSettings-afterFx-js,.ds-htmlTab-html-content,.ds-htmlTab-afterFx-js");
+	ds.util.log("ds.controls.tabs.config.setupTabEventsForConfigGUI... calling ds.controls.codeEditor.setupEventsFx('.ds-tab-table-field-htmlsnippit')",true);
+	ds.controls.codeEditor.setupEventsFx(".ds-tab-table-field-htmlsnippit");
+	// show list rest fields when the tab list name dropdown is changed
+	ds.util.log("ds.controls.tabs.config.setupTabEventsForConfigGUI... about to setup change event for .ds-tab-list-name",true);
+	ds.$(".ds-tab-list-name").each(function(){
+		ds.$(this).change(function(){
+			ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-table-field-fin OPTION").each(function(iFIN, elmFIN){
+				if ( iFIN <= 1 ) { 
+					//nothing
+				}
+				else {
+					ds.$(this).remove();
+				}
+			});
+			var restListName = ds.$(this).val();
+			for ( prop in ds.stor.listFields[restListName] ) {
+				var restFieldName = prop;
+				if ( typeof(restFieldName) !== "object" ) {
+					if ( ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-table-field-fin OPTION:contains('"+ restFieldName +"')").length < 1 ) {
+						ds.$(this).parents(".ds-config-tab-wrapper").eq(0).find(".ds-tab-table-field-fin").append("<option value='"+ restFieldName +"'>"+ restFieldName +"</option>");
+					}
+				}
+			}
+		});
+	});
+	// setup tab table field HTMLSnippit functionality
+	ds.util.log("ds.controls.tabs.config.setupTabEventsForConfigGUI... about to setup change event for .ds-tab-table-field-fin",true);
+	ds.controls.tabs.configure.tabTableFieldHTMLSnippit();
+	// events for the whole tabs config accordion
+	ds.util.log("ds.controls.tabs.config.setupTabEventsForConfigGUI... about to collapse all tab wrapper divs",true);
+	
+	// collapse all sections
+	ds.$(".ds-config-tab-wrapper").each(function(){
+		ds.$(this).slideUp();
+	});
+	// setup accordion expand on click for headers
+	ds.$(".ds-config-tab-header-tabName").on("click", function(){
+		if ( ds.$(this).parents(".ds-config-tab-header").eq(0).next().css("display") === "none" ) {
+			ds.$(this).parents(".ds-config-tab-header").eq(0).next().slideDown();
+		}
+		else {
+			ds.$(this).parents(".ds-config-tab-header").eq(0).next().slideUp();
+		}
+	});
+	
+	
+	ds.stor.newRelRecTabHeader = ds.$(".ds-config-tab-header").eq(0).clone(true);
+	ds.stor.newRelRecTabContent = ds.$(".ds-config-tab-wrapper").eq(0).clone(true);
+
+	ds.stor.tabTableFieldsNew = ds.$(".ds-tab-all-table-fields > TBODY > TR").eq(0).clone(true);
+	
+	if ( ds.$(".ds-tab-all-table-fields > TBODY > TR").length > 1 ) {
+		ds.$(".ds-tab-all-table-fields > TBODY > TR").eq(0).hide();
+	}
+	// config tab movement controls
+	ds.$(".ds-config-tab-move-up").on("click",ds.controls.tabs.configure.dsConfigTabMoveUp);
+	ds.$(".ds-config-tab-move-down").on("click",ds.controls.tabs.configure.dsConfigTabMoveDown);
+	ds.$(".ds-tabs-config-btn-collapseListForm").click(function(){
+		if ( ds.$(this).attr("decollapse") === "true" ) {
+			ds.$("#DeltaPlaceHolderMain > DIV:eq(1)").append(ds.$("#onetIDListForm"));
+			ds.$("#pageContentTitle").show();
+			ds.$("#accordionListForm_"+ds.$("#pageContentTitle").text().trim()).remove();
+			ds.$(this).find(".fa").removeClass("fa-chevron-down").addClass("fa-chevron-up");
+			ds.$(this).html(ds.$(this).html().replace("Decollapse","Collapse"));
+			ds.$(this).attr("decollapse","false");
+		}
+		else {
+			ds.controls.accordion.arrContent = [];
+			ds.controls.accordion.genSection("fa-gears","List Form: "+ ds.$("#pageContentTitle").text().trim(),"<div id='placeholderonetIDListForm'></div>");
+			ds.controls.accordion.init(function(){
+				ds.$("#placeholderonetIDListForm").replaceWith(ds.$("#onetIDListForm"));
+				setTimeout(function(){ds.$("#accordionListForm_"+ds.$("#pageContentTitle").text().trim()).find(".ds-accordionSectionHeader").click();},1000);
+				ds.$("#pageContentTitle").hide();
+			},"accordionListForm_"+ds.$("#pageContentTitle").text().trim());
+			ds.$(this).find(".fa").removeClass("fa-chevron-up").addClass("fa-chevron-down");
+			ds.$(this).html(ds.$(this).html().replace("Collapse","Decollapse"));
+			ds.$(this).attr("decollapse","true");
+		}
+	});
+};
+</script>

@@ -1,0 +1,121 @@
+<button type="button" class="ds-psudoButton" id="btnAutoAttend">Auto-Attending</button> &nbsp;
+<button type="button" class="ds-psudoButton" id="btnPresenter">Presenter</button> &nbsp;
+<button type="button" class="ds-psudoButton" id="btnObserver">Observer</button>
+<script type="text/javascript">
+var bAttendanceLogged = false;
+	ExecuteOrDelayUntilScriptLoaded(function(){
+		$(document).ready(function(){
+			setTimeout(function(){
+				checkIfAttendanceAlreadyLogged();
+				$("#btnAutoAttend").click(function(){
+					logAttendance("AutoAttending");
+					makeActive($(this));
+					makeInactive($("#btnPresenter"));
+					makeInactive($("#btnObserver"));
+					bAttendanceLogged = true;
+				});
+				$("#btnPresenter").click(function(){
+					logAttendance("Presenter");
+					makeActive($(this));
+					makeInactive($("#btnAutoAttend"));
+					makeInactive($("#btnObserver"));
+					bAttendanceLogged = true;
+				});
+				$("#btnObserver").click(function(){
+					logAttendance("Observer");
+					makeActive($(this));
+					makeInactive($("#btnAutoAttend"));
+					makeInactive($("#btnPresenter"));
+					bAttendanceLogged = true;
+				});
+			}, 3000);
+		});
+	}, "sp.js");
+	
+	
+	function makeActive($obj){
+		$obj.css({'background-color':'#1c557d','background-image':'-ms-linear-gradient(#2a7fbb, #1c557d)','background':'linear-gradient(#2a7fbb, #1c557d)','color':'white','cursor':'pointer'});
+	}
+	
+	function makeInactive($obj){
+		$obj.css({'background-color':'#D7D7D7','background-image':'-ms-linear-gradient(rgb(243, 243, 243), rgb(200,200,200))','background':'linear-gradient(rgb(243, 243, 243), rgb(200,200,200))','color':'black','cursor':'pointer'});
+	}
+
+	
+	function logAttendance(sAttendingAs){
+		checkIfAttendanceAlreadyLogged(true);
+		var rightNow = moment.utc().valueOf();
+		var sMeetingName = GetUrlKeyValue("MeetingName");
+		if ( window.location.href.indexOf("TaskMeetings") >= 0 ) {
+			if ( !sMeetingName === true ) {
+				sMeetingName = ds.$(".ms-formlabel:contains('Title')").parent().children(".ms-formbody").text().trim();
+			}
+		}
+		if ( !sMeetingName === true ) { return false; }
+		//var sAttendingAs = "AutoAttending";
+		var iMeetingIDId = GetUrlKeyValue("MeetingID");
+		if ( window.location.href.indexOf("TaskMeetings") >= 0 ) {
+			if ( !iMeetingIDId === true ) {
+				iMeetingIDId = GetUrlKeyValue("ID");
+			}
+		}
+		if ( !iMeetingIDId === true ) { return false; }
+		var body = {
+			Title: sMeetingName+"|"+sAttendingAs+"|"+rightNow,
+			MeetingName: sMeetingName,
+			AttendingAs: sAttendingAs,
+			MeetingIDId: iMeetingIDId,
+			MeetingDateJSDateMS: "\/Date("+ rightNow +")\/"
+		};
+		ds.rest.list.item.add(body, "MeetingAttendance", function(){ds.util.log("Logged attendance");});
+		setTimeout(function(){
+			ds.$("#ManualRefresh").click();
+		}, 1000);
+		return true;
+	}
+	
+	function checkIfAttendanceAlreadyLogged(bDelete){
+		if ( typeof(bDelete) === "undefined" ) { var bDelete = false; }
+		ds.rest.list.getData.fromList("meetingattendance", ["MeetingID"], ["eq"], [GetUrlKeyValue("ID")], [], function(){ 
+			var bAlreadyLogged = false;
+			var sLoggedAs = "";
+			for ( item in ds.lists.meetingattendance.items.results ) {
+				var currResult = ds.lists.meetingattendance.items.results[item];
+				if ( currResult.AuthorId === ds.p.userID ) {
+					//if ( currResult.MeetingName === ds.$(".ms-formlabel:contains('Title')").parent().children(".ms-formbody").text().trim() ) {
+						bAlreadyLogged = true;
+						if ( bDelete === true ) {
+							ds.rest.list.item.delete(currResult.Id, ds.lists.meetingattendance.Id, function(){ds.util.log("Item deleted");});
+						}
+						sLoggedAs = currResult.AttendingAs
+						break;
+					//}
+				}
+			}
+			if ( bAlreadyLogged === true && bDelete === false ) {
+				switch (sLoggedAs) {
+					case "AutoAttending":
+						makeActive($("#btnAutoAttend"));
+						makeInactive($("#btnPresenter"));
+						makeInactive($("#btnObserver"));
+						bAttendanceLogged = true;
+						break;
+					case "Presenter":
+						makeActive($("#btnPresenter"));
+						makeInactive($("#btnAutoAttend"));
+						makeInactive($("#btnObserver"));
+						bAttendanceLogged = true;
+						break;
+					case "Observer":
+						makeActive($("#btnObserver"));
+						makeInactive($("#btnAutoAttend"));
+						makeInactive($("#btnPresenter"));
+						bAttendanceLogged = true;
+						break;
+					default: 
+						// do nothing
+				}
+			}
+		});
+	}
+</script>
