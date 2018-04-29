@@ -541,14 +541,48 @@ var ds = {
                 }
             }
             ds.ajax.read(restURL, fxCallback, fxAfterLastPage);
-        }
+		},
+		getListPermissions: function(strCaptureResultsIn) {
+			var restURL = eval(strCaptureResultsIn+".__metadata.uri");
+			restURL += "?$select=EffectiveBasePermissions";
+			var fxCallback = function(xhr, data) {
+				eval(strCaptureResultsIn+".EffectiveBasePermissions = "+JSON.stringify(data.d.EffectiveBasePermissions)+";");
+            }
+			ds.ajax.read(restURL, fxCallback);
+		}
 	},
     log: function(message, bIgnoreDebugReq) {
         if (typeof(bIgnoreDebugReq) === "undefined") { var bIgnoreDebugReq = false; }
         if (ds.settings.bDebug === true || bIgnoreDebugReq === true) {
             try { console.log(message); } catch (err) {}
         }
-    },
+	},
+	forms:{
+		getListFormFieldByDisplayName: function(sName) {
+            var $listFormTableRow = ds.$(".ms-formlabel:contains('" + sName + "')").parents("tr").eq(0);
+            var $formField = $listFormTableRow.children(".ms-formbody").find("TEXTAREA[title^='" + sName + "'],INPUT[title^='" + sName + "'],SELECT[title^='" + sName + "']");
+            return $formField;
+        },
+        getListFormFieldValueByDisplayName: function(sName) {
+            var $listFormTableRow = ds.$(".ms-formlabel:contains('" + sName + "')").parents("tr").eq(0);
+            var $formField = $listFormTableRow.children(".ms-formbody").find("TEXTAREA[title^='" + sName + "'],INPUT[title^='" + sName + "'],SELECT[title^='" + sName + "']");
+            if ($formField[0].tagName.toUpperCase() === "SELECT") {
+                if ($formField.prop("multiple") === true) {
+                    var $options = $formField.find("OPTION[selected]");
+                    var arrReturn = [];
+                    $options.each(function() {
+                        arrReturn.push([ds.$(this).val(), ds.$(this).text()]);
+                    });
+                    return arrReturn;
+                } else {
+                    var $options = $formField.find("OPTION[selected]");
+                    return [$options.val(), $options.text()];
+                }
+            } else {
+                return $formField.val();
+            }
+        }
+	},
     util: {
         getFunctionCode: function(fx) {
             if (typeof(fx) === "function") {
@@ -565,6 +599,15 @@ var ds = {
             
             
             ds.ajax.captureArray(ds.p.rest.lists2013+"?$expand=Fields,Views,Forms", "ds.lists")
+            ds.util.findObjectInArray(ds.lists.results, [{"Title": "Meetings"},{"Id":"ecb433ee-09f5-4c9d-8cd4-0090f730d3aa"}], function(matches){
+                for ( var m = 0; m < matches.length; m++ ) {
+                    ds.util.findObjectInArray(matches[m].Fields.results, {"LookupList":_spPageContextInfo.pageListId}, function(subMatch){
+                        ds.log(subMatch);
+                    })
+                }
+			});
+			
+			ds.ajax.captureNamedArray(ds.p.rest.lists2013+"?$expand=Fields,Views,Forms", "ds.lists", "Title")
             ds.util.findObjectInArray(ds.lists.results, [{"Title": "Meetings"},{"Id":"ecb433ee-09f5-4c9d-8cd4-0090f730d3aa"}], function(matches){
                 for ( var m = 0; m < matches.length; m++ ) {
                     ds.util.findObjectInArray(matches[m].Fields.results, {"LookupList":_spPageContextInfo.pageListId}, function(subMatch){
@@ -719,17 +762,35 @@ var ds = {
             }
             return oReturn;
 		},
-		getWebParts: function(){
+		getWebParts: function(fxCallback){
+			ds.webParts = {};
 			var collWPs = document.getElementsByClassName("ms-webpartzone-cell");
 			for ( var iWP = 0; iWP < collWPs.length; iWP++ ){
-				ds.webParts[collWPs[iWP].id] = {
+				var wp = collWPs[iWP].id.replace("MSOZoneCell_WebPart","");
+				ds.webParts[wp] = {
 					outerWrapper: collWPs[iWP],
-					id: "",
+					seqID: parseInt(collWPs[iWP].id.replace("MSOZoneCell_WebPartWPQ",""),10),
 					type: "",
 					title: "",
-					ctx: null
+					shortName: wp,
+					formCtx: undefined,
+					listData: undefined,
+					schemaData: undefined
 				}
+				try{ds.webParts[wp].title = document.getElementById("WebPart"+wp+"_ChromeTitle").innerText;}catch(err){}
+				try{ds.webParts[wp].formCtx = eval(wp+"FormCtx;");}catch(err){}
+				try{ds.webParts[wp].listData = eval(wp+"ListData;");}catch(err){}
+				try{ds.webParts[wp].schemaData = eval(wp+"SchemaData;");}catch(err){}
+				if ( typeof(ds.webParts[wp].formCtx) !== "undefined" ){ 
+					ds.webParts[wp].type = "form"; 
+					ds.webParts[wp].listData = ds.webParts[wp].formCtx.ListData;
+					ds.webParts[wp].schemaData = ds.webParts[wp].formCtx.ListSchema;
+				}
+				else { wp.type = "view"; }
 			}
+			if (typeof(fxCallback) === "function") {
+                fxCallback(oReturn);
+            }
 		},
         appendToMain: function(html) {
             if (typeof(html) === "string") {
@@ -762,41 +823,6 @@ var ds = {
             ds.stor.spCSOM.clientContext.dispose();
             return ds.stor.spCSOM.siteTzDescription;
         },
-        getCurrentListFormItemDetails: function(afterFx, bAsync) {
-            ds.rest.lastCall = {};
-
-            ds.rest.getDataFromURI(ds.p.root + ds.p.rest[2013].lists + "(guid'" + ds.p.pageListId + "')/Items(" + GetUrlKeyValue("ID") + ")", function(data, textStatus, jqXHR) {
-                ds.rest.lastCall.data = data;
-                ds.rest.lastCall.textStatus = textStatus;
-                ds.rest.lastCall.jqXHR = jqXHR;
-                if (typeof(afterFx) === "function") {
-                    afterFx(data, textStatus, jqXHR);
-                }
-            }, bAsync);
-        },
-        getListPermissions: function(restlistname, afterFx) {
-            if (typeof(ds.lists[restlistname]) === "undefined") {
-                ds.rest.list.getDef(restlistname, function(d, s, x) {
-                    ds.rest.coll.expandListDef(restlistname, ds.lists[restlistname].__metadata.uri, function(d, s, x) {
-                        //ds.log(d,true);
-                        //ds.log(s,true);
-                        //ds.log(x,true);
-                        if (typeof(afterFx) === "function") { afterFx(ds.lists[restlistname].EffectiveBasePermissions); }
-                    });
-                });
-            } else if (typeof(ds.lists[restlistname].EffectiveBasePermissions) === "undefined") {
-                ds.rest.coll.expandListDef(restlistname, ds.lists[restlistname].__metadata.uri, function(d, s, x) {
-                    //ds.log(d,true);
-                    //ds.log(s,true);
-                    //ds.log(x,true);
-                    if (typeof(afterFx) === "function") { afterFx(ds.lists[restlistname].EffectiveBasePermissions); }
-                });
-            } else {
-                if (typeof(afterFx) === "function") {
-                    afterFx(ds.lists[restlistname].EffectiveBasePermissions);
-                }
-            }
-        },
         checkForItemEditAddDelete: function(restlistname, afterFx) {
             // supposed to check like this:
             // http://1.dsmagicsp.cloudappsportal.com/_api/web/lists(guid'd11a71ff-4170-4725-a804-9d76153d0ebf')/getusereffectivepermissions(@user)?@user=%27i%3A0%23%2Ew%7Cshakir%5Cjohn%27
@@ -827,30 +853,6 @@ var ds = {
                     if (typeof(afterFx) === "function") { afterFx(false); }
                     return false;
                 }
-            }
-        },
-        getListFormFieldByDisplayName: function(sName) {
-            var $listFormTableRow = ds.$(".ms-formlabel:contains('" + sName + "')").parents("tr").eq(0);
-            var $formField = $listFormTableRow.children(".ms-formbody").find("TEXTAREA[title^='" + sName + "'],INPUT[title^='" + sName + "'],SELECT[title^='" + sName + "']");
-            return $formField;
-        },
-        getListFormFieldValueByDisplayName: function(sName) {
-            var $listFormTableRow = ds.$(".ms-formlabel:contains('" + sName + "')").parents("tr").eq(0);
-            var $formField = $listFormTableRow.children(".ms-formbody").find("TEXTAREA[title^='" + sName + "'],INPUT[title^='" + sName + "'],SELECT[title^='" + sName + "']");
-            if ($formField[0].tagName.toUpperCase() === "SELECT") {
-                if ($formField.prop("multiple") === true) {
-                    var $options = $formField.find("OPTION[selected]");
-                    var arrReturn = [];
-                    $options.each(function() {
-                        arrReturn.push([ds.$(this).val(), ds.$(this).text()]);
-                    });
-                    return arrReturn;
-                } else {
-                    var $options = $formField.find("OPTION[selected]");
-                    return [$options.val(), $options.text()];
-                }
-            } else {
-                return $formField.val();
             }
         },
         getListViewColumnIndex: function(fieldDisplayName) {
