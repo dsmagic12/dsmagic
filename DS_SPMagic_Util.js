@@ -343,6 +343,18 @@ var ds = {
         existingFormSettings: false,
         commonContent: {}
     },
+    spObjs: {
+        list: function(listTitle, listTemplateNum, listDescription, ){
+            return {
+                __metadata: { type: 'SP.List' }, 
+                AllowContentTypes: true, 
+                BaseTemplate: nListTemplateID, 
+                ContentTypesEnabled: true, 
+                Description: sListDescription, 
+                Title: sListName 
+            }
+        }
+    },
 	lists: {},
 	webParts: {},
     ajax: {
@@ -581,6 +593,349 @@ var ds = {
             } else {
                 return $formField.val();
             }
+        },
+        getFieldFromCtx: function(sFieldName, fxCallback){
+            /*
+                ds.forms.getFieldFromCtx("Choice Dropdown", function(oField){ds.log("Found field with Title = |"+ oField.Title +"|");});
+            */
+            ds.util.getWebParts(function(webParts){
+                var bFound = false;
+                var oReturn = null;
+                for ( wp in webParts ){
+                    /*ds.log("Checking wp |"+ wp +"|");*/
+                    if ( webParts[wp].type === "form" ){
+                        for ( field in webParts[wp].schemaData ){
+                            /*ds.log("Checking wp field |"+ field +"|");*/
+                            if ( webParts[wp].schemaData[field].Title === sFieldName ){
+                                bFound = true;
+                                oReturn = webParts[wp].schemaData[field];
+                                break;
+                            }
+                        }
+                    }
+                    if ( bFound === true ){
+                        break;
+                    }
+                }
+                /*ds.log(oReturn);*/
+                if ( !oReturn === false ){
+                    if ( typeof(fxCallback) === "function" ){
+                        fxCallback(oReturn);
+                    }
+                    return oReturn;
+                }
+                else {
+                    return false;
+                }
+            });
+        },
+        getFieldControlType: function(oField){
+            var oReturn = {};
+            switch (oField.FieldType){
+                case "Choice":
+                    switch (oField.FormatType){
+                        case 0:
+                            oReturn.tagName = "SELECT";
+                            oReturn.mulitple = false;
+                            oReturn.options = oField.Choices;
+                            oReturn.guid = oField.Id;
+                            oReturn.id = oField.Name +"_"+ oField.Id +"_$DropDownChoice";
+                            oReturn.title = oField.Title;
+                            oReturn.name = oField.Name;
+                            oReturn.required = oField.Required;
+                            oReturn.fillInChoice = oField.FillInChoice;
+                            oReturn.numberOfLines = false;
+                            oReturn.richText = false;
+                            oReturn.richTextMode = false;
+                            oReturn.restrictedMode = false;
+                            oReturn.allowHyperlink = false;
+                            oReturn.appendOnly = false;
+                            oReturn.showAsPercentage = false;        
+                            oReturn.set = function(value){
+                                document.getElementById(this.id).value = this.value;
+                            };
+                            oReturn.get = function(){
+                                return document.getElementById(this.id).value;
+                            };
+                            break;
+                        case 1:
+                            oReturn.tagName = "TABLE";
+                            oReturn.mulitple = false;
+                            oReturn.options = oField.Choices;
+                            oReturn.guid = oField.Id;
+                            oReturn.id = oField.Name +"_"+ oField.Id +"_ChoiceRadioTable";
+                            oReturn.title = "";
+                            oReturn.name = oField.Name;
+                            oReturn.required = oField.Required;
+                            oReturn.fillInChoice = oField.FillInChoice;
+                            oReturn.numberOfLines = false;
+                            oReturn.richText = false;
+                            oReturn.richTextMode = false;
+                            oReturn.restrictedMode = false;
+                            oReturn.allowHyperlink = false;
+                            oReturn.appendOnly = false;
+                            oReturn.showAsPercentage = false;        
+                            oReturn.set = function(value){
+                                for ( var i = 0; i < this.options.length; i++ ){
+                                    if ( this.options[i] === value ){
+                                        document.getElementById(oField.Name +"_"+ this.guid +"_$RadioButtonChoiceField"+ i).checked = true;
+                                        break;
+                                    }
+                                }
+                                
+                            };
+                            oReturn.get = function(){
+                                var collRadios = document.getElementById(this.id).getElementsByClassName("ms-RadioText");
+                                for ( var i = 0; i < collRadios.length; i++ ){
+                                    if ( collRadios[i].checked === true ) {
+                                        return collRadios[i].nextSibling.innerText;
+                                        break;
+                                    }
+                                }
+                            };
+                            break;
+                        default:
+                            ds.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.FieldType +"|");
+                    }
+                    break;
+                case "MultiChoice":
+                    oReturn.tagName = "TABLE";
+                    oReturn.mulitple = false;
+                    oReturn.options = oField.Choices;
+                    oReturn.guid = oField.Id;
+                    oReturn.id = oField.Name +"_"+ oField.Id +"_MultiChoiceTable";
+                    oReturn.title = "";
+                    oReturn.name = oField.Name;
+                    oReturn.required = oField.Required;
+                    oReturn.fillInChoice = oField.FillInChoice;
+                    oReturn.numberOfLines = false;
+                    oReturn.richText = false;
+                    oReturn.richTextMode = false;
+                    oReturn.restrictedMode = false;
+                    oReturn.allowHyperlink = false;
+                    oReturn.appendOnly = false;
+                    oReturn.showAsPercentage = false;
+                    oReturn.set = function(value){ 
+                        for ( var i = 0; i < this.options.length; i++ ){
+                            if ( this.options[i] === value ){
+                                document.getElementById(oField.Name +"_"+ this.guid +"_MultiChoiceOption_"+ i).checked = true;
+                                break;
+                            }
+                        }
+                    };
+                    oReturn.get = function(){
+                        var collRadios = document.getElementById(this.id).getElementsByClassName("ms-RadioText");
+                        for ( var i = 0; i < collRadios.length; i++ ){
+                            if ( collRadios[i].checked === true ) {
+                                return collRadios[i].nextSibling.innerText;
+                                break;
+                            }
+                        }
+                    };
+                    break;
+                case "Note":
+                    oReturn.mulitple = false;
+                    oReturn.options = false;
+                    oReturn.guid = oField.Id;
+                    oReturn.id = "";
+                    oReturn.title = oField.Title;
+                    oReturn.name = oField.Name;
+                    oReturn.required = oField.Required;
+                    oReturn.fillInChoice = false;
+                    oReturn.numberOfLines = oField.NumberOfLines;
+                    oReturn.richText = oField.RichText;
+                    oReturn.richTextMode = oField.RichTextMode;
+                    oReturn.restrictedMode = oField.RestrictedMode;
+                    oReturn.allowHyperlink = oField.AllowHyperlink;
+                    oReturn.appendOnly = oField.AppendOnly;
+                    oReturn.showAsPercentage = false;
+                    if ( oField.RichText === false ){
+                        oReturn.tagName = "TEXTAREA";
+                        oReturn.id = oField.Name +"_"+ oField.Id +"_$TextField";
+                        oReturn.set = function(value){ 
+                            document.getElementById(this.id).value = value;
+                        };
+                        oReturn.get = function(){
+                            return document.getElementById(this.id).value;
+                        };
+                    }
+                    else {
+                        oReturn.tagName = "DIV";
+                        oReturn.id = oField.Name +"_"+ oField.Id +"_$TextField_inplacerte";
+                        oReturn.set = function(value){ 
+                            document.getElementById(this.id).innerHTML = value;
+                        };
+                        oReturn.get = function(){
+                            return document.getElementById(this.id).innerHTML;
+                        };
+                    }
+                    break;
+                case "Currency":
+                    oReturn.tagName = "INPUT";
+                    oReturn.mulitple = false;
+                    oReturn.options = false;
+                    oReturn.guid = oField.Id;
+                    oReturn.id = oField.Name +"_"+ oField.Id +"_$CurrencyField";
+                    oReturn.title = oField.Title;
+                    oReturn.name = oField.Name;
+                    oReturn.required = oField.Required;
+                    oReturn.fillInChoice = false;
+                    oReturn.numberOfLines = false;
+                    oReturn.richText = false;
+                    oReturn.richTextMode = false;
+                    oReturn.restrictedMode = false;
+                    oReturn.allowHyperlink = false;
+                    oReturn.appendOnly = false;
+                    oReturn.showAsPercentage = oField.ShowAsPercentage;
+                    oReturn.set = function(value){ 
+                        document.getElementById(this.id).value = value;
+                    };
+                    oReturn.get = function(){
+                        return document.getElementById(this.id).value;
+                    };
+                    break;
+                case "DateTime":
+                    switch (oField.DisplayFormat){
+                        case 0:
+                            oReturn.tagName = "INPUT";
+                            oReturn.mulitple = false;
+                            oReturn.options = false;
+                            oReturn.guid = oField.Id;
+                            oReturn.id = oField.Name +"_"+ oField.Id +"_$DateTimeFieldDate";
+                            oReturn.title = oField.Title;
+                            oReturn.name = oField.Name;
+                            oReturn.required = oField.Required;
+                            oReturn.fillInChoice = false;
+                            oReturn.numberOfLines = false;
+                            oReturn.richText = false;
+                            oReturn.richTextMode = false;
+                            oReturn.restrictedMode = false;
+                            oReturn.allowHyperlink = false;
+                            oReturn.appendOnly = false;
+                            oReturn.showAsPercentage = false;        
+                            oReturn.showWeekNumber = oField.ShowWeekNumber;
+                            oReturn.timeZoneDifference = oField.TimeZoneDifference;
+                            oReturn.maxJDay = oField.MaxJDay;
+                            oReturn.minJDay = oField.MinJDay;
+                            oReturn.firstDayOfWeek = oField.FirstDayOfWeek;
+                            oReturn.firstWeekOfYear = oField.FirstWeekOfYear;
+                            oReturn.hijriAdjustment = oField.HijriAdjustment;
+                            oReturn.localeId = oField.LocaleId;
+                            oReturn.workWeek = oField.WorkWeek;
+                            oReturn.calendarType = oField.CalendarType;
+                            oReturn.timeSeparator = oField.TimeSeparator;
+                            oReturn.hoursMode24 = false;
+                            oReturn.hoursOptions = false;
+                            oReturn.set = function(value){
+                                document.getElementById(this.id).value = this.value;
+                            };
+                            oReturn.get = function(){
+                                return document.getElementById(this.id).value;
+                            };
+                            break;
+                        case 1:
+                            oReturn.tagName = "INPUT";
+                            oReturn.mulitple = false;
+                            oReturn.options = false;
+                            oReturn.guid = oField.Id;
+                            oReturn.id = oField.Name +"_"+ oField.Id +"_$DateTimeFieldDate";
+                            oReturn.title = oField.Title;
+                            oReturn.name = oField.Name;
+                            oReturn.required = oField.Required;
+                            oReturn.fillInChoice = false;
+                            oReturn.numberOfLines = false;
+                            oReturn.richText = false;
+                            oReturn.richTextMode = false;
+                            oReturn.restrictedMode = false;
+                            oReturn.allowHyperlink = false;
+                            oReturn.appendOnly = false;
+                            oReturn.showAsPercentage = false;        
+                            oReturn.showWeekNumber = oField.ShowWeekNumber;
+                            oReturn.timeZoneDifference = oField.TimeZoneDifference;
+                            oReturn.maxJDay = oField.MaxJDay;
+                            oReturn.minJDay = oField.MinJDay;
+                            oReturn.firstDayOfWeek = oField.FirstDayOfWeek;
+                            oReturn.firstWeekOfYear = oField.FirstWeekOfYear;
+                            oReturn.hijriAdjustment = oField.HijriAdjustment;
+                            oReturn.localeId = oField.LocaleId;
+                            oReturn.workWeek = oField.WorkWeek;
+                            oReturn.calendarType = oField.CalendarType;
+                            oReturn.hoursMode24 = oField.HoursMode24;
+                            oReturn.hoursOptions = oField.HoursOptions;
+                            oReturn.timeSeparator = oField.TimeSeparator;
+                            oReturn.set = function(dateValue, hoursValue, minutesValue){
+                                document.getElementById(this.id).value = this.value;
+                                var collHours = document.getElementById(this.name +"_"+ this.guid +"_$DateTimeFieldDateHours").childNodes;
+                                for ( var i = 0; i < collHours.length; i++ ) {
+                                    if ( parseInt(collHours[i].value,10) === hoursValue ){
+                                        collHours[i].selected = true;
+                                    }
+                                    else {
+                                        collHours[i].selected = false;
+                                    }
+                                }
+                                var collMinutes = document.getElementById(this.name +"_"+ this.guid +"_$DateTimeFieldDateMinutes").childNodes;
+                                for ( var i = 0; i < collMinutes.length; i++ ) {
+                                    if ( parseInt(collMinutes[i].value,10) === minutesValue ){
+                                        collMinutes[i].selected = true;
+                                    }
+                                    else {
+                                        collMinutes[i].selected = false;
+                                    }
+                                }
+                            };
+                            oReturn.get = function(){
+                                return document.getElementById(this.id).value +" "+ document.getElementById(this.name +"_"+ this.guid +"_$DateTimeFieldDateHours").value + this.timeSeparator + document.getElementById(this.name +"_"+ this.guid +"_$DateTimeFieldDateMinutes").value;
+                            };
+                            break;
+                        default:
+                            ds.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.DisplayFormat +"|");
+                    }
+                    break;
+                case "UserMulti":
+                        oReturn = SPClientPeoplePicker.SPClientPeoplePickerDict(oField.TopLevelElementId);
+                        oReturn.get = function(){
+                            if ( SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].AllowMultipleUsers === false ){
+                                if ( SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].HasResolvedUsers() === true ) {
+                                    return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo()[0];
+                                }
+                                else {
+                                    return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo();
+                                }
+                            }
+                            else {
+                                return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo();
+                            }
+                        };
+                        oReturn.set = function(userKey){
+                            if ( typeof(userKey) === "undefined" ){ var userKey = _spPageContextInfo.systemUserKey; }
+                            SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].AddUserKeys(userKey);
+                        };
+                    break;
+                case "User":
+                    oReturn = SPClientPeoplePicker.SPClientPeoplePickerDict(oField.TopLevelElementId);
+                    oReturn.get = function(){
+                        if ( SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].AllowMultipleUsers === false ){
+                            if ( SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].HasResolvedUsers() === true ) {
+                                return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo()[0];
+                            }
+                            else {
+                                return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo();
+                            }
+                        }
+                        else {
+                            return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo();
+                        }
+                    };
+                    oReturn.set = function(userKey){
+                        if ( typeof(userKey) === "undefined" ){ var userKey = _spPageContextInfo.systemUserKey; }
+                        SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].AddUserKeys(userKey);
+                    };
+                    break;
+                default: 
+                    ds.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.FieldType +"|");
+            }
+            return oReturn;
         }
 	},
     util: {
@@ -775,12 +1130,14 @@ var ds = {
 					shortName: wp,
 					formCtx: undefined,
 					listData: undefined,
-					schemaData: undefined
+                    schemaData: undefined,
+                    varPart: undefined
 				}
 				try{ds.webParts[wp].title = document.getElementById("WebPart"+wp+"_ChromeTitle").innerText;}catch(err){}
 				try{ds.webParts[wp].formCtx = eval(wp+"FormCtx;");}catch(err){}
 				try{ds.webParts[wp].listData = eval(wp+"ListData;");}catch(err){}
-				try{ds.webParts[wp].schemaData = eval(wp+"SchemaData;");}catch(err){}
+                try{ds.webParts[wp].schemaData = eval(wp+"SchemaData;");}catch(err){}
+                try{ds.webParts[wp].varPart = eval("varPart"+wp+";");}catch(err){}
 				if ( typeof(ds.webParts[wp].formCtx) !== "undefined" ){ 
 					ds.webParts[wp].type = "form"; 
 					ds.webParts[wp].listData = ds.webParts[wp].formCtx.ListData;
@@ -789,7 +1146,13 @@ var ds = {
 				else { wp.type = "view"; }
 			}
 			if (typeof(fxCallback) === "function") {
-                fxCallback(oReturn);
+                return fxCallback(ds.webParts);
+            }
+            else if ( collWPs.length > 0 ) {
+                return true;
+            }
+            else {
+                return false;
             }
 		},
         appendToMain: function(html) {
