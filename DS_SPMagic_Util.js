@@ -509,11 +509,13 @@ var ds = {
 			}
 			var fxCallback = function(xhr, data) {
                 if (typeof(data.d.results) !== undefined) {
-					if (typeof(eval(strCaptureResultsIn + "['" + data.d.results[0][strNameByProperty] + "']")) !== "object") {
-						eval(strCaptureResultsIn + "['" + data.d.results[0][strNameByProperty] + "']={};");
-					}
-                    for (var i = 0; i < data.d.results.length; i++) {
-                        eval(strCaptureResultsIn + "['"+data.d.results[i][strNameByProperty]+"'] = " + JSON.stringify(data.d.results[i]) + ";");
+                    if ( data.d.results.length > 0 ){
+                        if (typeof(eval(strCaptureResultsIn + "['" + data.d.results[0][strNameByProperty] + "']")) !== "object") {
+                            eval(strCaptureResultsIn + "['" + data.d.results[0][strNameByProperty] + "']={};");
+                        }
+                        for (var i = 0; i < data.d.results.length; i++) {
+                            eval(strCaptureResultsIn + "['"+data.d.results[i][strNameByProperty]+"'] = " + JSON.stringify(data.d.results[i]) + ";");
+                        }
                     }
                 } else {
 					if (typeof(eval(strCaptureResultsIn + "['" + data.d[strNameByProperty] + "']")) !== "object") {
@@ -620,19 +622,23 @@ var ds = {
                 /*ds.log(oReturn);*/
                 if ( !oReturn === false ){
                     if ( typeof(fxCallback) === "function" ){
-                        fxCallback(oReturn);
+                        return fxCallback(oReturn);
                     }
-                    return oReturn;
+                    else {
+                        return oReturn;
+                    }
                 }
                 else {
                     return false;
                 }
             });
         },
-        getFieldControlType: function(oField){
+        getFieldControlType: function(oField, fxCallback){
+            //ds.log(oField);
             var oReturn = {};
             switch (oField.FieldType){
                 case "Choice":
+                    //ds.log(oField.FieldType);
                     switch (oField.FormatType){
                         case 0:
                             oReturn.tagName = "SELECT";
@@ -652,11 +658,23 @@ var ds = {
                             oReturn.appendOnly = false;
                             oReturn.showAsPercentage = false;        
                             oReturn.set = function(value){
-                                document.getElementById(this.id).value = this.value;
+                                //document.getElementById(this.id).value = this.value;
+                                var collChoices = document.getElementById(this.name +"_"+ this.guid +"_$DropDownChoice").childNodes;
+                                for ( var i = 0; i < collChoices.length; i++ ) {
+                                    if ( collChoices[i].innerText === value ){
+                                        collChoices[i].selected = true;
+                                    }
+                                    else {
+                                        collChoices[i].selected = false;
+                                    }
+                                }
                             };
                             oReturn.get = function(){
                                 return document.getElementById(this.id).value;
                             };
+                            if ( typeof(fxCallback) === "function" ){
+                                return fxCallback(oReturn);
+                            }
                             break;
                         case 1:
                             oReturn.tagName = "TABLE";
@@ -693,12 +711,16 @@ var ds = {
                                     }
                                 }
                             };
+                            if ( typeof(fxCallback) === "function" ){
+                                return fxCallback(oReturn);
+                            }
                             break;
                         default:
                             ds.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.FieldType +"|");
                     }
                     break;
                 case "MultiChoice":
+                    //ds.log(oField.FieldType);
                     oReturn.tagName = "TABLE";
                     oReturn.mulitple = false;
                     oReturn.options = oField.Choices;
@@ -732,8 +754,12 @@ var ds = {
                             }
                         }
                     };
+                    if ( typeof(fxCallback) === "function" ){
+                        return fxCallback(oReturn);
+                    }
                     break;
                 case "Note":
+                    //ds.log(oField.FieldType);
                     oReturn.mulitple = false;
                     oReturn.options = false;
                     oReturn.guid = oField.Id;
@@ -769,8 +795,12 @@ var ds = {
                             return document.getElementById(this.id).innerHTML;
                         };
                     }
+                    if ( typeof(fxCallback) === "function" ){
+                        return fxCallback(oReturn);
+                    }
                     break;
                 case "Currency":
+                    //ds.log(oField.FieldType);
                     oReturn.tagName = "INPUT";
                     oReturn.mulitple = false;
                     oReturn.options = false;
@@ -793,8 +823,12 @@ var ds = {
                     oReturn.get = function(){
                         return document.getElementById(this.id).value;
                     };
+                    if ( typeof(fxCallback) === "function" ){
+                        return fxCallback(oReturn);
+                    }
                     break;
                 case "DateTime":
+                    //ds.log(oField.FieldType);
                     switch (oField.DisplayFormat){
                         case 0:
                             oReturn.tagName = "INPUT";
@@ -832,6 +866,9 @@ var ds = {
                             oReturn.get = function(){
                                 return document.getElementById(this.id).value;
                             };
+                            if ( typeof(fxCallback) === "function" ){
+                                return fxCallback(oReturn);
+                            }
                             break;
                         case 1:
                             oReturn.tagName = "INPUT";
@@ -887,55 +924,193 @@ var ds = {
                             oReturn.get = function(){
                                 return document.getElementById(this.id).value +" "+ document.getElementById(this.name +"_"+ this.guid +"_$DateTimeFieldDateHours").value + this.timeSeparator + document.getElementById(this.name +"_"+ this.guid +"_$DateTimeFieldDateMinutes").value;
                             };
+                            if ( typeof(fxCallback) === "function" ){
+                                return fxCallback(oReturn);
+                            }
                             break;
                         default:
                             ds.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.DisplayFormat +"|");
                     }
                     break;
                 case "UserMulti":
-                        oReturn = SPClientPeoplePicker.SPClientPeoplePickerDict(oField.TopLevelElementId);
-                        oReturn.get = function(){
-                            if ( SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].AllowMultipleUsers === false ){
-                                if ( SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].HasResolvedUsers() === true ) {
-                                    return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo()[0];
-                                }
-                                else {
-                                    return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo();
-                                }
-                            }
-                            else {
-                                return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo();
-                            }
-                        };
-                        oReturn.set = function(userKey){
-                            if ( typeof(userKey) === "undefined" ){ var userKey = _spPageContextInfo.systemUserKey; }
-                            SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].AddUserKeys(userKey);
-                        };
-                    break;
-                case "User":
-                    oReturn = SPClientPeoplePicker.SPClientPeoplePickerDict(oField.TopLevelElementId);
+                    //ds.log(oField.FieldType);
+                    oReturn.picker = SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId];
+                    //ds.log(oReturn.picker);
                     oReturn.get = function(){
-                        if ( SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].AllowMultipleUsers === false ){
-                            if ( SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].HasResolvedUsers() === true ) {
-                                return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo()[0];
+                        if ( SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].AllowMultipleUsers === false ){
+                            if ( SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].HasResolvedUsers() === true ) {
+                                return SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].GetAllUserInfo()[0];
                             }
                             else {
-                                return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo();
+                                return SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].GetAllUserInfo();
                             }
                         }
                         else {
-                            return SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].GetAllUserInfo();
+                            return SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].GetAllUserInfo();
                         }
                     };
                     oReturn.set = function(userKey){
                         if ( typeof(userKey) === "undefined" ){ var userKey = _spPageContextInfo.systemUserKey; }
-                        SPClientPeoplePicker.SPClientPeoplePickerDict[this.TopLevelElementId].AddUserKeys(userKey);
+                        SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].AddUserKeys(userKey);
                     };
+                    if ( typeof(fxCallback) === "function" ){
+                        return fxCallback(oReturn);
+                    }
+                    break;
+                case "User":
+                    //ds.log(oField.FieldType);
+                    oReturn.picker = SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId];
+                    //ds.log(oReturn.picker);
+                    oReturn.get = function(){
+                        if ( SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].AllowMultipleUsers === false ){
+                            if ( SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].HasResolvedUsers() === true ) {
+                                return SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].GetAllUserInfo()[0];
+                            }
+                            else {
+                                return SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].GetAllUserInfo();
+                            }
+                        }
+                        else {
+                            return SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].GetAllUserInfo();
+                        }
+                    };
+                    oReturn.set = function(userKey){
+                        if ( typeof(userKey) === "undefined" ){ var userKey = _spPageContextInfo.systemUserKey; }
+                        SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].AddUserKeys(userKey);
+                    };
+                    if ( typeof(fxCallback) === "function" ){
+                        return fxCallback(oReturn);
+                    }
+                    break;
+                case "Text":
+                    oReturn.tagName = "INPUT";
+                    oReturn.guid = oField.Id;
+                    oReturn.id = oField.Name +"_"+ oField.Id +"_$TextField";
+                    oReturn.title = oField.Title;
+                    oReturn.name = oField.Name;
+                    oReturn.required = oField.Required;
+                    oReturn.maxLength = oField.MaxLength;
+                    oReturn.set = function(value){ 
+                        document.getElementById(this.id).value = value;
+                    };
+                    oReturn.get = function(){
+                        return document.getElementById(this.id).value;
+                    };
+                    if ( typeof(fxCallback) === "function" ){
+                        return fxCallback(oReturn);
+                    }
+                    break;
+                case "Number":
+                    oReturn.tagName = "INPUT";
+                    oReturn.guid = oField.Id;
+                    oReturn.id = oField.Name +"_"+ oField.Id +"_$NumberField";
+                    oReturn.title = oField.Title;
+                    oReturn.name = oField.Name;
+                    oReturn.required = oField.Required;
+                    oReturn.showAsPercentage = oField.ShowAsPercentage;
+                    oReturn.set = function(value){ 
+                        document.getElementById(this.id).value = value;
+                    };
+                    oReturn.get = function(){
+                        return document.getElementById(this.id).value;
+                    };
+                    if ( typeof(fxCallback) === "function" ){
+                        return fxCallback(oReturn);
+                    }
+                    break;
+                case "Lookup":
+                    /*
+                        ds.forms.getFieldFromCtx("Lookup Single",function(myField){ ds.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set("Demo get user properties");}); });
+                    */
+                    oReturn.tagName = "SELECT";
+                    oReturn.guid = oField.Id;
+                    oReturn.id = oField.Name +"_"+ oField.Id +"_$LookupField";
+                    oReturn.title = oField.Title;
+                    oReturn.name = oField.Name;
+                    oReturn.required = oField.Required;
+                    oReturn.throttled = oField.Throttled;
+                    oReturn.lookupListId = oField.LookupListId;
+                    oReturn.dependentLookup = oField.DependentLookup;
+                    oReturn.choiceCount = oField.ChoiceCount;
+                    oReturn.choices = oField.Choices;
+                    oReturn.allowMultipleValues = oField.AllowMultipleValues;
+                    oReturn.set = function(value){ 
+                        //document.getElementById(this.id).value = value;
+                        var collChoices = document.getElementById(this.id).childNodes;
+                        for ( var i = 0; i < collChoices.length; i++ ) {
+                            if ( collChoices[i].innerText === value ){
+                                collChoices[i].selected = true;
+                            }
+                            else {
+                                collChoices[i].selected = false;
+                            }
+                        }
+                    };
+                    oReturn.get = function(){
+                        return document.getElementById(this.id).value;
+                    };
+                    if ( typeof(fxCallback) === "function" ){
+                        return fxCallback(oReturn);
+                    }
+                    break;
+                case "LookupMulti":
+                    /*
+                    ds.forms.getFieldFromCtx("Lookup Multi",function(myField){ ds.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set("Demo working with people pickers via SharePoint's CSOM");}); });
+                    */
+                    oReturn.tagName = "SELECT";
+                    oReturn.guid = oField.Id;
+                    oReturn.id = oField.Name +"_"+ oField.Id +"_MultiLookup";
+                    oReturn.idCandidate = oField.Name +"_"+ oField.Id +"_SelectCandidate";
+                    oReturn.idResult = oField.Name +"_"+ oField.Id +"_SelectResult";
+                    oReturn.idAddButton = oField.Name +"_"+ oField.Id +"_AddButton";
+                    oReturn.idRemoveButton = oField.Name +"_"+ oField.Id +"_RemoveButton";
+                    oReturn.title = oField.Title;
+                    oReturn.name = oField.Name;
+                    oReturn.required = oField.Required;
+                    oReturn.throttled = oField.Throttled;
+                    oReturn.lookupListId = oField.LookupListId;
+                    oReturn.dependentLookup = oField.DependentLookup;
+                    oReturn.choiceCount = oField.ChoiceCount;
+                    oReturn.choices = oField.Choices;
+                    oReturn.allowMultipleValues = oField.AllowMultipleValues;
+                    oReturn.set = function(value){ 
+                        //document.getElementById(this.id).value = value;
+                        /* remove unmatched choices */
+                        var collChoices = document.getElementById(this.idResult).childNodes;
+                        for ( var i = 0; i < collChoices.length; i++ ) {
+                            if ( collChoices[i].innerText === value ){
+                                collChoices[i].selected = false;
+                            }
+                            else {
+                                collChoices[i].selected = true;
+                            }
+                        }
+                        document.getElementById(this.idRemoveButton).click()
+                        /* add matched choices */
+                        var collChoices = document.getElementById(this.idCandidate).childNodes;
+                        for ( var i = 0; i < collChoices.length; i++ ) {
+                            if ( collChoices[i].innerText === value ){
+                                collChoices[i].selected = true;
+                            }
+                            else {
+                                collChoices[i].selected = false;
+                            }
+                        }
+                        document.getElementById(this.idAddButton).click()
+
+                    };
+                    oReturn.get = function(){
+                        return document.getElementById(this.idResult).value;
+                    };
+                    if ( typeof(fxCallback) === "function" ){
+                        return fxCallback(oReturn);
+                    }
                     break;
                 default: 
                     ds.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.FieldType +"|");
             }
-            return oReturn;
+            //ds.log(oReturn);
+            /*return oReturn;*/
         }
 	},
     util: {
