@@ -344,15 +344,15 @@ var ds = {
         commonContent: {}
     },
     spObjs: {
-        list: function(listTitle, listTemplateNum, listDescription, ){
+        list: function(listTitle, listTemplateNum, listDescription){
             return {
                 __metadata: { type: 'SP.List' }, 
                 AllowContentTypes: true, 
-                BaseTemplate: nListTemplateID, 
+                BaseTemplate: listTemplateNum, 
                 ContentTypesEnabled: true, 
-                Description: sListDescription, 
-                Title: sListName 
-            }
+                Description: listDescription, 
+                Title: listTitle 
+            };
         }
     },
 	lists: {},
@@ -472,6 +472,33 @@ var ds = {
                             ds.ajax.read(resp.d.__next, fxCallback, fxLastPage);
                         } else if (typeof(fxLastPage) === "function") {
                             fxLastPage(xhr, resp);
+                        }
+                    }
+                }
+            };
+            xhr.send();
+        },
+        readCSS: function(restURL, fxCallback, fxFailed) {
+            ds.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', restURL, true);
+            xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
+            xhr.setRequestHeader("accept", "text/css");
+            xhr.setRequestHeader("content-type", "text/css");
+            xhr.onreadystatechange = function() {
+                ds.ajax.lastCall.readyState = xhr.readyState;
+                ds.ajax.lastCall.status = xhr.status;
+                if (xhr.readyState === 4) {
+                    if (xhr.status !== 200) {
+                        ds.ajax.lastCall.data = xhr.response;
+                        if (typeof(fxFailed) === "function") {
+                            fxFailed(xhr, xhr.response, xhr.status);
+                        }
+                    } else {
+                        var resp = xhr.response;
+                        ds.ajax.lastCall.data = resp;
+                        if (typeof(fxCallback) === "function") {
+                            fxCallback(xhr, resp);
                         }
                     }
                 }
@@ -649,14 +676,9 @@ var ds = {
                             oReturn.title = oField.Title;
                             oReturn.name = oField.Name;
                             oReturn.required = oField.Required;
+                            oReturn.readOnly = oField.ReadOnlyField;
+                            oReturn.type = "choice:dropdown";
                             oReturn.fillInChoice = oField.FillInChoice;
-                            oReturn.numberOfLines = false;
-                            oReturn.richText = false;
-                            oReturn.richTextMode = false;
-                            oReturn.restrictedMode = false;
-                            oReturn.allowHyperlink = false;
-                            oReturn.appendOnly = false;
-                            oReturn.showAsPercentage = false;        
                             oReturn.set = function(value){
                                 //document.getElementById(this.id).value = this.value;
                                 var collChoices = document.getElementById(this.name +"_"+ this.guid +"_$DropDownChoice").childNodes;
@@ -685,14 +707,9 @@ var ds = {
                             oReturn.title = "";
                             oReturn.name = oField.Name;
                             oReturn.required = oField.Required;
+                            oReturn.readOnly = oField.ReadOnlyField;
+                            oReturn.type = "choice:radio";
                             oReturn.fillInChoice = oField.FillInChoice;
-                            oReturn.numberOfLines = false;
-                            oReturn.richText = false;
-                            oReturn.richTextMode = false;
-                            oReturn.restrictedMode = false;
-                            oReturn.allowHyperlink = false;
-                            oReturn.appendOnly = false;
-                            oReturn.showAsPercentage = false;        
                             oReturn.set = function(value){
                                 for ( var i = 0; i < this.options.length; i++ ){
                                     if ( this.options[i] === value ){
@@ -729,14 +746,9 @@ var ds = {
                     oReturn.title = "";
                     oReturn.name = oField.Name;
                     oReturn.required = oField.Required;
+                    oReturn.readOnly = oField.ReadOnlyField;
+                    oReturn.type = "choice:checkbox";
                     oReturn.fillInChoice = oField.FillInChoice;
-                    oReturn.numberOfLines = false;
-                    oReturn.richText = false;
-                    oReturn.richTextMode = false;
-                    oReturn.restrictedMode = false;
-                    oReturn.allowHyperlink = false;
-                    oReturn.appendOnly = false;
-                    oReturn.showAsPercentage = false;
                     oReturn.set = function(value){ 
                         for ( var i = 0; i < this.options.length; i++ ){
                             if ( this.options[i] === value ){
@@ -763,21 +775,20 @@ var ds = {
                     oReturn.mulitple = false;
                     oReturn.options = false;
                     oReturn.guid = oField.Id;
-                    oReturn.id = "";
+                    oReturn.id = oField.Name +"_"+ oField.Id;
                     oReturn.title = oField.Title;
                     oReturn.name = oField.Name;
                     oReturn.required = oField.Required;
-                    oReturn.fillInChoice = false;
+                    oReturn.readOnly = oField.ReadOnlyField;
                     oReturn.numberOfLines = oField.NumberOfLines;
                     oReturn.richText = oField.RichText;
                     oReturn.richTextMode = oField.RichTextMode;
                     oReturn.restrictedMode = oField.RestrictedMode;
                     oReturn.allowHyperlink = oField.AllowHyperlink;
                     oReturn.appendOnly = oField.AppendOnly;
-                    oReturn.showAsPercentage = false;
                     if ( oField.RichText === false ){
                         oReturn.tagName = "TEXTAREA";
-                        oReturn.id = oField.Name +"_"+ oField.Id +"_$TextField";
+                        oReturn.id += "_$TextField";
                         oReturn.set = function(value){ 
                             document.getElementById(this.id).value = value;
                         };
@@ -787,7 +798,7 @@ var ds = {
                     }
                     else {
                         oReturn.tagName = "DIV";
-                        oReturn.id = oField.Name +"_"+ oField.Id +"_$TextField_inplacerte";
+                        oReturn.id += "_$TextField_inplacerte";
                         oReturn.set = function(value){ 
                             document.getElementById(this.id).innerHTML = value;
                         };
@@ -809,13 +820,7 @@ var ds = {
                     oReturn.title = oField.Title;
                     oReturn.name = oField.Name;
                     oReturn.required = oField.Required;
-                    oReturn.fillInChoice = false;
-                    oReturn.numberOfLines = false;
-                    oReturn.richText = false;
-                    oReturn.richTextMode = false;
-                    oReturn.restrictedMode = false;
-                    oReturn.allowHyperlink = false;
-                    oReturn.appendOnly = false;
+                    oReturn.readOnly = oField.ReadOnlyField;
                     oReturn.showAsPercentage = oField.ShowAsPercentage;
                     oReturn.set = function(value){ 
                         document.getElementById(this.id).value = value;
@@ -831,22 +836,28 @@ var ds = {
                     //ds.log(oField.FieldType);
                     switch (oField.DisplayFormat){
                         case 0:
+                            /*
+                                var now = new Date(), dtPicker = null; 
+                                ds.forms.getFieldFromCtx("Date Only",function(myField){ 
+                                    ds.log(myField); ds.forms.getFieldControlType(myField, function(fieldControl){
+                                        ds.log(fieldControl); 
+                                        fieldControl.minJDay = now.valueOf(); 
+                                        //fieldControl.set("5/3/2018"); 
+                                        fieldControl.showPicker();
+                                    }); 
+                                });
+                            */
                             oReturn.tagName = "INPUT";
                             oReturn.mulitple = false;
                             oReturn.options = false;
                             oReturn.guid = oField.Id;
                             oReturn.id = oField.Name +"_"+ oField.Id +"_$DateTimeFieldDate";
+                            oReturn.idDatePicker = oField.Name +"_"+ oField.Id +"_$DateTimeFieldDateDatePickerImage";
                             oReturn.title = oField.Title;
                             oReturn.name = oField.Name;
                             oReturn.required = oField.Required;
-                            oReturn.fillInChoice = false;
-                            oReturn.numberOfLines = false;
-                            oReturn.richText = false;
-                            oReturn.richTextMode = false;
-                            oReturn.restrictedMode = false;
-                            oReturn.allowHyperlink = false;
-                            oReturn.appendOnly = false;
-                            oReturn.showAsPercentage = false;        
+                            oReturn.readOnly = oField.ReadOnlyField;
+                            oReturn.type = "date";
                             oReturn.showWeekNumber = oField.ShowWeekNumber;
                             oReturn.timeZoneDifference = oField.TimeZoneDifference;
                             oReturn.maxJDay = oField.MaxJDay;
@@ -860,6 +871,9 @@ var ds = {
                             oReturn.timeSeparator = oField.TimeSeparator;
                             oReturn.hoursMode24 = false;
                             oReturn.hoursOptions = false;
+                            oReturn.showPicker = function(){
+                                document.getElementById(this.idDatePicker).parentElement.click();
+                            };
                             oReturn.set = function(value){
                                 document.getElementById(this.id).value = this.value;
                             };
@@ -876,17 +890,14 @@ var ds = {
                             oReturn.options = false;
                             oReturn.guid = oField.Id;
                             oReturn.id = oField.Name +"_"+ oField.Id +"_$DateTimeFieldDate";
+                            oReturn.idDatePicker = oField.Name +"_"+ oField.Id +"_$DateTimeFieldDateDatePickerImage";
+                            oReturn.idHours = oField.Name +"_"+ oField.Id +"_$DateTimeFieldDateHours";
+                            oReturn.idMinutes = oField.Name +"_"+ oField.Id +"_$DateTimeFieldDateMinutes";
                             oReturn.title = oField.Title;
                             oReturn.name = oField.Name;
                             oReturn.required = oField.Required;
-                            oReturn.fillInChoice = false;
-                            oReturn.numberOfLines = false;
-                            oReturn.richText = false;
-                            oReturn.richTextMode = false;
-                            oReturn.restrictedMode = false;
-                            oReturn.allowHyperlink = false;
-                            oReturn.appendOnly = false;
-                            oReturn.showAsPercentage = false;        
+                            oReturn.readOnly = oField.ReadOnlyField;
+                            oReturn.type = "datetime";
                             oReturn.showWeekNumber = oField.ShowWeekNumber;
                             oReturn.timeZoneDifference = oField.TimeZoneDifference;
                             oReturn.maxJDay = oField.MaxJDay;
@@ -900,6 +911,9 @@ var ds = {
                             oReturn.hoursMode24 = oField.HoursMode24;
                             oReturn.hoursOptions = oField.HoursOptions;
                             oReturn.timeSeparator = oField.TimeSeparator;
+                            oReturn.showPicker = function(){
+                                document.getElementById(this.idDatePicker).parentElement.click();
+                            };
                             oReturn.set = function(dateValue, hoursValue, minutesValue){
                                 document.getElementById(this.id).value = this.value;
                                 var collHours = document.getElementById(this.name +"_"+ this.guid +"_$DateTimeFieldDateHours").childNodes;
@@ -936,6 +950,12 @@ var ds = {
                     //ds.log(oField.FieldType);
                     oReturn.picker = SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId];
                     //ds.log(oReturn.picker);
+                    oReturn.guid = oField.Id;
+                    oReturn.id = oField.Name +"_"+ oField.Id +"_$ClientPeoplePicker";
+                    oReturn.title = oField.Title;
+                    oReturn.name = oField.Name;
+                    oReturn.required = oField.Required;
+                    oReturn.readOnly = oField.ReadOnlyField;
                     oReturn.get = function(){
                         if ( SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].AllowMultipleUsers === false ){
                             if ( SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].HasResolvedUsers() === true ) {
@@ -958,9 +978,16 @@ var ds = {
                     }
                     break;
                 case "User":
-                    //ds.log(oField.FieldType);
+                    /*
+                        ds.forms.getFieldFromCtx("Person",function(myField){ ds.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set(_spPageContextInfo.systemUserKey);}); });
+                    */
                     oReturn.picker = SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId];
-                    //ds.log(oReturn.picker);
+                    oReturn.guid = oField.Id;
+                    oReturn.id = oField.Name +"_"+ oField.Id +"_$ClientPeoplePicker";
+                    oReturn.title = oField.Title;
+                    oReturn.name = oField.Name;
+                    oReturn.required = oField.Required;
+                    oReturn.readOnly = oField.ReadOnlyField;
                     oReturn.get = function(){
                         if ( SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].AllowMultipleUsers === false ){
                             if ( SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId].HasResolvedUsers() === true ) {
@@ -989,6 +1016,7 @@ var ds = {
                     oReturn.title = oField.Title;
                     oReturn.name = oField.Name;
                     oReturn.required = oField.Required;
+                    oReturn.readOnly = oField.ReadOnlyField;
                     oReturn.maxLength = oField.MaxLength;
                     oReturn.set = function(value){ 
                         document.getElementById(this.id).value = value;
@@ -1007,6 +1035,7 @@ var ds = {
                     oReturn.title = oField.Title;
                     oReturn.name = oField.Name;
                     oReturn.required = oField.Required;
+                    oReturn.readOnly = oField.ReadOnlyField;
                     oReturn.showAsPercentage = oField.ShowAsPercentage;
                     oReturn.set = function(value){ 
                         document.getElementById(this.id).value = value;
@@ -1028,6 +1057,8 @@ var ds = {
                     oReturn.title = oField.Title;
                     oReturn.name = oField.Name;
                     oReturn.required = oField.Required;
+                    oReturn.readOnly = oField.ReadOnlyField;
+                    oReturn.type = "lookup:dropdown";
                     oReturn.throttled = oField.Throttled;
                     oReturn.lookupListId = oField.LookupListId;
                     oReturn.dependentLookup = oField.DependentLookup;
@@ -1067,6 +1098,8 @@ var ds = {
                     oReturn.title = oField.Title;
                     oReturn.name = oField.Name;
                     oReturn.required = oField.Required;
+                    oReturn.readOnly = oField.ReadOnlyField;
+                    oReturn.type = "lookup:multiple";
                     oReturn.throttled = oField.Throttled;
                     oReturn.lookupListId = oField.LookupListId;
                     oReturn.dependentLookup = oField.DependentLookup;
@@ -1101,6 +1134,66 @@ var ds = {
                     };
                     oReturn.get = function(){
                         return document.getElementById(this.idResult).value;
+                    };
+                    if ( typeof(fxCallback) === "function" ){
+                        return fxCallback(oReturn);
+                    }
+                    break;
+                case "Boolean":
+                    /*
+                    ds.forms.getFieldFromCtx("Yes No",function(myField){ ds.log(myField); ds.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set(true);}); });
+                    */
+                    oReturn.tagName = "INPUT";
+                    oReturn.guid = oField.Id;
+                    oReturn.id = oField.Name +"_"+ oField.Id +"_$BooleanField";
+                    oReturn.title = oField.Title;
+                    oReturn.name = oField.Name;
+                    oReturn.required = oField.Required;
+                    oReturn.readOnly = oField.ReadOnlyField;
+                    oReturn.type = "checkbox";
+                    oReturn.set = function(value){ 
+                        if ( value === true ) {
+                            document.getElementById(this.id).checked = true;
+                        }
+                        else if ( value === false ) {
+                            document.getElementById(this.id).checked = false;
+                        }
+                    };
+                    oReturn.get = function(){
+                        return document.getElementById(this.id).checked;
+                    };
+                    if ( typeof(fxCallback) === "function" ){
+                        return fxCallback(oReturn);
+                    }
+                    break;
+                case "URL":
+                    oReturn.tagName = "INPUT";
+                    oReturn.guid = oField.Id;
+                    oReturn.id = oField.Name +"_"+ oField.Id +"_$UrlFieldUrl";
+                    oReturn.idDescription = oField.Name +"_"+ oField.Id +"_$UrlFieldDescription";
+                    oReturn.idTest = oField.Name +"_"+ oField.Id +"_$UrlControlId";
+                    oReturn.title = oField.Title;
+                    oReturn.name = oField.Name;
+                    oReturn.required = oField.Required;
+                    oReturn.readOnly = oField.ReadOnlyField;
+                    switch (oField.DisplayFormat){
+                        case 0:
+                            oReturn.type = "hyperlink";
+                            break;
+                        case 1:
+                            oReturn.type = "picture";
+                            break;
+                        default: 
+                            ds.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.DisplayFormat +"|");
+                    }
+                    oReturn.set = function(url, description){ 
+                        document.getElementById(this.id).value = url;
+                        if ( typeof(description) !== "string" ){
+                            document.getElementById(this.idDescription).value = description;
+                        }
+                    };
+                    oReturn.get = function(){
+                        return {url: document.getElementById(this.id).value, description: document.getElementById(this.idDescription).value};
                     };
                     if ( typeof(fxCallback) === "function" ){
                         return fxCallback(oReturn);
