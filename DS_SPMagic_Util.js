@@ -1,4 +1,4 @@
-var ds = {
+var dsU = {
     p: {
         root: window.location.protocol + '//' + window.location.host + _spPageContextInfo.webServerRelativeUrl,
         rootNs: window.location.protocol + '//' + window.location.host + _spPageContextInfo.webServerRelativeUrl.substr(0, _spPageContextInfo.webServerRelativeUrl.length - 1),
@@ -360,7 +360,7 @@ var ds = {
     ajax: {
         lastCall: {},
         create: function(restURL, object, fxCallback, fxFailed) {
-            ds.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+            dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
             var xhr = new XMLHttpRequest();
             xhr.open('POST', restURL, true);
             xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
@@ -369,17 +369,17 @@ var ds = {
             xhr.setRequestHeader("accept", "application/json;odata=verbose");
             xhr.setRequestHeader("content-type", "application/json;odata=verbose");
             xhr.onreadystatechange = function() {
-                ds.ajax.lastCall.readyState = xhr.readyState;
-                ds.ajax.lastCall.status = xhr.status;
+                dsU.ajax.lastCall.readyState = xhr.readyState;
+                dsU.ajax.lastCall.status = xhr.status;
                 if (xhr.readyState === 4) {
                     if (xhr.status !== 200) {
-                        ds.ajax.lastCall.data = xhr.response;
+                        dsU.ajax.lastCall.data = xhr.response;
                         if (typeof(fxFailed) === "function") {
                             fxFailed(xhr, xhr.response, xhr.status);
                         }
                     } else {
                         var resp = JSON.parse(xhr.response);
-                        ds.ajax.lastCall.data = resp;
+                        dsU.ajax.lastCall.data = resp;
                         if (typeof(fxCallback) === "function") {
                             fxCallback(xhr, resp);
                         }
@@ -389,7 +389,7 @@ var ds = {
             xhr.send(object);
         },
         update: function(restURL, object, fxCallback) {
-            ds.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+            dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
             var xhr = new XMLHttpRequest();
             xhr.open('POST', restURL, true);
             xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
@@ -398,17 +398,17 @@ var ds = {
             xhr.setRequestHeader("accept", "application/json;odata=verbose");
             xhr.setRequestHeader("content-type", "application/json;odata=verbose");
             xhr.onreadystatechange = function() {
-                ds.ajax.lastCall.readyState = xhr.readyState;
-                ds.ajax.lastCall.status = xhr.status;
+                dsU.ajax.lastCall.readyState = xhr.readyState;
+                dsU.ajax.lastCall.status = xhr.status;
                 if (xhr.readyState === 4) {
                     if (xhr.status !== 200) {
-                        ds.ajax.lastCall.data = xhr.response;
+                        dsU.ajax.lastCall.data = xhr.response;
                         if (typeof(fxFailed) === "function") {
                             fxFailed(xhr, xhr.response, xhr.status);
                         }
                     } else {
                         var resp = JSON.parse(xhr.response);
-                        ds.ajax.lastCall.data = resp;
+                        dsU.ajax.lastCall.data = resp;
                         if (typeof(fxCallback) === "function") {
                             fxCallback(xhr, resp);
                         }
@@ -418,7 +418,7 @@ var ds = {
             xhr.send(object);
         },
         delete: function(restURL, object, fxCallback) {
-            ds.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+            dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
             var xhr = new XMLHttpRequest();
             xhr.open('POST', restURL, true);
             xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
@@ -427,17 +427,17 @@ var ds = {
             xhr.setRequestHeader("accept", "application/json;odata=verbose");
             xhr.setRequestHeader("content-type", "application/json;odata=verbose");
             xhr.onreadystatechange = function() {
-                ds.ajax.lastCall.readyState = xhr.readyState;
-                ds.ajax.lastCall.status = xhr.status;
+                dsU.ajax.lastCall.readyState = xhr.readyState;
+                dsU.ajax.lastCall.status = xhr.status;
                 if (xhr.readyState === 4) {
                     if (xhr.status !== 200) {
-                        ds.ajax.lastCall.data = xhr.response;
+                        dsU.ajax.lastCall.data = xhr.response;
                         if (typeof(fxFailed) === "function") {
                             fxFailed(xhr, xhr.response, xhr.status);
                         }
                     } else {
                         var resp = JSON.parse(xhr.response);
-                        ds.ajax.lastCall.data = resp;
+                        dsU.ajax.lastCall.data = resp;
                         if (typeof(fxCallback) === "function") {
                             fxCallback(xhr, resp);
                         }
@@ -447,29 +447,29 @@ var ds = {
             xhr.send(object);
         },
         read: function(restURL, fxCallback, fxLastPage, fxFailed) {
-            ds.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+            dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
             var xhr = new XMLHttpRequest();
             xhr.open('GET', restURL, true);
             xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
             xhr.setRequestHeader("accept", "application/json;odata=verbose");
             xhr.setRequestHeader("content-type", "application/json;odata=verbose");
             xhr.onreadystatechange = function() {
-                ds.ajax.lastCall.readyState = xhr.readyState;
-                ds.ajax.lastCall.status = xhr.status;
+                dsU.ajax.lastCall.readyState = xhr.readyState;
+                dsU.ajax.lastCall.status = xhr.status;
                 if (xhr.readyState === 4) {
                     if (xhr.status !== 200) {
-                        ds.ajax.lastCall.data = xhr.response;
+                        dsU.ajax.lastCall.data = xhr.response;
                         if (typeof(fxFailed) === "function") {
                             fxFailed(xhr, xhr.response, xhr.status);
                         }
                     } else {
                         var resp = JSON.parse(xhr.response);
-                        ds.ajax.lastCall.data = resp;
+                        dsU.ajax.lastCall.data = resp;
                         if (typeof(fxCallback) === "function") {
                             fxCallback(xhr, resp);
                         }
                         if (typeof(resp.d.__next) !== "undefined") {
-                            ds.ajax.read(resp.d.__next, fxCallback, fxLastPage);
+                            dsU.ajax.read(resp.d.__next, fxCallback, fxLastPage);
                         } else if (typeof(fxLastPage) === "function") {
                             fxLastPage(xhr, resp);
                         }
@@ -479,24 +479,24 @@ var ds = {
             xhr.send();
         },
         readCSS: function(restURL, fxCallback, fxFailed) {
-            ds.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+            dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
             var xhr = new XMLHttpRequest();
             xhr.open('GET', restURL, true);
             xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
             xhr.setRequestHeader("accept", "text/css");
             xhr.setRequestHeader("content-type", "text/css");
             xhr.onreadystatechange = function() {
-                ds.ajax.lastCall.readyState = xhr.readyState;
-                ds.ajax.lastCall.status = xhr.status;
+                dsU.ajax.lastCall.readyState = xhr.readyState;
+                dsU.ajax.lastCall.status = xhr.status;
                 if (xhr.readyState === 4) {
                     if (xhr.status !== 200) {
-                        ds.ajax.lastCall.data = xhr.response;
+                        dsU.ajax.lastCall.data = xhr.response;
                         if (typeof(fxFailed) === "function") {
                             fxFailed(xhr, xhr.response, xhr.status);
                         }
                     } else {
                         var resp = xhr.response;
-                        ds.ajax.lastCall.data = resp;
+                        dsU.ajax.lastCall.data = resp;
                         if (typeof(fxCallback) === "function") {
                             fxCallback(xhr, resp);
                         }
@@ -527,7 +527,7 @@ var ds = {
                     }
                 }
             }
-            ds.ajax.read(restURL, fxCallback, fxLastPage, fxFailed);
+            dsU.ajax.read(restURL, fxCallback, fxLastPage, fxFailed);
 		},
 		captureNamedArray: function(restURL, strCaptureResultsIn, strNameByProperty, fxLastPage, fxFailed){
 			if ( typeof(strNameByProperty) === "undefined" ) { var strNameByProperty = "Id"; }
@@ -553,11 +553,11 @@ var ds = {
                     }
                 }
             }
-            ds.ajax.read(restURL, fxCallback, fxLastPage, fxFailed);
+            dsU.ajax.read(restURL, fxCallback, fxLastPage, fxFailed);
 		},
         expandDeferred: function(strCaptureResultsFrom, fxCallBack, fxLastPage) {
             /*
-            ds.rest.expandDeferred("ds.lists.meetingattendance.Views.__deferred.uri", true, false, undefined, undefined);
+            dsU.rest.expandDeferred("ds.lists.meetingattendance.Views.__deferred.uri", true, false, undefined, undefined);
             */
             var restURL = eval(strCaptureResultsFrom);
             var strCaptureResultsIn = strCaptureResultsFrom.substr(0, strCaptureResultsFrom.lastIndexOf("."));
@@ -566,12 +566,12 @@ var ds = {
             eval(strCaptureResultsIn + "=[];");
             if (typeof(fxLastPage) === "undefined") {
                 var fxLastPage = function(xhr, data, strCaptureResultsFrom) {
-                    ds.log("ds.ajax.expandDeferred handled the last page of results from |" + strCaptureResultsFrom + "|", true);
+                    dsU.log("ds.ajax.expandDeferred handled the last page of results from |" + strCaptureResultsFrom + "|", true);
                 };
             }
             if (typeof(fxCallBack) === "undefined") {
                 var fxCallBack = function(xhr, data, strCaptureResultsFrom) {
-                    ds.log("ds.ajax.expandDeferred handled a page of results from |" + strCaptureResultsFrom + "|", true);
+                    dsU.log("ds.ajax.expandDeferred handled a page of results from |" + strCaptureResultsFrom + "|", true);
                     if (typeof(data.d.results) !== undefined) {
                         eval(strCaptureResultsIn + " = " + strCaptureResultsIn + ".concat(" + data.d.results + ");");
                     } else {
@@ -581,7 +581,7 @@ var ds = {
                     }
                 }
             }
-            ds.ajax.read(restURL, fxCallback, fxAfterLastPage);
+            dsU.ajax.read(restURL, fxCallback, fxAfterLastPage);
 		},
 		getListPermissions: function(strCaptureResultsIn) {
 			var restURL = eval(strCaptureResultsIn+".__metadata.uri");
@@ -589,30 +589,30 @@ var ds = {
 			var fxCallback = function(xhr, data) {
 				eval(strCaptureResultsIn+".EffectiveBasePermissions = "+JSON.stringify(data.d.EffectiveBasePermissions)+";");
             }
-			ds.ajax.read(restURL, fxCallback);
+			dsU.ajax.read(restURL, fxCallback);
 		}
 	},
     log: function(message, bIgnoreDebugReq) {
         if (typeof(bIgnoreDebugReq) === "undefined") { var bIgnoreDebugReq = false; }
-        if (ds.settings.bDebug === true || bIgnoreDebugReq === true) {
+        if (dsU.settings.bDebug === true || bIgnoreDebugReq === true) {
             try { console.log(message); } catch (err) {}
         }
 	},
 	forms:{
 		getListFormFieldByDisplayName: function(sName) {
-            var $listFormTableRow = ds.$(".ms-formlabel:contains('" + sName + "')").parents("tr").eq(0);
+            var $listFormTableRow = dsU.$(".ms-formlabel:contains('" + sName + "')").parents("tr").eq(0);
             var $formField = $listFormTableRow.children(".ms-formbody").find("TEXTAREA[title^='" + sName + "'],INPUT[title^='" + sName + "'],SELECT[title^='" + sName + "']");
             return $formField;
         },
         getListFormFieldValueByDisplayName: function(sName) {
-            var $listFormTableRow = ds.$(".ms-formlabel:contains('" + sName + "')").parents("tr").eq(0);
+            var $listFormTableRow = dsU.$(".ms-formlabel:contains('" + sName + "')").parents("tr").eq(0);
             var $formField = $listFormTableRow.children(".ms-formbody").find("TEXTAREA[title^='" + sName + "'],INPUT[title^='" + sName + "'],SELECT[title^='" + sName + "']");
             if ($formField[0].tagName.toUpperCase() === "SELECT") {
                 if ($formField.prop("multiple") === true) {
                     var $options = $formField.find("OPTION[selected]");
                     var arrReturn = [];
                     $options.each(function() {
-                        arrReturn.push([ds.$(this).val(), ds.$(this).text()]);
+                        arrReturn.push([ds.$(this).val(), dsU.$(this).text()]);
                     });
                     return arrReturn;
                 } else {
@@ -625,9 +625,9 @@ var ds = {
         },
         getFieldFromCtx: function(sFieldName, fxCallback){
             /*
-                ds.forms.getFieldFromCtx("Choice Dropdown", function(oField){ds.log("Found field with Title = |"+ oField.Title +"|");});
+                dsU.forms.getFieldFromCtx("Choice Dropdown", function(oField){dsU.log("Found field with Title = |"+ oField.Title +"|");});
             */
-            ds.util.getWebParts(function(webParts){
+            dsU.util.getWebParts(function(webParts){
                 var bFound = false;
                 var oReturn = null;
                 for ( wp in webParts ){
@@ -733,7 +733,7 @@ var ds = {
                             }
                             break;
                         default:
-                            ds.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.FieldType +"|");
+                            dsU.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.FieldType +"|");
                     }
                     break;
                 case "MultiChoice":
@@ -838,9 +838,9 @@ var ds = {
                         case 0:
                             /*
                                 var now = new Date(), dtPicker = null; 
-                                ds.forms.getFieldFromCtx("Date Only",function(myField){ 
-                                    ds.log(myField); ds.forms.getFieldControlType(myField, function(fieldControl){
-                                        ds.log(fieldControl); 
+                                dsU.forms.getFieldFromCtx("Date Only",function(myField){ 
+                                    dsU.log(myField); dsU.forms.getFieldControlType(myField, function(fieldControl){
+                                        dsU.log(fieldControl); 
                                         fieldControl.minJDay = now.valueOf(); 
                                         //fieldControl.set("5/3/2018"); 
                                         fieldControl.showPicker();
@@ -943,7 +943,7 @@ var ds = {
                             }
                             break;
                         default:
-                            ds.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.DisplayFormat +"|");
+                            dsU.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.DisplayFormat +"|");
                     }
                     break;
                 case "UserMulti":
@@ -979,7 +979,7 @@ var ds = {
                     break;
                 case "User":
                     /*
-                        ds.forms.getFieldFromCtx("Person",function(myField){ ds.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set(_spPageContextInfo.systemUserKey);}); });
+                        dsU.forms.getFieldFromCtx("Person",function(myField){ dsU.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set(_spPageContextInfo.systemUserKey);}); });
                     */
                     oReturn.picker = SPClientPeoplePicker.SPClientPeoplePickerDict[oField.TopLevelElementId];
                     oReturn.guid = oField.Id;
@@ -1049,7 +1049,7 @@ var ds = {
                     break;
                 case "Lookup":
                     /*
-                        ds.forms.getFieldFromCtx("Lookup Single",function(myField){ ds.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set("Demo get user properties");}); });
+                        dsU.forms.getFieldFromCtx("Lookup Single",function(myField){ dsU.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set("Demo get user properties");}); });
                     */
                     oReturn.tagName = "SELECT";
                     oReturn.guid = oField.Id;
@@ -1086,7 +1086,7 @@ var ds = {
                     break;
                 case "LookupMulti":
                     /*
-                    ds.forms.getFieldFromCtx("Lookup Multi",function(myField){ ds.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set("Demo working with people pickers via SharePoint's CSOM");}); });
+                    dsU.forms.getFieldFromCtx("Lookup Multi",function(myField){ dsU.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set("Demo working with people pickers via SharePoint's CSOM");}); });
                     */
                     oReturn.tagName = "SELECT";
                     oReturn.guid = oField.Id;
@@ -1141,7 +1141,7 @@ var ds = {
                     break;
                 case "Boolean":
                     /*
-                    ds.forms.getFieldFromCtx("Yes No",function(myField){ ds.log(myField); ds.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set(true);}); });
+                    dsU.forms.getFieldFromCtx("Yes No",function(myField){ dsU.log(myField); dsU.forms.getFieldControlType(myField, function(fieldControl){fieldControl.set(true);}); });
                     */
                     oReturn.tagName = "INPUT";
                     oReturn.guid = oField.Id;
@@ -1184,7 +1184,7 @@ var ds = {
                             oReturn.type = "picture";
                             break;
                         default: 
-                            ds.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.DisplayFormat +"|");
+                            dsU.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.DisplayFormat +"|");
                     }
                     oReturn.set = function(url, description){ 
                         document.getElementById(this.id).value = url;
@@ -1200,7 +1200,7 @@ var ds = {
                     }
                     break;
                 default: 
-                    ds.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.FieldType +"|");
+                    dsU.log("Unknown format type |"+ oField.FormatType +"| for |"+ oField.FieldType +"|");
             }
             //ds.log(oReturn);
             /*return oReturn;*/
@@ -1216,25 +1216,25 @@ var ds = {
         },
         findObjectInArray: function(array, arrPropertiesValues, fxCallback) {
             /*
-            ds.ajax.captureArray(ds.p.rest.lists2013, "ds.lists")
-            ds.util.findObjectInArray(ds.lists.results, {"Title": "Meetings"})
+            dsU.ajax.captureArray(dsU.p.rest.lists2013, "ds.lists")
+            dsU.util.findObjectInArray(dsU.lists.results, {"Title": "Meetings"})
             
             
             
-            ds.ajax.captureArray(ds.p.rest.lists2013+"?$expand=Fields,Views,Forms", "ds.lists")
-            ds.util.findObjectInArray(ds.lists.results, [{"Title": "Meetings"},{"Id":"ecb433ee-09f5-4c9d-8cd4-0090f730d3aa"}], function(matches){
+            dsU.ajax.captureArray(dsU.p.rest.lists2013+"?$expand=Fields,Views,Forms", "ds.lists")
+            dsU.util.findObjectInArray(dsU.lists.results, [{"Title": "Meetings"},{"Id":"ecb433ee-09f5-4c9d-8cd4-0090f730d3aa"}], function(matches){
                 for ( var m = 0; m < matches.length; m++ ) {
-                    ds.util.findObjectInArray(matches[m].Fields.results, {"LookupList":_spPageContextInfo.pageListId}, function(subMatch){
-                        ds.log(subMatch);
+                    dsU.util.findObjectInArray(matches[m].Fields.results, {"LookupList":_spPageContextInfo.pageListId}, function(subMatch){
+                        dsU.log(subMatch);
                     })
                 }
 			});
 			
-			ds.ajax.captureNamedArray(ds.p.rest.lists2013+"?$expand=Fields,Views,Forms", "ds.lists", "Title")
-            ds.util.findObjectInArray(ds.lists.results, [{"Title": "Meetings"},{"Id":"ecb433ee-09f5-4c9d-8cd4-0090f730d3aa"}], function(matches){
+			dsU.ajax.captureNamedArray(dsU.p.rest.lists2013+"?$expand=Fields,Views,Forms", "ds.lists", "Title")
+            dsU.util.findObjectInArray(dsU.lists.results, [{"Title": "Meetings"},{"Id":"ecb433ee-09f5-4c9d-8cd4-0090f730d3aa"}], function(matches){
                 for ( var m = 0; m < matches.length; m++ ) {
-                    ds.util.findObjectInArray(matches[m].Fields.results, {"LookupList":_spPageContextInfo.pageListId}, function(subMatch){
-                        ds.log(subMatch);
+                    dsU.util.findObjectInArray(matches[m].Fields.results, {"LookupList":_spPageContextInfo.pageListId}, function(subMatch){
+                        dsU.log(subMatch);
                     })
                 }
             });
@@ -1258,11 +1258,11 @@ var ds = {
 										}
 									} catch (err) {
 										bMatch = false;
-										ds.log("Coulding check property value match |" + prop + "|");
-										ds.log("array element");
-										ds.log(array[i]);
-										ds.log("Checking for match to value");
-										ds.log(arrPropertiesValues[prop]);
+										dsU.log("Coulding check property value match |" + prop + "|");
+										dsU.log("array element");
+										dsU.log(array[i]);
+										dsU.log("Checking for match to value");
+										dsU.log(arrPropertiesValues[prop]);
 										break;
 									}
 								}
@@ -1283,11 +1283,11 @@ var ds = {
 												break;
 											}
 										} catch (err) {
-											ds.log("Coulding check property value match |" + prop + "|");
-											ds.log("array element");
-											ds.log(array[i]);
-											ds.log("Checking for match to value");
-											ds.log(arrPropertiesValues[iA][prop]);
+											dsU.log("Coulding check property value match |" + prop + "|");
+											dsU.log("array element");
+											dsU.log(array[i]);
+											dsU.log("Checking for match to value");
+											dsU.log(arrPropertiesValues[iA][prop]);
 											break;
 										}
 										if (bMatch === false) {
@@ -1325,11 +1325,11 @@ var ds = {
 										}
 									} catch (err) {
 										bMatch = false;
-										ds.log("Coulding check property value match |" + prop + "|");
-										ds.log("array element");
-										ds.log(array[arrayElement]);
-										ds.log("Checking for match to value");
-										ds.log(arrPropertiesValues[prop]);
+										dsU.log("Coulding check property value match |" + prop + "|");
+										dsU.log("array element");
+										dsU.log(array[arrayElement]);
+										dsU.log("Checking for match to value");
+										dsU.log(arrPropertiesValues[prop]);
 										break;
 									}
 								}
@@ -1350,11 +1350,11 @@ var ds = {
 												break;
 											}
 										} catch (err) {
-											ds.log("Coulding check property value match |" + prop + "|");
-											ds.log("array element");
-											ds.log(array[arrayElement]);
-											ds.log("Checking for match to value");
-											ds.log(arrPropertiesValues[iA][prop]);
+											dsU.log("Coulding check property value match |" + prop + "|");
+											dsU.log("array element");
+											dsU.log(array[arrayElement]);
+											dsU.log("Checking for match to value");
+											dsU.log(arrPropertiesValues[iA][prop]);
 											break;
 										}
 										if (bMatch === false) {
@@ -1386,11 +1386,11 @@ var ds = {
             return oReturn;
 		},
 		getWebParts: function(fxCallback){
-			ds.webParts = {};
+			dsU.webParts = {};
 			var collWPs = document.getElementsByClassName("ms-webpartzone-cell");
 			for ( var iWP = 0; iWP < collWPs.length; iWP++ ){
 				var wp = collWPs[iWP].id.replace("MSOZoneCell_WebPart","");
-				ds.webParts[wp] = {
+				dsU.webParts[wp] = {
 					outerWrapper: collWPs[iWP],
 					seqID: parseInt(collWPs[iWP].id.replace("MSOZoneCell_WebPartWPQ",""),10),
 					type: "",
@@ -1401,20 +1401,20 @@ var ds = {
                     schemaData: undefined,
                     varPart: undefined
 				}
-				try{ds.webParts[wp].title = document.getElementById("WebPart"+wp+"_ChromeTitle").innerText;}catch(err){}
-				try{ds.webParts[wp].formCtx = eval(wp+"FormCtx;");}catch(err){}
-				try{ds.webParts[wp].listData = eval(wp+"ListData;");}catch(err){}
-                try{ds.webParts[wp].schemaData = eval(wp+"SchemaData;");}catch(err){}
-                try{ds.webParts[wp].varPart = eval("varPart"+wp+";");}catch(err){}
-				if ( typeof(ds.webParts[wp].formCtx) !== "undefined" ){ 
-					ds.webParts[wp].type = "form"; 
-					ds.webParts[wp].listData = ds.webParts[wp].formCtx.ListData;
-					ds.webParts[wp].schemaData = ds.webParts[wp].formCtx.ListSchema;
+				try{dsU.webParts[wp].title = document.getElementById("WebPart"+wp+"_ChromeTitle").innerText;}catch(err){}
+				try{dsU.webParts[wp].formCtx = eval(wp+"FormCtx;");}catch(err){}
+				try{dsU.webParts[wp].listData = eval(wp+"ListData;");}catch(err){}
+                try{dsU.webParts[wp].schemaData = eval(wp+"SchemaData;");}catch(err){}
+                try{dsU.webParts[wp].varPart = eval("varPart"+wp+";");}catch(err){}
+				if ( typeof(dsU.webParts[wp].formCtx) !== "undefined" ){ 
+					dsU.webParts[wp].type = "form"; 
+					dsU.webParts[wp].listData = dsU.webParts[wp].formCtx.ListData;
+					dsU.webParts[wp].schemaData = dsU.webParts[wp].formCtx.ListSchema;
 				}
 				else { wp.type = "view"; }
 			}
 			if (typeof(fxCallback) === "function") {
-                return fxCallback(ds.webParts);
+                return fxCallback(dsU.webParts);
             }
             else if ( collWPs.length > 0 ) {
                 return true;
@@ -1435,24 +1435,24 @@ var ds = {
             return relativeURL;
         },
         getSiteRegionalTimeZone: function() {
-            ds.stor.spCSOM.clientContext = new SP.ClientContext();
-            ds.stor.spCSOM.web = ds.stor.spCSOM.clientContext.get_web();
-            ds.stor.spCSOM.culture = ds.stor.spCSOM.web.get_regionalSettings();
-            ds.stor.spCSOM.clientContext.load(ds.stor.spCSOM.culture);
-            ds.stor.spCSOM.tz = ds.stor.spCSOM.culture.get_timeZone();
-            ds.stor.spCSOM.clientContext.load(ds.stor.spCSOM.tz);
+            dsU.stor.spCSOM.clientContext = new SP.ClientContext();
+            dsU.stor.spCSOM.web = dsU.stor.spCSOM.clientContext.get_web();
+            dsU.stor.spCSOM.culture = dsU.stor.spCSOM.web.get_regionalSettings();
+            dsU.stor.spCSOM.clientContext.load(dsU.stor.spCSOM.culture);
+            dsU.stor.spCSOM.tz = dsU.stor.spCSOM.culture.get_timeZone();
+            dsU.stor.spCSOM.clientContext.load(dsU.stor.spCSOM.tz);
             /* Use SP CSOM to get the site's current regional settings for the time zone capture the async response via a callback function */
-            ds.stor.spCSOM.clientContext.executeQueryAsync(function() {
-                ds.stor.spCSOM.siteTzId = ds.stor.spCSOM.tz.$5_0.$H_0.Id;
-                ds.stor.spCSOM.siteTzDesc = ds.stor.spCSOM.tz.$5_0.$H_0.Description;
-                ds.stor.spCSOM.siteTzInformation = ds.stor.spCSOM.tz.$5_0.$H_0.Information;
-                ds.stor.localization.culture = ds.stor.spCSOM.culture.$5_0.$H_0;
-                ds.stor.localization.timezone.Id = ds.stor.spCSOM.siteTzId;
-                ds.stor.localization.timezone.Description = ds.stor.spCSOM.siteTzDesc;
-                ds.stor.localization.timezone.Information = ds.stor.spCSOM.siteTzInformation;
+            dsU.stor.spCSOM.clientContext.executeQueryAsync(function() {
+                dsU.stor.spCSOM.siteTzId = dsU.stor.spCSOM.tz.$5_0.$H_0.Id;
+                dsU.stor.spCSOM.siteTzDesc = dsU.stor.spCSOM.tz.$5_0.$H_0.Description;
+                dsU.stor.spCSOM.siteTzInformation = dsU.stor.spCSOM.tz.$5_0.$H_0.Information;
+                dsU.stor.localization.culture = dsU.stor.spCSOM.culture.$5_0.$H_0;
+                dsU.stor.localization.timezone.Id = dsU.stor.spCSOM.siteTzId;
+                dsU.stor.localization.timezone.Description = dsU.stor.spCSOM.siteTzDesc;
+                dsU.stor.localization.timezone.Information = dsU.stor.spCSOM.siteTzInformation;
             });
-            ds.stor.spCSOM.clientContext.dispose();
-            return ds.stor.spCSOM.siteTzDescription;
+            dsU.stor.spCSOM.clientContext.dispose();
+            return dsU.stor.spCSOM.siteTzDescription;
         },
         checkForItemEditAddDelete: function(restlistname, afterFx) {
             // supposed to check like this:
@@ -1469,7 +1469,7 @@ var ds = {
             // High must be < up.$5_1 to correctly detect no access for anonymous users
             // but must be > up.$5_1 to correctly detect appropriate access for daniel logged in
             if (typeof(_spPageContextInfo.userId) === "undefined") {
-                if (ds.lists[restlistname].EffectiveBasePermissions.High < up.$5_1) {
+                if (dsU.lists[restlistname].EffectiveBasePermissions.High < up.$5_1) {
                     if (typeof(afterFx) === "function") { afterFx(true); }
                     return true;
                 } else {
@@ -1477,7 +1477,7 @@ var ds = {
                     return false;
                 }
             } else {
-                if (ds.lists[restlistname].EffectiveBasePermissions.High > up.$5_1) {
+                if (dsU.lists[restlistname].EffectiveBasePermissions.High > up.$5_1) {
                     if (typeof(afterFx) === "function") { afterFx(true); }
                     return true;
                 } else {
@@ -1487,7 +1487,7 @@ var ds = {
             }
         },
         getListViewColumnIndex: function(fieldDisplayName) {
-            return ds.$("TABLE.ms-listviewtable > THEAD > TR.ms-viewheadertr > TH:contains('" + fieldDisplayName + "')").index();
+            return dsU.$("TABLE.ms-listviewtable > THEAD > TR.ms-viewheadertr > TH:contains('" + fieldDisplayName + "')").index();
         },
         simulateBrowseTabClick: function() {
             document.getElementById("Ribbon.Read-title").firstElementChild.click();
@@ -1495,7 +1495,7 @@ var ds = {
         isPageInEditMode: function() {
             /*https://sharepoint.stackexchange.com/questions/149096/a-way-to-identify-when-page-is-in-edit-mode-for-javascript-purposes*/
             var result = (window.MSOWebPartPageFormName != undefined) && ((document.forms[window.MSOWebPartPageFormName] && document.forms[window.MSOWebPartPageFormName].MSOLayout_InDesignMode && ("1" == document.forms[window.MSOWebPartPageFormName].MSOLayout_InDesignMode.value)) || (document.forms[window.MSOWebPartPageFormName] && document.forms[window.MSOWebPartPageFormName]._wikiPageMode && ("Edit" == document.forms[window.MSOWebPartPageFormName]._wikiPageMode.value)));
-            ds.stor.session.editMode = result || false;
+            dsU.stor.session.editMode = result || false;
             return result || false;
         },
         isPageInDialog: function() {
@@ -1520,7 +1520,7 @@ var ds = {
                 //here you get the version
                 serverVersion = clientContext.get_serverVersion();
                 result = serverVersion;
-                ds.stor.session.uiVersion = result;
+                dsU.stor.session.uiVersion = result;
                 if (typeof(afterFx) === "function") {
                     afterFx(result);
                 }
@@ -1550,9 +1550,9 @@ var ds = {
                 jqSelWPP.push(" > TR:eq(" + row + ") > TD[name='_invisibleIfEmpty']:eq(" + col + ")");
             }
             jqSelWPP.push(" > .ms-webpart-zone > [id^='MSOZoneCell_WebPartWPQ']");
-            ds.log("WPP web part zone selector length = " + ds.$(jqSelWPP.join("")).length + " |" + jqSelWPP.join("") + "|");
-            if (ds.$(jqSelWPP.join("")).length > 0) {
-                return ds.$(jqSelWPP.join(""));
+            dsU.log("WPP web part zone selector length = " + dsU.$(jqSelWPP.join("")).length + " |" + jqSelWPP.join("") + "|");
+            if (dsU.$(jqSelWPP.join("")).length > 0) {
+                return dsU.$(jqSelWPP.join(""));
             } else {
                 var jqSelWiki = ["TABLE#layoutsTable > TBODY"];
                 if (typeof(row) === "object" && typeof(col) === "object") {
@@ -1570,9 +1570,9 @@ var ds = {
                     jqSelWiki.push(" > TR:eq(" + row + ") > TD:eq(" + col + ")");
                 }
                 jqSelWiki.push(" > .ms-rte-layoutszone-outer > .ms-rte-layoutszone-inner > [id^='MSOZoneCell_WebPartWPQ']");
-                ds.log("Wiki web part zone selector length = " + ds.$(jqSelWiki.join("")).length + " |" + jqSelWiki.join("") + "|");
-                if (ds.$(jqSelWiki.join("")).length > 0) {
-                    return ds.$(jqSelWiki.join(""));
+                dsU.log("Wiki web part zone selector length = " + dsU.$(jqSelWiki.join("")).length + " |" + jqSelWiki.join("") + "|");
+                if (dsU.$(jqSelWiki.join("")).length > 0) {
+                    return dsU.$(jqSelWiki.join(""));
                 } else {
                     return false;
                 }
@@ -1580,39 +1580,39 @@ var ds = {
         },
         getSiblingsOfWebPartWithTitle: function(sWebPartTitle) {
             var oRet;
-            ds.$("[id^='MSOZoneCell_WebPartWPQ'] .ms-webpart-chrome-title").each(function(iWP, elmWP) {
-                if (ds.$(this).text().trim() === sWebPartTitle) {
-                    oRet = ds.$(this).parents("TD[id='_invisibleIfEmpty'], .ms-rte-layoutszone-inner").find("[id^='MSOZoneCell_WebPartWPQ']");
+            dsU.$("[id^='MSOZoneCell_WebPartWPQ'] .ms-webpart-chrome-title").each(function(iWP, elmWP) {
+                if (dsU.$(this).text().trim() === sWebPartTitle) {
+                    oRet = dsU.$(this).parents("TD[id='_invisibleIfEmpty'], .ms-rte-layoutszone-inner").find("[id^='MSOZoneCell_WebPartWPQ']");
                     return false;
                 }
             });
             return oRet;
         },
         checkFileAccess: function(relativeFilePath, fxSuccess, fxFail, fxAlways) {
-            ds.$.ajax({
-                url: ds.p.root + ds.p.rest[2013].web + "/GetFileByServerRelativeUrl('" + relativeFilePath + "')",
+            dsU.$.ajax({
+                url: dsU.p.root + dsU.p.rest[2013].web + "/GetFileByServerRelativeUrl('" + relativeFilePath + "')",
                 method: "GET"
             }).always(function() {
-                ds.log("ds.util.checkFileAccess... Always!", true);
+                dsU.log("ds.util.checkFileAccess... Always!", true);
                 if (typeof(fxAlways) === "function") { fxAlways(); }
             }).done(function(d, s, x) {
-                ds.log("ds.util.checkFileAccess... Success!", true);
-                ds.log(x);
+                dsU.log("ds.util.checkFileAccess... Success!", true);
+                dsU.log(x);
                 if (typeof(fxSuccess) === "function") { fxSuccess(d, s, x); }
             }).fail(function(x, s, e) {
-                ds.log("ds.util.checkFileAccess... Fail!", true);
-                ds.log(x);
+                dsU.log("ds.util.checkFileAccess... Fail!", true);
+                dsU.log(x);
                 if (typeof(fxFail) === "function") { fxFail(x, s, e); }
             });
         },
         checkUserGroupMembership: function(oUser, groupPropertyName, groupPropertyValue, fxOnMembershipFound, fxOnMembershipNotFound) {
-            /*ds.util.checkUserGroupMembership(ds.stor.currentUser, "Title", "DS Magic for SharePoint Owners", function(){alert("User is a member of the group");}, function(){alert("User is not a member of the group");});*/
-            /*ds.util.checkUserGroupMembership(ds.stor.siteUsers.results[1], "Title", "DS Magic for SharePoint Owners", function(){alert("User is a member of the group");}, function(){alert("User is not a member of the group");});*/
+            /*ds.util.checkUserGroupMembership(dsU.stor.currentUser, "Title", "DS Magic for SharePoint Owners", function(){alert("User is a member of the group");}, function(){alert("User is not a member of the group");});*/
+            /*ds.util.checkUserGroupMembership(dsU.stor.siteUsers.results[1], "Title", "DS Magic for SharePoint Owners", function(){alert("User is a member of the group");}, function(){alert("User is not a member of the group");});*/
             var bUserGroupMatchFound = false;
             for (var iGroup = 0; iGroup < oUser.Groups.results.length; iGroup++) {
                 try {
                     if (oUser.Groups.results[iGroup][groupPropertyName] === groupPropertyValue) {
-                        ds.log("Found matching group in the supplied user's Groups collection", true);
+                        dsU.log("Found matching group in the supplied user's Groups collection", true);
                         bUserGroupMatchFound = true;
                         break;
                     }
@@ -1627,75 +1627,75 @@ var ds = {
         getBrowserNameAndVersion: function(afterFx) {
             var regExp, collMatches, iMatch;
             if (navigator.userAgent.indexOf("Edge") >= 0) {
-                ds.stor.session.browserName = "Edge";
-                ds.stor.session.browserSupportsActiveX = false;
+                dsU.stor.session.browserName = "Edge";
+                dsU.stor.session.browserSupportsActiveX = false;
                 browserSupportsClassicDatasheet = false;
                 regExp = /Edge\/([0-9.]+)/ig
                 collMatches = regExp.exec(navigator.userAgent);
                 for (iMatch = 0; iMatch < collMatches.length; iMatch++) {
-                    ds.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
+                    dsU.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
                     break;
                 }
             } else if (navigator.userAgent.indexOf("Chrome") >= 0 && navigator.userAgent.indexOf("Chromium") < 0) {
-                ds.stor.session.browserName = "Chrome";
-                ds.stor.session.browserSupportsActiveX = false;
+                dsU.stor.session.browserName = "Chrome";
+                dsU.stor.session.browserSupportsActiveX = false;
                 browserSupportsClassicDatasheet = false;
                 regExp = /Chrome\/([0-9.]+)/ig
                 collMatches = regExp.exec(navigator.userAgent);
                 for (iMatch = 0; iMatch < collMatches.length; iMatch++) {
-                    ds.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
+                    dsU.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
                     break;
                 }
             } else if (navigator.userAgent.indexOf("Safari") >= 0 && navigator.userAgent.indexOf("Chrome") < 0 && navigator.userAgent.indexOf("Chromium") < 0) {
-                ds.stor.session.browserName = "Safari";
-                ds.stor.session.browserSupportsActiveX = false;
+                dsU.stor.session.browserName = "Safari";
+                dsU.stor.session.browserSupportsActiveX = false;
                 browserSupportsClassicDatasheet = false;
                 regExp = /Version\/([0-9.]+)/ig
                 collMatches = regExp.exec(navigator.userAgent);
                 for (iMatch = 0; iMatch < collMatches.length; iMatch++) {
-                    ds.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
+                    dsU.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
                     break;
                 }
             } else if (navigator.userAgent.indexOf("OPR") >= 0) {
-                ds.stor.session.browserName = "Opera (Blink)";
-                ds.stor.session.browserSupportsActiveX = false;
+                dsU.stor.session.browserName = "Opera (Blink)";
+                dsU.stor.session.browserSupportsActiveX = false;
                 browserSupportsClassicDatasheet = false;
                 regExp = /Version\/([0-9.]+)/ig
                 collMatches = regExp.exec(navigator.userAgent);
                 for (iMatch = 0; iMatch < collMatches.length; iMatch++) {
-                    ds.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
+                    dsU.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
                     break;
                 }
             } else if (navigator.userAgent.indexOf("Opera") >= 0) {
-                ds.stor.session.browserName = "Opera (Presto)";
-                ds.stor.session.browserSupportsActiveX = false;
+                dsU.stor.session.browserName = "Opera (Presto)";
+                dsU.stor.session.browserSupportsActiveX = false;
                 browserSupportsClassicDatasheet = false;
                 regExp = /Version\/([0-9.]+)/ig
                 collMatches = regExp.exec(navigator.userAgent);
                 for (iMatch = 0; iMatch < collMatches.length; iMatch++) {
-                    ds.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
+                    dsU.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
                     break;
                 }
             } else if (navigator.userAgent.indexOf("Firefox") >= 0 && navigator.userAgent.indexOf("Seamonkey") < 0) {
-                ds.stor.session.browserName = "Firefox";
-                ds.stor.session.browserSupportsActiveX = false;
+                dsU.stor.session.browserName = "Firefox";
+                dsU.stor.session.browserSupportsActiveX = false;
                 browserSupportsClassicDatasheet = false;
                 regExp = /Firefox\/([0-9.]+)/ig
                 collMatches = regExp.exec(navigator.userAgent);
                 for (iMatch = 0; iMatch < collMatches.length; iMatch++) {
-                    ds.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
+                    dsU.stor.session.browserVersion = parseFloat(collMatches[iMatch].split("/")[1], 10);
                     break;
                 }
             } else if (navigator.userAgent.indexOf("; MSIE ") >= 0 && navigator.appName === "Microsoft Internet Explorer") {
-                ds.stor.session.browserName = "Internet Explorer";
-                ds.stor.session.browserSupportsActiveX = true;
+                dsU.stor.session.browserName = "Internet Explorer";
+                dsU.stor.session.browserSupportsActiveX = true;
                 regExp = /MSIE ([0-9.]+)/ig
                 collMatches = regExp.exec(navigator.userAgent);
                 for (iMatch = 0; iMatch < collMatches.length; iMatch++) {
-                    ds.stor.session.browserVersion = parseFloat(collMatches[iMatch].split(" ")[1], 10);
+                    dsU.stor.session.browserVersion = parseFloat(collMatches[iMatch].split(" ")[1], 10);
                     break;
                 }
-                if (ds.stor.session.browserVersion < 7 || ds.stor.session.browserVersion > 10) {
+                if (dsU.stor.session.browserVersion < 7 || dsU.stor.session.browserVersion > 10) {
                     browserSupportsClassicDatasheet = false;
                 } else {
                     var bActiveX = false;
@@ -1710,24 +1710,24 @@ var ds = {
                 }
             }
             if (typeof(afterFx) === "function") {
-                afterFx({ "browserName": ds.stor.session.browserName, "browserVersion": ds.stor.session.browserVersion, "browserSupportsActiveX": ds.stor.session.browserSupportsActiveX, "browserSupportsClassicDatasheet": ds.stor.session.browserSupportsClassicDatasheet });
+                afterFx({ "browserName": dsU.stor.session.browserName, "browserVersion": dsU.stor.session.browserVersion, "browserSupportsActiveX": dsU.stor.session.browserSupportsActiveX, "browserSupportsClassicDatasheet": dsU.stor.session.browserSupportsClassicDatasheet });
             }
-            return ds.stor.session.browserName;
+            return dsU.stor.session.browserName;
         },
         getPageType: function(afterFx) {
-            if (ds.$("#_wikiPageMode").length > 0) {
-                ds.stor.session.pageType = 'Wiki';
+            if (dsU.$("#_wikiPageMode").length > 0) {
+                dsU.stor.session.pageType = 'Wiki';
             }
             if (GetUrlKeyValue("IsDlg") === "1") {
-                ds.stor.session.pageType = 'Dialog';
-                if (ds.$("#_wikiPageMode").length > 0) {
-                    ds.stor.session.pageType += ' Wiki';
+                dsU.stor.session.pageType = 'Dialog';
+                if (dsU.$("#_wikiPageMode").length > 0) {
+                    dsU.stor.session.pageType += ' Wiki';
                 }
             }
             if (typeof(afterFx) === "function") {
-                afterFx(ds.stor.session.pageType);
+                afterFx(dsU.stor.session.pageType);
             }
-            return ds.stor.session.pageType;
+            return dsU.stor.session.pageType;
         }
     },
     evts: {},
@@ -1735,9 +1735,9 @@ var ds = {
         newObjRO: function(sROName, sROForFx, sRODesc, iLoopsToDo, loopingFx, successFx) {
             var rightNow = new Date();
             var ROName = sROName + rightNow.valueOf();
-            if (typeof(ds.repOp[ROName]) === "undefined") {
+            if (typeof(dsU.repOp[ROName]) === "undefined") {
                 // we found a unique interval name
-                ds.repOp[ROName] = {
+                dsU.repOp[ROName] = {
                     name: ROName,
                     forFx: sROForFx,
                     desc: sRODesc,
@@ -1747,28 +1747,28 @@ var ds = {
                     loopsToDo: iLoopsToDo,
                     bDone: false,
                     initFx: function() {
-                        ds.repOp[ROName].ro = new ds.repOp.newRO(function() {
-                            var loopIndex = ds.repOp[ROName].loopIndex;
-                            ds.repOp[ROName].loopingFx(loopIndex);
+                        dsU.repOp[ROName].ro = new dsU.repOp.newRO(function() {
+                            var loopIndex = dsU.repOp[ROName].loopIndex;
+                            dsU.repOp[ROName].loopingFx(loopIndex);
                             // do stuff
-                            ds.log("Repeat Operation |" + ROName + "| running... at index |" + ds.repOp[ROName].loopIndex + "|");
-                            ds.repOp[ROName].loopIndex = ds.repOp[ROName].loopIndex + 1;
-                            ds.repOp[ROName].loopsDone = ds.repOp[ROName].loopsDone + 1;
-                            if (ds.repOp[ROName].loopsDone < ds.repOp[ROName].loopsToDo) {
-                                ds.repOp[ROName].ro();
+                            dsU.log("Repeat Operation |" + ROName + "| running... at index |" + dsU.repOp[ROName].loopIndex + "|");
+                            dsU.repOp[ROName].loopIndex = dsU.repOp[ROName].loopIndex + 1;
+                            dsU.repOp[ROName].loopsDone = dsU.repOp[ROName].loopsDone + 1;
+                            if (dsU.repOp[ROName].loopsDone < dsU.repOp[ROName].loopsToDo) {
+                                dsU.repOp[ROName].ro();
                             } else {
-                                ds.repOp[ROName].bDone = true;
-                                ds.log("Repeat Operation |" + ROName + "| complete");
-                                ds.repOp[ROName].successFx();
+                                dsU.repOp[ROName].bDone = true;
+                                dsU.log("Repeat Operation |" + ROName + "| complete");
+                                dsU.repOp[ROName].successFx();
                             }
-                        }, ds.repOp.yieldAfter);
-                        ds.repOp[ROName].ro();
+                        }, dsU.repOp.yieldAfter);
+                        dsU.repOp[ROName].ro();
                     },
                     successFx: successFx,
                     loopingFx: loopingFx
                 };
             } else {
-                ds.log("A Repeat Operation with that name (" + ROName + ") already exists!", true);
+                dsU.log("A Repeat Operation with that name (" + ROName + ") already exists!", true);
                 alert("A Repeat Operation with that name (" + ROName + ") already exists!");
             }
             return ROName;
@@ -1779,10 +1779,10 @@ var ds = {
             return function() {
                 if (++count >= whenToYield) {
                     count = 0;
-                    ds.log("Repeat operation is paused for |" + ds.repOp.pauseBetweenMS + "|ms");
+                    dsU.log("Repeat operation is paused for |" + dsU.repOp.pauseBetweenMS + "|ms");
                     setTimeout(function() {
                         anonymousOperation();
-                    }, ds.repOp.pauseBetweenMS);
+                    }, dsU.repOp.pauseBetweenMS);
                 } else {
                     anonymousOperation();
                 }
@@ -1795,9 +1795,9 @@ var ds = {
         newIntvl: function(sIntvlName) {
             var rightNow = new Date();
             var intvlName = sIntvlName + rightNow.valueOf();
-            if (typeof(ds.intvls[intvlName]) === "undefined") {
+            if (typeof(dsU.intvls[intvlName]) === "undefined") {
                 // we found a unique interval name
-                ds.intvls[intvlName] = {
+                dsU.intvls[intvlName] = {
                     name: intvlName,
                     forFx: '',
                     desc: '',
@@ -1807,32 +1807,32 @@ var ds = {
                     timeoutMS: 10000,
                     bDone: false,
                     loopingFx: function() {
-                        ds.intvls[intvlName].counter = ds.intvls[intvlName].counter + 1;
+                        dsU.intvls[intvlName].counter = dsU.intvls[intvlName].counter + 1;
 
-                        ds.intvls[intvlName].doWorkFx();
+                        dsU.intvls[intvlName].doWorkFx();
 
-                        if (ds.intvls[intvlName].bDone === true) {
-                            ds.intvls[intvlName].successFx();
-                            clearInterval(ds.intvls[intvlName].intvl);
+                        if (dsU.intvls[intvlName].bDone === true) {
+                            dsU.intvls[intvlName].successFx();
+                            clearInterval(dsU.intvls[intvlName].intvl);
                         }
-                        if ((ds.intvls[intvlName].counter * ds.intvls[intvlName].pauseMS) >= ds.intvls[intvlName].timeoutMS) {
-                            ds.intvls[intvlName].timeoutFx();
-                            clearInterval(ds.intvls[intvlName].intvl);
+                        if ((dsU.intvls[intvlName].counter * dsU.intvls[intvlName].pauseMS) >= dsU.intvls[intvlName].timeoutMS) {
+                            dsU.intvls[intvlName].timeoutFx();
+                            clearInterval(dsU.intvls[intvlName].intvl);
                         }
                     },
                     doWorkFx: function() {
 
-                        // evaluate if we're done waiting, then set ds.intvls[this.name].bDone = true if so
+                        // evaluate if we're done waiting, then set dsU.intvls[this.name].bDone = true if so
                     },
                     successFx: function() {
-                        ds.log("ds.intvls." + intvlName + ".intvl... SUCCESSFULLY FINISHED WAITING", true);
+                        dsU.log("ds.intvls." + intvlName + ".intvl... SUCCESSFULLY FINISHED WAITING", true);
                     },
                     timeoutFx: function() {
-                        ds.log("ds.intvls." + intvlName + ".intvl... ERROR! TIMED OUT WAITING", true);
+                        dsU.log("ds.intvls." + intvlName + ".intvl... ERROR! TIMED OUT WAITING", true);
                     }
                 };
             } else {
-                ds.log("An interval with that name (" + intvlName + ") already exists!", true);
+                dsU.log("An interval with that name (" + intvlName + ") already exists!", true);
                 alert("An interval with that name (" + intvlName + ") already exists!");
             }
             return intvlName;
@@ -1846,38 +1846,38 @@ var ds = {
                 var bSuccess = false;
                 // check to see if we're done waiting
                 try {
-                    if (ds.settings.idleTime >= (ds.intvls.wfIdleToLoadResources.timeoutMS / 2)) {
+                    if (dsU.settings.idleTime >= (dsU.intvls.wfIdleToLoadResources.timeoutMS / 2)) {
                         bSuccess = true;
                     }
                 } catch (err) {}
                 if (bSuccess === true) {
-                    ds.intvls.wfIdleToLoadResources.onSuccessFx();
-                    clearInterval(ds.intvls.wfIdleToLoadResources.intvl);
+                    dsU.intvls.wfIdleToLoadResources.onSuccessFx();
+                    clearInterval(dsU.intvls.wfIdleToLoadResources.intvl);
                 } else {
-                    if (ds.intvls.wfIdleToLoadResources.pauseMS * ds.intvls.wfIdleToLoadResources.counter >= ds.intvls.wfIdleToLoadResources.timeoutMS) {
-                        ds.intvls.wfIdleToLoadResources.onTimeoutFx();
-                        clearInterval(ds.intvls.wfIdleToLoadResources.intvl);
+                    if (dsU.intvls.wfIdleToLoadResources.pauseMS * dsU.intvls.wfIdleToLoadResources.counter >= dsU.intvls.wfIdleToLoadResources.timeoutMS) {
+                        dsU.intvls.wfIdleToLoadResources.onTimeoutFx();
+                        clearInterval(dsU.intvls.wfIdleToLoadResources.intvl);
                     } else {
-                        ds.intvls.wfIdleToLoadResources.counter = ds.intvls.wfIdleToLoadResources.counter + 1;
+                        dsU.intvls.wfIdleToLoadResources.counter = dsU.intvls.wfIdleToLoadResources.counter + 1;
                     }
                 }
-                ds.settings.idleTime += ds.intvls.wfIdleToLoadResources.pauseMS;
+                dsU.settings.idleTime += dsU.intvls.wfIdleToLoadResources.pauseMS;
             },
             onTimeoutFx: function() {
-                ds.log("wfIdleToLoadResources... Detected user idle time... will load additional content in anticipation of the next user request to speed things up", true);
-                if (typeof(ds.intvls.wfIdleToLoadResources.afterFx) === "function") { ds.intvls.wfIdleToLoadResources.afterFx(); }
+                dsU.log("wfIdleToLoadResources... Detected user idle time... will load additional content in anticipation of the next user request to speed things up", true);
+                if (typeof(dsU.intvls.wfIdleToLoadResources.afterFx) === "function") { dsU.intvls.wfIdleToLoadResources.afterFx(); }
             },
             onSuccessFx: function() {
-                ds.log("wfIdleToLoadResources... Detected that sp.ribbon.js is loaded and document.readyState is complete... will load additional content in anticipation of the next user request to speed things up");
-                if (typeof(ds.intvls.wfIdleToLoadResources.afterFx) === "function") { ds.intvls.wfIdleToLoadResources.afterFx(); }
+                dsU.log("wfIdleToLoadResources... Detected that sp.ribbon.js is loaded and document.readyState is complete... will load additional content in anticipation of the next user request to speed things up");
+                if (typeof(dsU.intvls.wfIdleToLoadResources.afterFx) === "function") { dsU.intvls.wfIdleToLoadResources.afterFx(); }
             },
             afterFx: function() {
-                if (ds.settings.bOnlyGetListsWhenTold === false) {
-                    ds.rest.coll.getLists(true, function() {
-                        ds.intvls.wfAllListsAndFields.intvl = setInterval(ds.intvls.wfAllListsAndFields.loopingFx, ds.intvls.wfAllListsAndFields.pauseMS);
+                if (dsU.settings.bOnlyGetListsWhenTold === false) {
+                    dsU.rest.coll.getLists(true, function() {
+                        dsU.intvls.wfAllListsAndFields.intvl = setInterval(dsU.intvls.wfAllListsAndFields.loopingFx, dsU.intvls.wfAllListsAndFields.pauseMS);
                     });
-                } else if (ds.util.isPageInEditMode() === false && ds.util.isPageInDialog() === false) {
-                    ds.util.getSettingsForCurrentPage(function(formSettings) {
+                } else if (dsU.util.isPageInEditMode() === false && dsU.util.isPageInDialog() === false) {
+                    dsU.util.getSettingsForCurrentPage(function(formSettings) {
                         try {
                             eval("formSettings.masterSettings.initFx = " + formSettings.masterSettings.initFx + ";");
                             formSettings.masterSettings.initFx();
@@ -1886,10 +1886,10 @@ var ds = {
                             }
                         } catch (err) {}
                     });
-                    setTimeout(ds.util.conditionallyShowDsMagicConfigurationButton, 1300);
+                    setTimeout(dsU.util.conditionallyShowDsMagicConfigurationButton, 1300);
                 }
 
-                ds.pages.all();
+                dsU.pages.all();
             }
         },
         wfAllListsAndFields: {
@@ -1901,34 +1901,34 @@ var ds = {
                 var bSuccess = false;
                 // check to see if we're done waiting
                 try {
-                    bSuccess = ds.util.checkIfAllListDefsRetrieved(true);
+                    bSuccess = dsU.util.checkIfAllListDefsRetrieved(true);
                 } catch (err) {}
                 if (bSuccess === true) {
-                    ds.intvls.wfAllListsAndFields.onSuccessFx();
-                    clearInterval(ds.intvls.wfAllListsAndFields.intvl);
+                    dsU.intvls.wfAllListsAndFields.onSuccessFx();
+                    clearInterval(dsU.intvls.wfAllListsAndFields.intvl);
                 } else {
-                    if (ds.intvls.wfAllListsAndFields.pauseMS * ds.intvls.wfAllListsAndFields.counter >= ds.intvls.wfAllListsAndFields.timeoutMS) {
-                        ds.intvls.wfAllListsAndFields.onTimeoutFx();
-                        clearInterval(ds.intvls.wfAllListsAndFields.intvl);
+                    if (dsU.intvls.wfAllListsAndFields.pauseMS * dsU.intvls.wfAllListsAndFields.counter >= dsU.intvls.wfAllListsAndFields.timeoutMS) {
+                        dsU.intvls.wfAllListsAndFields.onTimeoutFx();
+                        clearInterval(dsU.intvls.wfAllListsAndFields.intvl);
                     } else {
-                        ds.intvls.wfAllListsAndFields.counter = ds.intvls.wfAllListsAndFields.counter + 1;
+                        dsU.intvls.wfAllListsAndFields.counter = dsU.intvls.wfAllListsAndFields.counter + 1;
                     }
                 }
             },
             onTimeoutFx: function() {
-                ds.log("wfAllListsAndFields... timeout waiting for all lists and fields to be retrieved");
-                window.clearInterval(ds.intvls.wfAllListsAndFields.intvl);
+                dsU.log("wfAllListsAndFields... timeout waiting for all lists and fields to be retrieved");
+                window.clearInterval(dsU.intvls.wfAllListsAndFields.intvl);
             },
             onSuccessFx: function() {
-                if (ds.settings.bOnlyGetListsWhenTold === true) {
-                    ds.log("wfAllListsAndFields... Detected that all lists and fields have been retrieved", true);
-                    if (ds.util.isPageInEditMode() === false && ds.util.isPageInDialog() === false) {
-                        setTimeout(ds.util.conditionallyShowDsMagicConfigurationButton, 1300);
+                if (dsU.settings.bOnlyGetListsWhenTold === true) {
+                    dsU.log("wfAllListsAndFields... Detected that all lists and fields have been retrieved", true);
+                    if (dsU.util.isPageInEditMode() === false && dsU.util.isPageInDialog() === false) {
+                        setTimeout(dsU.util.conditionallyShowDsMagicConfigurationButton, 1300);
                     }
-                    window.clearInterval(ds.intvls.wfAllListsAndFields.intvl);
-                } else if (ds.util.isPageInEditMode() === false && ds.util.isPageInDialog() === false) {
-                    ds.log("wfAllListsAndFields... Detected that all lists and fields have been retrieved... retrieving settings", true);
-                    ds.util.getSettingsForCurrentPage(function(formSettings) {
+                    window.clearInterval(dsU.intvls.wfAllListsAndFields.intvl);
+                } else if (dsU.util.isPageInEditMode() === false && dsU.util.isPageInDialog() === false) {
+                    dsU.log("wfAllListsAndFields... Detected that all lists and fields have been retrieved... retrieving settings", true);
+                    dsU.util.getSettingsForCurrentPage(function(formSettings) {
                         try {
                             eval("formSettings.masterSettings.initFx = " + formSettings.masterSettings.initFx + ";");
                             formSettings.masterSettings.initFx();
@@ -1937,59 +1937,59 @@ var ds = {
                             }
                         } catch (err) {}
                     });
-                    setTimeout(ds.util.conditionallyShowDsMagicConfigurationButton, 1300);
-                    window.clearInterval(ds.intvls.wfAllListsAndFields.intvl);
+                    setTimeout(dsU.util.conditionallyShowDsMagicConfigurationButton, 1300);
+                    window.clearInterval(dsU.intvls.wfAllListsAndFields.intvl);
                 } else {
-                    ds.log("wfAllListsAndFields... Detected that page is in edit mode or is a dialog, so not retrieving settings or showing config button", true);
-                    window.clearInterval(ds.intvls.wfAllListsAndFields.intvl);
+                    dsU.log("wfAllListsAndFields... Detected that page is in edit mode or is a dialog, so not retrieving settings or showing config button", true);
+                    window.clearInterval(dsU.intvls.wfAllListsAndFields.intvl);
                 }
             }
         }
     },
     pages: {
         all: function() {
-            ds.log("Setting up event handlers used on all pages", true);
-            ds.$("BODY").on("keypress", function(e) {
-                ds.settings.idleTime = 0;
-                ds.evts.keyPressBody = e;
+            dsU.log("Setting up event handlers used on all pages", true);
+            dsU.$("BODY").on("keypress", function(e) {
+                dsU.settings.idleTime = 0;
+                dsU.evts.keyPressBody = e;
             });
-            ds.$("BODY").on("mousedown", function(e) {
-                ds.settings.idleTime = 0;
-                ds.evts.mouseDownBody = e;
+            dsU.$("BODY").on("mousedown", function(e) {
+                dsU.settings.idleTime = 0;
+                dsU.evts.mouseDownBody = e;
             });
-            ds.$("BODY").on("mouseup", function(e) {
-                ds.settings.idleTime = 0;
-                ds.evts.mouseUpBody = e;
+            dsU.$("BODY").on("mouseup", function(e) {
+                dsU.settings.idleTime = 0;
+                dsU.evts.mouseUpBody = e;
             });
-            ds.$("BODY").on("mousemove", function(e) {
-                ds.settings.idleTime = 0;
-                ds.evts.mouseMoveBody = e;
-                ds.stor.session.mouseX = e.clientX;
-                ds.stor.session.mouseY = e.clientY;
+            dsU.$("BODY").on("mousemove", function(e) {
+                dsU.settings.idleTime = 0;
+                dsU.evts.mouseMoveBody = e;
+                dsU.stor.session.mouseX = e.clientX;
+                dsU.stor.session.mouseY = e.clientY;
             });
-            ds.$(window).on("blur", function(e) {
-                ds.stor.session.windowFocus = false;
-                ds.settings.idleTime = ds.intvls.wfIdleToLoadResources.timeoutMS + 1;
-                ds.evts.blurWindow = e;
+            dsU.$(window).on("blur", function(e) {
+                dsU.stor.session.windowFocus = false;
+                dsU.settings.idleTime = dsU.intvls.wfIdleToLoadResources.timeoutMS + 1;
+                dsU.evts.blurWindow = e;
             });
-            ds.$(window).on("focus", function(e) {
-                ds.stor.session.windowFocus = true;
-                ds.evts.focusWindow = e;
+            dsU.$(window).on("focus", function(e) {
+                dsU.stor.session.windowFocus = true;
+                dsU.evts.focusWindow = e;
             });
-            ds.util.getBrowserNameAndVersion(function(oBrowser) { ds.log("DS Magic for SharePoint namespace detected browser as |" + oBrowser.browserName + "| and version |" + oBrowser.browserVersion + "|", true); });
-            ds.$("#DeltaSiteLogo").empty().append("<div class='ds-magic-logo-wrapper' unselectable='on'><span class='ds-magic-logo-content-letter' unselectable='on'>d</span><span class='ds-magic-logo-content-letter' unselectable='on'>s</span><span class='ds-magic-logo-content-fa' unselectable='on'><i class='fa fa-magic'></i></span></div>");
+            dsU.util.getBrowserNameAndVersion(function(oBrowser) { dsU.log("DS Magic for SharePoint namespace detected browser as |" + oBrowser.browserName + "| and version |" + oBrowser.browserVersion + "|", true); });
+            dsU.$("#DeltaSiteLogo").empty().append("<div class='ds-magic-logo-wrapper' unselectable='on'><span class='ds-magic-logo-content-letter' unselectable='on'>d</span><span class='ds-magic-logo-content-letter' unselectable='on'>s</span><span class='ds-magic-logo-content-fa' unselectable='on'><i class='fa fa-magic'></i></span></div>");
         }
     },
     onLoad: setTimeout(function() {
-        ds.log("DS SPMagic Util Namespace loaded", true);
+        dsU.log("DS SPMagic Util Namespace loaded", true);
         document.onreadystatechange = function() {
             if (document.readyState === "complete") {
                 ExecuteOrDelayUntilScriptLoaded(function() {
-                    ds.log("Document.ready event fired", true);
-                    ds.util.getSPUIVersion(function() { ds.log("DS Namespace detected SP UI version of |" + ds.stor.session.uiVersion + "|", true); });
-                    ds.util.getPageType(function() { ds.log("DS Namespace detected page type of |" + ds.stor.session.pageType + "|", true); });
-                    if (ds.util.isPageInEditMode() === false && ds.util.isPageInDialog() === false) {
-                        /*ds.intvls.wfIdleToLoadResources.intvl = setInterval(ds.intvls.wfIdleToLoadResources.loopingFx, ds.intvls.wfIdleToLoadResources.pauseMS);*/
+                    dsU.log("Document.ready event fired", true);
+                    dsU.util.getSPUIVersion(function() { dsU.log("DS Namespace detected SP UI version of |" + dsU.stor.session.uiVersion + "|", true); });
+                    dsU.util.getPageType(function() { dsU.log("DS Namespace detected page type of |" + dsU.stor.session.pageType + "|", true); });
+                    if (dsU.util.isPageInEditMode() === false && dsU.util.isPageInDialog() === false) {
+                        /*ds.intvls.wfIdleToLoadResources.intvl = setInterval(dsU.intvls.wfIdleToLoadResources.loopingFx, dsU.intvls.wfIdleToLoadResources.pauseMS);*/
                     }
                 }, "sp.js");
             }

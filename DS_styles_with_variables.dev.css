@@ -1,0 +1,1179 @@
+/*@import url('DS_styles_variables.css');*/
+.ds-psudo-button {
+	border-radius: 0.4em 0.4em;
+	border: 1px solid black;
+	/*background-color: #D7D7D7;*/
+	background-color: var(--inactive-bg-color);
+	/*background-image: -ms-linear-gradient(rgb(243, 243, 243), rgb(200,200,200));*/
+	background-image: var(--inactive-bg-image);
+	/*background: linear-gradient(rgb(243, 243, 243), rgb(200,200,200));*/
+	background: var(--inactive-bg);
+	color: black;
+	/*font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+	font-family: var(--controls-font-family);
+	font-size: 1em;
+	font-weight: 400;
+	width: auto;
+	cursor: pointer;
+	display: inline-block;
+	padding: 3px 5px 3px 5px;
+	margin: 2px 2px 2px 2px;
+}
+.ds-psudo-button:not([disabled]):hover, .ds-psudo-button:not([disabled]):hover *, 
+.ds-psudo-button-active, .ds-psudo-button-active * {
+	/*background-color: #1c557d;*/
+	background-color: var(--active-bg-color);
+	/*background-image: -ms-linear-gradient(#2a7fbb, #1c557d);*/
+	background-image: var(--active-bg-image);
+	/*background: linear-gradient(#2a7fbb, #1c557d);*/
+	background: var(--active-bg);
+	color: white;
+	/*color: var(--enabled-foreground-hover);*/
+}
+.ds-psudo-button[disabled]:hover, .ds-psudo-button[disabled]:hover * {
+	cursor: default;
+}
+#dvAddTimeAndComment .ds-psudo-button {
+	font-size: 1.5em;
+}
+.ds-psudoButton { 
+	display: inline-block;
+	/*background-color: #D7D7D7;*/
+	/*background-image: -ms-linear-gradient(rgb(243, 243, 243), rgb(200,200,200));*/
+	/*background: linear-gradient(rgb(243, 243, 243), rgb(200,200,200));*/
+	background-color: var(--inactive-bg-color);
+	background-image: var(--inactive-bg-image);
+	background: var(--inactive-bg);
+	border-style: solid;
+	border-color: black;
+	border-width: 1px;
+	border-radius: 0.2em 0.2em;
+	margin: 1px 2px 1px 2px;
+	cursor: pointer;
+	/*color: black;*/
+	color: var(--enabled-foreground);
+	font-size: 0.965em;
+}
+.ds-psudoButton *,.ds-psudoButton *:link,.ds-psudoButton *:active,.ds-psudoButton *:visited { 
+	cursor: pointer;
+	/*color: black;*/
+	color: var(--enabled-foreground);
+}
+.ds-psudoButton > TABLE {
+	margin: 2px 5px 2px 5px;
+}
+.ds-psudoButton > TABLE > TBODY > TR > TD:first-child {
+	padding-right: 5px;
+}
+.ds-psudoButton:hover, 
+.ds-psudoButton:hover *, 
+.ds-psudoButton:hover *:link, 
+.ds-psudoButton:hover *:active, 
+.ds-psudoButton:hover *:visited {
+	/*background-color: #1c557d;*/
+	background-color: var(--active-bg-color);
+	/*background-image: -ms-linear-gradient(#2a7fbb, #1c557d);*/
+	background-image: var(--active-bg-image);
+	/*background: linear-gradient(#2a7fbb, #1c557d);*/
+	background: var(--active-bg);
+	/*color: white;*/
+	color: var(--enabled-foreground-hover);
+	cursor: pointer;
+}
+.ds-psudoButton[disabled] *,
+.ds-psudoButton[disabled] *:link,
+.ds-psudoButton[disabled] *:active,
+.ds-psudoButton[disabled] *:visited { 
+	cursor: default;
+	color: #B3B3B3;
+}
+.ds-accordionSectionHeader {
+	width: 100%;
+	font-size: 1.3em;
+	font-weight: 700;
+	/*font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+	font-family: var(--controls-font-family);
+	cursor: pointer;
+	padding: 3px 5px 3px 5px;
+	margin: 2px 2px 2px 2px;
+	max-width: 1000px;
+	border: 1px solid black;
+}
+.ds-accordionSectionHeaderActive { 
+	/*background-color: #1c557d;*/
+	background-color: var(--active-bg-color);
+	/*background-image: -ms-linear-gradient(#2a7fbb, #1c557d);*/
+	background-image: var(--active-bg-image);
+	/*background: linear-gradient(#2a7fbb, #1c557d);*/
+	background: var(--active-bg);
+	/*color: white;*/
+	color: var(--enabled-foreground-hover);
+}
+.ds-accordionSectionHeaderInactive { 
+	/*background-color: #D7D7D7;*/
+	background-color: var(--inactive-bg-color);
+	/*background-image: -ms-linear-gradient(rgb(243, 243, 243), rgb(200,200,200));*/
+	background-image: var(--inactive-bg-image);
+	/*background: linear-gradient(rgb(243, 243, 243), rgb(200,200,200));*/
+	background: var(--inactive-bg);
+	color: var(--enabled-foreground);
+}
+.ds-accordionContentSection {
+	width: 100%;
+	border: 1px solid #59a3d9;
+	padding: 3px 4px 3px 4px;
+	margin: 2px 2px 2px 2px;
+	max-width: 1000px;
+}
+/* Task Tracking Related Records Display Styles */
+DIV.ds-relatedRecordsUI > TABLE, DIV.ds-relatedRecordsUI > TABLE > TBODY > TR > TD {
+	width: 100%;
+}
+DIV#tabs > DIV:first-child {
+	display: block;
+	position: absolute;
+	height: auto;
+}
+DIV#tabs UL {
+	display: block;
+	background-color: #1c557d;
+	background-color: var(--active-bg-color);
+	padding-top: 0.3em;
+	width: 100%;
+	list-style-type: none;
+	height: 3em;
+	-webkit-margin-before: 0em;
+	-webkit-margin-after: 0em;
+	-webkit-padding-start: 0em;
+	margin-bottom: 0em;
+	padding-left: 0em;
+}
+DIV#tabs UL LI {
+	display: inline-block;
+	position: relative;
+	left: 0.6em;
+	top: 0px;
+	width: auto;
+	list-style-type: none;
+	padding: 0.3em 0.6em 0.646em 0.6em;
+}
+DIV#tabs UL LI.ds-psudo-tab-last {
+	position: absolute;
+	left: initial;
+	width: 4em; 
+	top: 0.4em;
+	right: 0.6em;
+	float: right;
+}
+DIV#tabs UL LI A:link,DIV#tabs UL LI A:visited,DIV#tabs UL LI A:active{
+	color: black;
+}
+.ds-psudo-tab:not(.ds-psudo-tab-last) {
+	border-top-right-radius: 0.6em 0.6em;
+	border-top-left-radius: 0.6em 0.6em;
+	border: 1px solid;
+	border-left-color: #595959;
+	border-right-color: #595959;
+	border-top-color: #595959;
+	border-bottom-color: #1c557d;
+	background-color: #D7D7D7;
+	background-color: var(--inactive-bg-color);
+	background-image: -ms-linear-gradient(rgb(243, 243, 243), rgb(200,200,200));
+	background-image: var(--inactive-bg-image);
+	background: linear-gradient(rgb(243, 243, 243), rgb(200,200,200));
+	background: var(--inactive-bg);
+	color: #133853;
+	font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: var(--controls-font-family);
+	font-size: 1em;
+	font-weight: 400;
+	width: auto;
+	padding: 3px 5px 3px 5px;
+	margin: 2px 2px 2px 2px;
+}
+.ds-psudo-tab * {
+	color: #133853;
+	text-decoration: none;
+}
+.ds-psudo-tab:not(.ds-psudo-tab-last):hover, .ds-psudo-tab:not(.ds-psudo-tab-last):hover *, .ds-psudo-tab-active:not(.ds-psudo-tab-last), .ds-psudo-tab-active:not(.ds-psudo-tab-last) * {
+	background-color: #1c557d;
+	background-color: var(--active-bg-color);
+	background-image: -ms-linear-gradient(#2a7fbb, #1c557d);
+	background-image: var(--active-bg-image);
+	background: linear-gradient(#2a7fbb, #1c557d);
+	background: var(--active-bg);
+	color: white;
+	color: var(--enabled-foreground-hover);
+	border-left-color: black;
+	border-right-color: black;
+	border-top-color: black;
+	border-bottom-color: #1c557d;
+	text-decoration: none;
+}
+.ds-psudo-tab-last {
+	border-top-right-radius: 0.6em 0.6em;
+	border-top-left-radius: 0.6em 0.6em;
+	border: 1px solid;
+	border-left-color: #6e000d;
+	border-right-color: #6e000d;
+	border-top-color: #6e000d;
+	border-bottom-color: #1c557d;
+	background-color: #D7D7D7;
+	background-color: var(--inactive-bg-color);
+	background-image: -ms-linear-gradient(rgb(243, 243, 243), rgb(200,200,200));
+	background-image: var(--inactive-bg-image);
+	background: linear-gradient(rgb(243, 243, 243), rgb(200,200,200));
+	background: var(--inactive-bg);
+	color: #6e000d;
+	font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: var(--controls-font-family);
+	font-size: 1em;
+	font-weight: 400;
+	width: auto;
+	cursor: pointer;
+	padding: 3px 5px 3px 5px;
+	margin: 2px 2px 2px 2px;
+	float: right;
+}
+.ds-psudo-tab-last:hover,.ds-psudo-tab-active.ds-psudo-tab-last {
+	border-top-right-radius: 0.6em 0.6em;
+	border-top-left-radius: 0.6em 0.6em;
+	border: 1px solid;
+	border-left-color: #6e000d;
+	border-right-color: #6e000d;
+	border-top-color: #6e000d;
+	border-bottom-color: #1c557d;
+	background-color: #ffff99;
+	background-image: -ms-linear-gradient(#ffff99, #e6e600);
+	background: linear-gradient(#ffff99, #e6e600);
+	color: #890212;
+	font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: var(--controls-font-family);
+	font-size: 1em;
+	font-weight: 400;
+	width: auto;
+	padding: 3px 5px 3px 5px;
+	margin: 2px 2px 2px 2px;
+}
+.ds-psudo-tab-last * {
+	color: #890212;
+	text-decoration: none;
+}
+.ds-psudo-tab-last:hover * {
+	border: 0px hidden transparent;
+	background: transparent;
+	color: #890212;
+	text-decoration: none;
+}
+.ds-tabContentDiv {
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	background-color: #F6F6F6;
+}
+.ds-tabContentScroll {
+	overflow-x: hidden;
+}
+.ds-tabContentHeader {
+	overflow-x: hidden;
+}
+.ds-TabContentWrapper {
+	background: transparent;
+	table-layout: fixed;
+}
+.ds-addRelatedRecordsButtons {
+	width: 100%;
+	display: block;
+	position: relative;
+	top: 0px;
+	left: 0px;
+}
+.ds-tabContentDiv#tabs-filter > .ds-tabContentScroll,.ds-tabContentDiv#tabs-filter > .ds-tabContentHeader {
+	overflow: hidden;
+}
+#dsChangeFilterForRelatedRecords {
+	display: block;
+	position: relative;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	border: 0px hidden transparent;
+}
+.ds-relatedInfoHeaders{
+	font-family: Verdana, sans-serif;
+	font-size: x-small;
+	font-weight: bold;
+	text-align: center;
+	text-align: center;
+	vertical-align: middle;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+.ds-relatedInfoHeaders:first-child,.ds-relatedInfoData:first-child{
+	width: 63px;
+}
+.ds-relatedInfoData{
+	font-family: Verdana, sans-serif;
+	font-size: x-small;
+	text-align: center;
+	vertical-align: middle;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	background-color: #f6f6f6;
+}
+.ds-relatedInfoDataShaded{
+	font-family: Verdana, sans-serif;
+	font-size: x-small;
+	text-align: center;
+	vertical-align: middle;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+	background-color: #e4e4e4;
+}
+.ds-relatedInfoDataHeaderTxtField {
+	font-family: Verdana, sans-serif; 
+	font-size: x-small; 
+	border: 0px transparent hidden; 
+	background: transparent; 
+	overflow: hidden;
+	text-decoration: underline;
+	font-weight: bold;
+	cursor: default;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+.ds-tcBlock {
+	display: inline-block;
+	padding: 0px 1px 0px 1px;
+	margin: 0px 1px 0px 1px;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	height: auto;
+	font-size: 10px;
+	min-height: 5px;
+	max-height: 12px;
+	width: 99%;
+	min-width: 15px;
+	max-width: 1000px;
+	border: 0px hidden transparent;
+	color: inherit;
+	background: transparent;
+	font-family: Verdana, sans-serif; 
+	cursor: default;
+}
+.ds-tabContentHeader .ds-tcBlock {
+	text-align: center;
+	text-decoration: underline;
+	font-weight: 700;
+}
+.ds-hoverPopup {
+	display: block;
+	position: fixed;
+	padding: 2px 4px 4px 2px;
+	margin: 2px 2px 2px 2px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	height: auto;
+	font-size: 12px;
+	min-height: 10px;
+	max-height: 300px;
+	width: auto;
+	min-width: 10px;
+	max-width: 250px;
+	border: 3px solid black;
+	color: black;
+	white-space: nowrap;
+	/*background-color: #D7D7D7;*/
+	background-color: var(--inactive-bg-color);
+	/*background-image: -ms-linear-gradient(rgb(243, 243, 243), rgb(200,200,200));*/
+	background-image: var(--inactive-bg-image);
+	/*background: linear-gradient(rgb(243, 243, 243), rgb(200,200,200));*/
+	background: var(--inactive-bg);
+	font-family: Verdana, sans-serif; 
+	cursor: default;
+}
+.ds-relatedInfoDataTxtField {
+	font-family: Verdana, sans-serif; 
+	font-size: x-small; 
+	border: 0px transparent hidden; 
+	background: transparent; 
+	overflow: hidden;
+	cursor: default;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+.ds-relatedInfoDataTxtFieldConstruction {
+	font-family: Verdana, sans-serif; 
+	font-size: x-small; 
+	border: 0px transparent hidden; 
+	background: white; 
+	overflow: hidden;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px 0px 0px;
+}
+.ui-tabs .ui-tabs-nav LI A {
+	font-size: small;
+}
+.ui-tabs .ui-tabs-nav LI.ui-tabs-active A {
+	cursor: text;
+	color: white !important;
+}
+.ui-state-default A:link {
+	color:	#bc1529 !important;
+}
+.ui-widget-content {
+	background: #f6f6f6 url(images/ui-bg_highlight-soft_100_cccccc_1x100.png) 50% top repeat-x;
+}
+.ds-recordIDs {
+	color: blue;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.ds-emailLinks {
+	color: blue;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.ds-highlight {
+	background-color: #ffff99;
+	color: #890212;
+	border: 1px solid #6e000d;
+}
+.ds-highlight input, .ds-highlight button, .ds-highlight .ds-psudoButton {
+	color: #890212;
+	border: 1px solid #6e000d;	
+}
+.ds-highlight .ds-psudoButton * {
+	color: #890212;
+}
+.ds-highlight .ds-psudoButton:hover * {
+	color: white;
+}
+/* loading overlay styles */
+.ds-loadingOverlayInitial{
+	font-size:16px;
+	padding-top:100px;
+	text-align:center;	
+	width:100%;
+	height:100%;
+	background-color:#F5F5F5;
+	position:fixed;
+	top:0px;
+	left:0px;
+	z-index:9999999;
+	cursor:default;
+}
+.ds-loadingOverlayWithProgress{
+	font-size:16px;
+	text-align:center;	
+	width: auto;
+	height:auto;
+	min-width: 200px;
+	max-width: 495px;
+	min-height: 25px;
+	max-height: 450px;
+	background-color: #D7D7D7;
+	background-color: var(--inactive-bg-color);
+	background-image: -ms-linear-gradient(rgb(243, 243, 243), rgb(200,200,200));
+	background-image: var(--inactive-bg-image);
+	background: linear-gradient(rgb(243, 243, 243), rgb(200,200,200));
+	background: var(--inactive-bg);
+	opacity: 0.85;
+	overflow-x: auto;
+	overflow-y: scroll;
+	position:fixed;
+	bottom: 15px;
+	right: 15px;
+	z-index:99999990;
+	cursor:default;
+	display: block;
+	border: 0px hidden transparent;
+}
+/* css for chrome*/
+@supports (-webkit-appearance:none) {
+	.ds-loadingOverlayWithProgress{
+		opacity: 0.85;
+		background: linear-gradient(rgb(243, 243, 243), rgb(200,200,200));
+		background: var(--inactive-bg);
+	}
+}
+/* css for firefox*/
+@supports (-moz-animation: 4s linear 0s infinite alternate move_eye) {
+	.ds-loadingOverlayWithProgress{
+		opacity: 0.85;
+		background: linear-gradient(rgb(243, 243, 243), rgb(200,200,200));
+		background: var(--inactive-bg);
+	}
+}
+.ds-progressBarWrapper{
+	width: 490px; 
+	border:1px solid #000000;
+	height: 10px;
+	min-height: 14px;
+	max-height: 35px;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: left;
+	opacity: 1;
+	filter: none;
+}
+.ds-progressBar{
+	background-color:#5286AD;
+	width:0%;
+	height: 60%;
+	border: 0px transparent hidden;
+	color: #ffffff;
+	font-family: Verdana, sans-serif;
+	font-size: 7px;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+	opacity: 1;
+	filter: none;
+	background: linear-gradient(to right, rgb(243, 244, 164), rgb(189, 219, 191), rgb(203, 219, 231), rgb(82, 134, 173));
+}
+
+.ds-progressBar#ProgressBar1 {
+	/*blue*/
+	background-color: #5286AD;
+	background: linear-gradient(to right, rgb(203, 219, 231), rgb(82, 134, 173));
+}
+.ds-progressBar#ProgressBar2 {
+	/*red*/
+	background-color: #AF5950;
+	background: linear-gradient(to right, rgb(223, 189, 185), rgb(175, 89, 80));
+}
+.ds-progressBar#ProgressBar3 {
+	/*green*/
+	background-color: #5AA55F;
+	background: linear-gradient(to right, rgb(189, 219, 191), rgb(90, 165, 95));
+}
+.ds-progressBar#ProgressBar4 {
+	/*yellow*/
+	background-color: #e7ea48;
+	background: linear-gradient(to right, rgb(243, 244, 164), rgb(231, 234, 72));
+}
+.ds-progressBar#ProgressBar5 {
+	/*teal*/
+	background-color: #2fc5d0;
+	background: linear-gradient(to right, rgb(172, 232, 236), rgb(47, 197, 208));
+}
+.ds-progressBar#ProgressBar6 {
+	/*orange*/
+	background-color: #ff5500;
+	background: linear-gradient(to right, rgb(255, 187, 153), rgb(255, 85, 0));
+}
+.ds-progressBar#ProgressBar7 {
+	/*lavender*/
+	background-color: #5500ff;
+	background: linear-gradient(to right, rgb(187, 153, 255), rgb(85, 0, 255));
+}
+.ds-progressBar#ProgressBar8 {
+	/*brown*/
+	background-color: #bf8040;
+	background: linear-gradient(to right, rgb(230, 204, 179), rgb(191, 128, 64));
+}
+.ds-progressMessage{
+	border: 0px transparent hidden;
+	color: #000000;
+	font-family: Verdana, sans-serif;
+	font-size: medium;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+	opacity: 1;
+	filter: none;
+}
+.ds-loadingOverlayWithProgress TR.ds-progressIndicatorsTitle > TD:first-child {
+	text-align: center;
+}
+.ds-loadingOverlayWithProgress TR.ds-progressBarRowWrapper > TD:first-child {
+	text-align: left;
+}
+.ds-loadingOverlayWithProgress TR.ds-progressBarRowWrapper > TD:first-child  > SPAN.ds-progressBarMessage {
+	font-size: 1.1em;
+	font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: var(--controls-font-family);
+	font-weight: 400;
+	color: black;
+	cursor: default;
+	border: 0px hidden transparent;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	display: inline-block;
+	width: 100%;
+}
+.ds-loadingOverlayWithProgress TR.ds-progressBarRowWrapper > TD:first-child  > .ds-progressIndicatorWrapper {
+	display: block;
+	width: 100%;
+	font-size: 1em;
+	font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: var(--controls-font-family);
+	font-weight: 400;
+	color: black;
+	cursor: default;
+	border: 0px hidden transparent;
+	margin: 0px 0px 0px 0px;
+	padding: 1% 2% 1% 2%;
+}
+#tblContacts .ds-tcBlock .fa { 
+	font-size: 11px;
+}
+.ds-psudoPopupWrapper {
+	background: rgba(12, 12, 12, 0.75);
+	background: -ms-linear-gradient(rgb(243, 243, 243), rgb(200,200,200));
+	background: linear-gradient(rgba(12, 12, 12, 0.75), rgba(240,240,240,0.45));
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	z-index: 11;
+}
+.ds-popupWindow {
+	display: block;
+	position: fixed;
+	min-height: 200px;
+	max-height: 1200px;
+	min-width: 200px;
+	max-width: 1000px;
+	height: 80%;
+	width: 75%;
+	border: 3px double black;
+	background-color: white;
+	font-size: 1em;
+	top: 10%;
+	overflow-x: scroll;
+	overflow-y: scroll;
+}
+.ds-popupWindowTopBar {
+	display: inline-block;
+	vertical-align: middle;
+	text-align: left;
+	padding: 3px 3px 3px 3px;
+	position: fixed;
+	height: 25px;
+	width: 100%;
+	cursor: all-scroll;
+	background-color: #1c557d;
+	background-color: var(--active-bg-color);
+	background-image: -ms-linear-gradient(#2a7fbb, #1c557d);
+	background-image: var(--active-bg-image);
+	background: linear-gradient(#2a7fbb, #1c557d);
+	background: var(--active-bg);
+	color: white;
+	color: var(--enabled-foreground-hover);
+	top: 0px;
+	font-size: 1.5em;
+	font-weight: bold;
+	font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: var(--controls-font-family);
+	border-left: 3px double black;
+	border-top: 3px double black;
+	border-right: 3px double black;
+	border-bottom: none;
+}
+.ds-popupWindowTitleBarCloseButton {
+	display: block; 
+	position: fixed; 
+	right: 0px; 
+	top: 0px; 
+	float: right; 
+	height: 21px; 
+	width: 21px;
+	cursor: pointer;
+	color: white;
+	font-size: 1.5em;
+}
+/* Context menu styles */
+.ds-contextMenuTarget {
+	cursor: copy; 
+	cursor: context-menu; 
+	cursor: url(/Style%20Library/context-menu2.cur), copy;
+}
+.ds-psudo-context-menu-wrapper {
+	border: 0px hidden transparent;
+	background-color: none;
+	min-width: 200px;
+	width: 200px;
+	min-height: 30px;
+	height: 600px;
+	position: fixed;
+}
+.ds-psudo-context-menu-option {
+	border: 1px solid black;
+	background-color: #D7D7D7;
+	background-color: var(--inactive-bg-color);
+	background-image: -ms-linear-gradient(rgb(243, 243, 243), rgb(200,200,200));
+	background-image: var(--inactive-bg-image);
+	background: linear-gradient(rgb(243, 243, 243), rgb(200,200,200));
+	background: var(--inactive-bg);
+	color: black;
+	font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: var(--controls-font-family);
+	font-size: 1em;
+	width: 100%;
+	height: auto;
+	position: relative;
+	text-align: left;
+	cursor: pointer;
+}
+.ds-psudo-context-menu-option * {
+	cursor: pointer;
+}
+.ds-psudo-context-menu-option:hover {
+	background-color: #1c557d;
+	background-color: var(--active-bg-color);
+	background-image: -ms-linear-gradient(#2a7fbb, #1c557d);
+	background-image: var(--active-bg-image);
+	background: linear-gradient(#2a7fbb, #1c557d);
+	background: var(--active-bg);
+	color: white;
+	color: var(--enabled-foreground-hover);
+	border: 1px solid transparent;
+}
+.ds-psudo-context-menu-option:hover *, .ds-psudo-context-menu-option:hover *:link, .ds-psudo-context-menu-option:hover *:active, .ds-psudo-context-menu-option:hover *:visited {
+	color: white;
+}
+.ds-psudo-context-menu-option > TABLE {
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+.ds-psudo-context-menu-option > TABLE > TBODY > TR > TD:not(:last-child) { 
+	width: auto;
+}
+.ds-psudo-context-menu-option > TABLE > TBODY > TR > TD:last-child { 
+	width: 90%;
+	padding-left: 5px;
+}
+.ms-fullWidth > .ms-tableRow > .ms-tableCell > *, 
+.ms-fullWidth > .ms-tableRow > .ms-pub-contentLayout, 
+#DeltaPlaceHolderMain, 
+#sideNavBox {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+.ms-rteTable-default * {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+#titlerow {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+#contentBox {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+.ds-magic-enterSetupButton-wrapper {
+	min-width: 3em;
+	min-height: 3em;
+	position: absolute;
+	/*
+	right: 1.4em;
+	right: var(--scrollbar-size);
+	bottom: 1.4em;
+	bottom: var(--scrollbar-size);
+	*/
+	left: 0px;
+	/*top: Calc(100% - 30px - 34px);*/
+	/*#suiteBar height is 30px*/
+	/*#s4-ribbonrow height is 34px*/
+	/*top: Calc(8%);*/
+	top: 0px;
+	background: transparent;
+	opacity: 0.65;
+	zoom: 0.9;
+	table-layout: fixed;
+	border-collapse: collapse;
+	display: inline-table;
+}
+.ds-magic-enterSetupButton-wrapper:hover{
+	background-color: #1c557d;
+	background-color: var(--active-bg-color);
+	background-image: -ms-linear-gradient(#2a7fbb, #1c557d);
+	background-image: var(--active-bg-image);
+	background: linear-gradient(#2a7fbb, #1c557d);
+	background: var(--active-bg);
+	opacity: 1;
+	zoom: 1;
+}
+.ds-magic-enterSetupButton {
+	cursor: pointer; 
+	vertical-align: middle;
+	text-align: center;
+	font-size: 1.5em;
+	width: 100%;
+	height: 100%;
+	color: black;
+	color: var(--enabled-foreground);
+}
+.ds-magic-enterSetupButton:hover {
+	color: white;
+	color: var(--enabled-foreground-hover);
+	opacity: 1;
+	zoom: 1;
+}
+.ds-magic-enterSetupButton:hover * {
+	color: white;
+	color: var(--enabled-foreground-hover);
+}
+/*
+.ds-tabs-enterSetupButton {
+	min-width: 3em;
+	min-height: 3em;
+	padding: 0em 3px 5px 3px;
+	margin-top: 1em;
+	text-align: center;
+	cursor: pointer;
+	white-space: nowrap;
+	background: transparent;
+	overflow: visible;
+}
+.ds-tabs-enterSetupButton *{
+	color: black;
+	opacity: 0.65;
+	zoom: 0.8;
+}
+.ds-tabs-enterSetupButton:hover{
+	padding-top: 1.5em;
+	margin-left: 1.4em;
+	margin-top: 0.5em;
+	background-color: #1c557d;
+	background-image: -ms-linear-gradient(#2a7fbb, #1c557d);
+	background-image: linear-gradient(#2a7fbb, #1c557d);
+}
+.ds-tabs-enterSetupButton:hover *{
+	color: white;
+	opacity: 1;
+	zoom: 1;
+}
+*/
+.ds-magic-logo-wrapper {
+    position: relative;
+    top: 0em;
+    left: 0em;
+    background: transparent;
+    width: 4.2em;
+    height: 4.5em;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.ds-magic-logo-wrapper * {
+	cursor: default;
+}
+.ds-magic-logo-content-letter:nth-child(1) {
+    position: absolute;
+    top: -0.37em;
+    left: -0.12em;
+    font-size: 4.5em;
+    z-index: -2;
+    color: #2a7fbb;
+    opacity: 0.66;
+}
+.ds-magic-logo-content-letter:nth-child(2) {
+    position: absolute;
+    left: 0.2em;
+    font-size: 4em;
+    top: -0.2em;
+    z-index: -1;
+    color: #2a7fbb;
+    opacity: 0.36;
+}
+.ds-magic-logo-content-fa {
+    position: absolute;
+    top: 0.2em;
+    left: 0.25em;
+    font-size: 4em;
+    transform: rotateY(180deg);
+    z-index: 0;
+    color: #1c557d;
+    opacity: 0.8;
+}
+#btnAddTimeAndComment > table > tbody > tr > td:nth-child(3) {
+	background: transparent;
+}
+#btnAddTimeAndComment > table > tbody > tr > td:nth-child(3) * {
+	position:relative;
+	zoom:0.7%;
+	bottom:-0.2em;
+	left:-0.10em;
+}
+#btnSelfAssignTask > table > tbody > tr > td:nth-child(2) {
+	background: transparent;
+}
+#btnSelfAssignTask > table > tbody > tr > td:nth-child(2) * {
+	position:relative;
+	zoom:0.7%;
+	bottom:-0.2em;
+	left:-0.78em;
+}
+#dsContextAddTimeAndComment .fa-clock-o, 
+#dsContextAddTimeAndComment .fa-comment { 
+	zoom: 0.75; 
+}
+ul.root.static.ds-hoverMenu > li {
+    display: inline-block;
+}
+ul.root.static.ds-hoverMenu li.dynamic {
+	display: block;
+}
+ul.root.static.ds-hoverMenu ul.dynamic {
+    display: none;
+}
+ul.root.static.ds-hoverMenu li:hover > ul.dynamic {
+    display: block;
+}
+#dsSiteFiles {
+	position: relative;
+	top: 0px;
+	left: 0px;
+}
+#dsSiteFiles > li {
+	display: block;
+	position: relative;
+	top: 0px;
+	left: 0px;
+}
+#dsSiteFiles li span.viewFile,
+#dsSiteFiles li span.downloadFile {
+	cursor: pointer;
+	border: 1px solid black;
+	background-color: #D6D6D6;
+	background-color: rgba(220,220,220,0.6);
+	text-align: center;
+	padding: 2px 4px;
+}
+#dsSiteFiles li > table {
+	table-layout: fixed;
+	width: 100%;
+}
+#dsSiteFiles li > table > tbody > tr > td.expandControl,
+#dsSiteFiles li > table > tbody > tr > td.contentIcon {
+	width: 4%;
+	vertical-align: top;
+	text-align: center;
+}
+#dsSiteFiles li > table > tbody > tr > td.contentLink {
+	/*width: 60%;*/
+	vertical-align: top;
+}
+#dsSiteFiles li > table > tbody > tr > td.viewContent,
+#dsSiteFiles li > table > tbody > tr > td.downloadContent {
+	width: 4%;
+	vertical-align: top;
+	padding: 2px 1px;
+	text-align: center;
+}
+#dsSiteFiles li > table > tbody > tr > td.versionCount,
+#dsSiteFiles li > table > tbody > tr > td.contentSize,
+#dsSiteFiles li > table > tbody > tr > td.versionLabel {
+	width: 8%;
+	text-align: left;
+	vertical-align: top;
+}
+#dsSiteFiles li > ul {
+	display: block;
+}
+#dsSiteFiles ul:not(.expanded) > li {
+	display: none;
+}
+#dsSiteFiles ul.expanded > li { 
+	display: block;
+}
+#dsSiteFiles ul.expanded > li:nth-child(even) { 
+	background-color: #E6E6E6;
+}
+#dsSiteFiles ul.expanded > li:nth-child(odd) {
+	background-color: #FFFFFF;
+	background-color: rgba(255,255,255,0.4);
+}
+.ds-config-section-header {
+	/*cursor: pointer;*/
+	line-height: 2em;
+	vertical-align: middle;
+	position: relative;
+}
+.ds-config-section-wrapper {
+	/*border: 1px solid black;*/
+	position: relative;
+}
+.ds-masterSettings-toggle { 
+	float: left;
+}
+/*
+.ds-config-section-wrapper:nth-of-type(even) {
+	background-color: #a7c9e0;
+}
+.ds-config-section-wrapper:nth-of-type(odd) {
+	background-color: #ccff99;
+}
+*/
+.ds-config-gui-top-menu {
+	/*
+	border-bottom: 3px double grey;
+	display: block;
+	*/
+	min-height: 80px;
+}
+.ds-config-gui { 
+	border: 3px solid black;
+	background-color: #E6E6E6;
+	padding: 3px 6px 3px 6px;
+	width: 100%;
+	min-height: 350px;
+	overflow-y: scroll;
+}
+.ds-config-section-table-wrapper {
+	width: 100%;
+}
+.ds-config-section-header-content-wrapper {
+	table-layout: fixed;
+	border-collapse: collapse;
+	width: 100%;
+}
+.ds-config-section-header-content-wrapper > TBODY > TR > TD {
+	color: black;
+}
+.ds-config-section-header-content-wrapper > TBODY > TR > TD:nth-child(1) {
+	width: 5%;
+	text-align: left;
+	vertical-align: middle;
+}
+.ds-config-section-header-content-wrapper > TBODY > TR > TD:nth-child(2) {
+	text-align: left;
+	vertical-align: middle;
+}
+.ds-config-section-header-content-wrapper > TBODY > TR > TD:nth-child(3),
+.ds-config-section-header-content-wrapper > TBODY > TR > TD:nth-child(4) {
+	width: 7%;
+	text-align: right;
+	vertical-align: middle;
+	padding-right: 2em;
+	font-size: 0.7em;
+}
+.ds-config-section-move-up, .ds-config-section-move-down {
+	cursor: pointer;
+}
+.ds-config-gui .ds-config-section-header:not(.masterSettings):nth-of-type(2) .ds-config-section-move-up {
+	cursor: not-allowed;
+	color: gray;
+}
+.ds-config-gui .ds-config-section-header:not(.masterSettings):last-of-type .ds-config-section-move-down {
+	cursor: not-allowed;
+	color: gray;
+}
+.ds-masterSettings-afterFx-js,
+.ds-masterSettings-initFx-js {
+	max-height: 400px;
+	max-width: 98%;
+	overflow-y: scroll;
+	white-space: pre-wrap;
+}
+pre code {
+	background-color: transparent !important;
+	padding: 0.25em !important;
+}
+.ds-masterSettings-initFx-wrapper,
+.ds-masterSettings-afterFx-wrapper	{
+	width: 98%;
+}
+.ds-fxdtbl {
+	table-layout: fixed;
+	border-collapse: collapse;
+}
+/*psPop = psudoPopup*/
+.ds-psPopWrapper {
+	display: block;
+	position: fixed;
+	box-sizing: border-box;
+	top: 100px;
+	left: 100px;
+	height: 300px;
+	max-height: 1400px;
+	width: 500px;
+	max-width: 1000px;
+	overflow-y: visible;
+	background-color: #F6F6F6;
+	border: 3px double black;
+}
+/* psPopTB = psudoPopupTitleBar */
+.ds-psPopTB {
+	display: block;
+	position: absolute; 
+	box-sizing: border-box;
+	cursor: move;
+	top: 0px;
+	left: 0px;
+	height: 35px;
+	width: 100%;
+	background-color: #1c557d;
+	background-image: -ms-linear-gradient(#2a7fbb, #1c557d);
+	background: linear-gradient(#2a7fbb, #1c557d);
+	color: white;
+	z-index: 999998;
+}
+.ds-psPopTB > span {
+	margin-left: 7px;
+	color: white;
+	font-size: 1.6em;
+	font-weight: bold;
+	vertical-align: middle;
+	text-align: left;
+}
+.ds-psPopTBCloseButton {
+	display: inline-block;
+	position: absolute; 
+	cursor: pointer;
+	top: 1px;
+	right: 6px;
+	height: 33px;
+	width: auto;
+	font-size: 23px;
+	background: transparent;
+	color: white;
+	text-align: right;
+	z-index: 999999;
+	overflow: hidden;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	vertical-align: middle;
+}
+.ds-psPopTBCloseButton:hover {
+	text-shadow: -1px -1px 0 #000,2px -1px 0 #000,-1px 2px 0 #000,2px 2px 0 #000;
+	background-color: #1c557d;
+	background-image: -ms-linear-gradient(#2a7fbb, #1c557d);
+	background: linear-gradient(#2a7fbb, #1c557d);
+}
+.ds-psPopContent {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	display: block;
+	position: absolute; 
+	top: 35px;
+	left: 0px;
+	height: 95%;
+	width: 100%;
+	background-color: #E6E6E6;
+	color: black;
+	padding: 3px 6px;
+	box-sizing: border-box;
+}
+.ds-psPopBottom {
+	display: block;
+	position: absolute; 
+	box-sizing: border-box;
+	bottom: 0px;
+	left: 0px;
+	height: 35px;
+	width: 100%;
+	background-color: transparent;
+	color: black;
+}
+.ds-psPopResize {
+	position: absolute; 
+	bottom: -7px;
+	right: -7px;
+	height: auto;
+	width: auto;
+	font-size: 14px;
+	color: black;
+	font-weight: bold;
+	cursor: nwse-resize;
+	transform: rotate(90deg);
+}
