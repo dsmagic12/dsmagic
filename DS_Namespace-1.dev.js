@@ -5082,7 +5082,7 @@ if ( bMasterLoad === true ) {
 						if ( window.CSS.supports('--fake-var', 0) === true ) {
 							ds.stor.session.browserSupportsCSSVariables = true;
 							ds.$.ajax({
-								url: ds.p.root +"Style%20Library/DS_styles_with_variables.dev.css",
+								url: ds.p.root +"Style%20Library/styles/DS_styles_with_variables.dev.css",
 								dataType:"text",
 								headers:{
 									"content-type":"text/css",
@@ -5099,7 +5099,7 @@ if ( bMasterLoad === true ) {
 							var styleSheet = "";
 							ds.util.log("Retrieving CSS variable values from 'DS_styles_variables.css'",true);
 							ds.$.ajax({
-								url:"http://1.dsmagicsp.cloudappsportal.com/Style%20Library/DS_styles_variables.css",
+								url:"http://1.dsmagicsp.cloudappsportal.com/Style%20Library/styles/DS_styles_variables.css",
 								dataType:"text",
 								headers:{
 									"content-type":"text/css",
@@ -5112,7 +5112,7 @@ if ( bMasterLoad === true ) {
 								var collVars = resp.split(";");
 								ds.util.log("Retrieving CSS variable values from 'DS_styles_with_variables.dev.css'",true);
 								ds.$.ajax({
-									url:"http://1.dsmagicsp.cloudappsportal.com/Style%20Library/DS_styles_with_variables.dev.css",
+									url:"http://1.dsmagicsp.cloudappsportal.com/Style%20Library/styles/DS_styles_with_variables.dev.css",
 									dataType:"text",
 									headers:{
 										"content-type":"text/css",
@@ -5153,7 +5153,7 @@ if ( bMasterLoad === true ) {
 						var styleSheet = "";
 						ds.util.log("Retrieving CSS variable values from 'DS_styles_variables.css'",true);
 						ds.$.ajax({
-							url:"http://1.dsmagicsp.cloudappsportal.com/Style%20Library/DS_styles_variables.css",
+							url:"http://1.dsmagicsp.cloudappsportal.com/Style%20Library/styles/DS_styles_variables.css",
 							dataType:"text",
 							headers:{
 								"content-type":"text/css",
@@ -5166,7 +5166,7 @@ if ( bMasterLoad === true ) {
 							var collVars = resp.split(";");
 							ds.util.log("Retrieving CSS variable values from 'DS_styles_with_variables.dev.css'",true);
 							ds.$.ajax({
-								url:"http://1.dsmagicsp.cloudappsportal.com/Style%20Library/DS_styles_with_variables.dev.css",
+								url:"http://1.dsmagicsp.cloudappsportal.com/Style%20Library/styles/DS_styles_with_variables.dev.css",
 								dataType:"text",
 								headers:{
 									"content-type":"text/css",
