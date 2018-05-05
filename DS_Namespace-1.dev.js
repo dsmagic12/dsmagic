@@ -11,13 +11,14 @@ if ( typeof(ds) !== "undefined" ) {
 if ( bMasterLoad === true ) {
 	var ds = {
 		p: {
+			scRoot: window.location.protocol + '//'+ window.location.host + _spPageContextInfo.siteServerRelativeUrl,
 			root: window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl,
 			rootNs: window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl.substr(0,_spPageContextInfo.webServerRelativeUrl.length-1),
 			page: window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + _spPageContextInfo.serverRequestPath,
 			pageListName: _spPageContextInfo.serverRequestPath.indexOf("/Lists/") >= 0 ? _spPageContextInfo.serverRequestPath.replace("/Lists/","/").split("/")[1] : _spPageContextInfo.serverRequestPath.indexOf("/_catalogs/") >= 0 ? _spPageContextInfo.serverRequestPath.replace("/_catalogs/","/").split("/")[1] : _spPageContextInfo.serverRequestPath.split("/")[1],
 			pageFormName: _spPageContextInfo.serverRequestPath.split("/")[_spPageContextInfo.serverRequestPath.split("/").length-1].split(".")[0],
-			pageListId: _spPageContextInfo.pageListId.replace("{","").replace("}",""),
-			pageItemId: _spPageContextInfo.pageItemId,
+			pageListId: typeof(_spPageContextInfo.pageListId) !== "undefined" ? _spPageContextInfo.pageListId.replace("{","").replace("}","") : null,
+			pageItemId: typeof(_spPageContextInfo.pageItemId) !== "undefined" ? _spPageContextInfo.pageItemId : null,
 			userID: _spPageContextInfo.userId,
 			rest: {
 				lists2013: '_api/web/lists',
@@ -453,6 +454,253 @@ if ( bMasterLoad === true ) {
 				});
 			}
 		},
+		ajax: {
+			lastCall: {},
+			create: function(restURL, object, fxCallback, fxFailed) {
+				ds.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', restURL, true);
+				xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
+				xhr.setRequestHeader("IF-MATCH", "*");
+				xhr.setRequestHeader("X-HTTP-Method", "POST");
+				xhr.setRequestHeader("accept", "application/json;odata=verbose");
+				xhr.setRequestHeader("content-type", "application/json;odata=verbose");
+				xhr.onreadystatechange = function() {
+					ds.ajax.lastCall.readyState = xhr.readyState;
+					ds.ajax.lastCall.status = xhr.status;
+					if (xhr.readyState === 4) {
+						if (xhr.status !== 200) {
+							ds.ajax.lastCall.data = xhr.response;
+							if (typeof(fxFailed) === "function") {
+								fxFailed(xhr, xhr.response, xhr.status);
+							}
+						} else {
+							var resp = JSON.parse(xhr.response);
+							ds.ajax.lastCall.data = resp;
+							if (typeof(fxCallback) === "function") {
+								fxCallback(xhr, resp);
+							}
+						}
+					}
+				};
+				xhr.send(object);
+			},
+			update: function(restURL, object, fxCallback) {
+				ds.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', restURL, true);
+				xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
+				xhr.setRequestHeader("IF-MATCH", "*");
+				xhr.setRequestHeader("X-HTTP-Method", "MERGE");
+				xhr.setRequestHeader("accept", "application/json;odata=verbose");
+				xhr.setRequestHeader("content-type", "application/json;odata=verbose");
+				xhr.onreadystatechange = function() {
+					ds.ajax.lastCall.readyState = xhr.readyState;
+					ds.ajax.lastCall.status = xhr.status;
+					if (xhr.readyState === 4) {
+						if (xhr.status !== 200) {
+							ds.ajax.lastCall.data = xhr.response;
+							if (typeof(fxFailed) === "function") {
+								fxFailed(xhr, xhr.response, xhr.status);
+							}
+						} else {
+							var resp = JSON.parse(xhr.response);
+							ds.ajax.lastCall.data = resp;
+							if (typeof(fxCallback) === "function") {
+								fxCallback(xhr, resp);
+							}
+						}
+					}
+				};
+				xhr.send(object);
+			},
+			delete: function(restURL, object, fxCallback) {
+				ds.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', restURL, true);
+				xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
+				xhr.setRequestHeader("IF-MATCH", "*");
+				xhr.setRequestHeader("X-HTTP-Method", "DELETE");
+				xhr.setRequestHeader("accept", "application/json;odata=verbose");
+				xhr.setRequestHeader("content-type", "application/json;odata=verbose");
+				xhr.onreadystatechange = function() {
+					ds.ajax.lastCall.readyState = xhr.readyState;
+					ds.ajax.lastCall.status = xhr.status;
+					if (xhr.readyState === 4) {
+						if (xhr.status !== 200) {
+							ds.ajax.lastCall.data = xhr.response;
+							if (typeof(fxFailed) === "function") {
+								fxFailed(xhr, xhr.response, xhr.status);
+							}
+						} else {
+							var resp = JSON.parse(xhr.response);
+							ds.ajax.lastCall.data = resp;
+							if (typeof(fxCallback) === "function") {
+								fxCallback(xhr, resp);
+							}
+						}
+					}
+				};
+				xhr.send(object);
+			},
+			read: function(restURL, fxCallback, fxLastPage, fxFailed) {
+				ds.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', restURL, true);
+				var now = new Date();
+				/* 4 hours later */
+				var later = new Date(now.valueOf()+(1000*60*60*4));
+				xhr.setRequestHeader("Expires", later);
+				xhr.setRequestHeader("Last-Modified", now);
+				xhr.setRequestHeader("Cache-Control", "Public");
+				xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
+				xhr.setRequestHeader("accept", "application/json;odata=verbose");
+				xhr.setRequestHeader("content-type", "application/json;odata=verbose");
+				xhr.onreadystatechange = function() {
+					ds.ajax.lastCall.readyState = xhr.readyState;
+					ds.ajax.lastCall.status = xhr.status;
+					if (xhr.readyState === 4) {
+						if (xhr.status !== 200) {
+							ds.ajax.lastCall.data = xhr.response;
+							if (typeof(fxFailed) === "function") {
+								fxFailed(xhr, xhr.response, xhr.status);
+							}
+						} else {
+							var resp = JSON.parse(xhr.response);
+							ds.ajax.lastCall.data = resp;
+							if (typeof(fxCallback) === "function") {
+								fxCallback(xhr, resp);
+							}
+							if (typeof(resp.d.__next) !== "undefined") {
+								ds.ajax.read(resp.d.__next, fxCallback, fxLastPage);
+							} else if (typeof(fxLastPage) === "function") {
+								fxLastPage(xhr, resp);
+							}
+						}
+					}
+				};
+				xhr.send();
+			},
+			readCSS: function(restURL, fxCallback, fxFailed) {
+				ds.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', restURL, true);
+				var now = new Date();
+				/* 4 hours later */
+				var later = new Date(now.valueOf()+(1000*60*60*4));
+				xhr.setRequestHeader("Expires", later);
+				xhr.setRequestHeader("Last-Modified", now);
+				xhr.setRequestHeader("Cache-Control", "Public");
+				xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
+				xhr.setRequestHeader("accept", "text/css");
+				xhr.setRequestHeader("content-type", "text/css");
+				xhr.onreadystatechange = function() {
+					ds.ajax.lastCall.readyState = xhr.readyState;
+					ds.ajax.lastCall.status = xhr.status;
+					if (xhr.readyState === 4) {
+						if (xhr.status !== 200) {
+							ds.ajax.lastCall.data = xhr.response;
+							if (typeof(fxFailed) === "function") {
+								fxFailed(xhr, xhr.response, xhr.status);
+							}
+						} else {
+							var resp = xhr.response;
+							ds.ajax.lastCall.data = resp;
+							if (typeof(fxCallback) === "function") {
+								fxCallback(xhr, resp);
+							}
+						}
+					}
+				};
+				xhr.send();
+			},
+			captureArray: function(restURL, strCaptureResultsIn, fxLastPage, fxFailed) {
+				if (typeof(eval(strCaptureResultsIn)) !== "object") {
+					eval(strCaptureResultsIn + "={};");
+				}
+				else {
+					strCaptureResultsIn += ".results";
+					eval(strCaptureResultsIn + "=[];");
+				}
+				var fxCallback = function(xhr, data) {
+					if (typeof(data.d.results) !== undefined) {
+						for (var i = 0; i < data.d.results.length; i++) {
+							eval(strCaptureResultsIn + ".push(" + JSON.stringify(data.d.results[i]) + ");");
+						}
+					} else {
+						if (typeof(eval(strCaptureResultsIn)) !== "object") {
+							eval(strCaptureResultsIn + "={};");
+						}
+						for (prop in data.d) {
+							eval(strCaptureResultsIn + "[" + prop + "] = " + data.d[prop] + ";");
+						}
+					}
+				}
+				ds.ajax.read(restURL, fxCallback, fxLastPage, fxFailed);
+			},
+			captureNamedArray: function(restURL, strCaptureResultsIn, strNameByProperty, fxLastPage, fxFailed){
+				if ( typeof(strNameByProperty) === "undefined" ) { var strNameByProperty = "Id"; }
+				if (typeof(eval(strCaptureResultsIn)) !== "object") {
+					eval(strCaptureResultsIn + "={};");
+				}
+				var fxCallback = function(xhr, data) {
+					if (typeof(data.d.results) !== undefined) {
+						if ( data.d.results.length > 0 ){
+							if (typeof(eval(strCaptureResultsIn + "['" + data.d.results[0][strNameByProperty] + "']")) !== "object") {
+								eval(strCaptureResultsIn + "['" + data.d.results[0][strNameByProperty] + "']={};");
+							}
+							for (var i = 0; i < data.d.results.length; i++) {
+								eval(strCaptureResultsIn + "['"+data.d.results[i][strNameByProperty]+"'] = " + JSON.stringify(data.d.results[i]) + ";");
+							}
+						}
+					} else {
+						if (typeof(eval(strCaptureResultsIn + "['" + data.d[strNameByProperty] + "']")) !== "object") {
+							eval(strCaptureResultsIn + "['" + data.d[strNameByProperty] + "']={};");
+						}
+						for (prop in data.d) {
+							eval(strCaptureResultsIn + "['" + data.d[strNameByProperty] + "'][" + prop + "] = " + data.d[prop] + ";");
+						}
+					}
+				}
+				ds.ajax.read(restURL, fxCallback, fxLastPage, fxFailed);
+			},
+			expandDeferred: function(strCaptureResultsFrom, fxCallBack, fxLastPage) {
+				/*
+				ds.rest.expandDeferred("ds.lists.meetingattendance.Views.__deferred.uri", true, false, undefined, undefined);
+				*/
+				var restURL = eval(strCaptureResultsFrom);
+				var strCaptureResultsIn = strCaptureResultsFrom.substr(0, strCaptureResultsFrom.lastIndexOf("."));
+				strCaptureResultsIn = strCaptureResultsIn.substr(0, strCaptureResultsIn.lastIndexOf("."));
+				strCaptureResultsIn += ".results";
+				eval(strCaptureResultsIn + "=[];");
+				if (typeof(fxLastPage) === "undefined") {
+					var fxLastPage = function(xhr, data, strCaptureResultsFrom) {
+						ds.log("ds.ajax.expandDeferred handled the last page of results from |" + strCaptureResultsFrom + "|", true);
+					};
+				}
+				if (typeof(fxCallBack) === "undefined") {
+					var fxCallBack = function(xhr, data, strCaptureResultsFrom) {
+						ds.log("ds.ajax.expandDeferred handled a page of results from |" + strCaptureResultsFrom + "|", true);
+						if (typeof(data.d.results) !== undefined) {
+							eval(strCaptureResultsIn + " = " + strCaptureResultsIn + ".concat(" + data.d.results + ");");
+						} else {
+							for (prop in data.d) {
+								eval(strCaptureResultsIn + "[" + prop + "] = " + data.d[prop] + ";");
+							}
+						}
+					}
+				}
+				ds.ajax.read(restURL, fxCallback, fxAfterLastPage);
+			},
+			getListPermissions: function(strCaptureResultsIn) {
+				var restURL = eval(strCaptureResultsIn+".__metadata.uri");
+				restURL += "?$select=EffectiveBasePermissions";
+				var fxCallback = function(xhr, data) {
+					eval(strCaptureResultsIn+".EffectiveBasePermissions = "+JSON.stringify(data.d.EffectiveBasePermissions)+";");
+				}
+				ds.ajax.read(restURL, fxCallback);
+			}
+		},
 		rest: {
 			lastCall: {},
 			lastSubCall: {},
@@ -461,26 +709,10 @@ if ( bMasterLoad === true ) {
 				if ( typeof(bIgnoreNextPage) === "undefined" ) { var bIgnoreNextPage = false; }
 				if ( typeof(intvl) === "undefined" ) { 
 					bIgnoreNextPage = true; 
-					/*
-					intvl = ds.intvls.newIntvl("getDataFromURI");
-					ds.intvls[intvl].pauseMS = 100;
-					ds.intvls[intvl].forFx = 'ds.rest.getDataFromURI...restURL = |'+restURL+'|';
-					ds.intvls[intvl].doWorkFx = function(){
-						return ds.intvls[intvl].bDone;
-					};
-					ds.intvls[intvl].intvl = setInterval(ds.intvls[intvl].loopingFx, ds.intvls[intvl].pauseMS);
-					*/
 				}
-				/*
-				if ( typeof(fxAfterLastPage) === "undefined" ) { 
-					var fxAfterLastPage = function(intvl, listName, strCaptureResultsIn){ 
-						ds.util.log("Finished getting last page of REST results for interval"+ intvl,true);
-						ds.intvls[intvl].bDone = true;
-					};
-				}
-				*/
 				ds.rest.lastCall.url = restURL;
 				ds.util.log("ds.rest.getDataFromURI function called with arguments... |"+ encodeURI(restURL) +"|");
+				//ds.ajax.read(restURL, fxCallback, fxAfterLastPage, fxOnFailed);
 				ds.$.ajax({
 					url: restURL,
 					async: bAsync
@@ -1923,76 +2155,55 @@ if ( bMasterLoad === true ) {
 						}
 					});
 				}
-				//restURL = ds.lists.dsformsettings.Items.__deferred.uri +"?$filter=Title eq '"+ds.p.pageListName+"' and FormNameURL eq '"+ds.p.pageFormName+"'&$select=Id,Title,FormNameURL,blbRelRecs";
-				restURL = ds.lists.dsformsettings.Items.__deferred.uri +"?$filter=Title eq '"+_spPageContextInfo.serverRequestPath+"' and FormNameURL eq '"+ds.p.pageFormName+"'&$select=Id,Title,FormNameURL,blbRelRecs";
-				
-				ds.rest.getDataFromURI(restURL, function(data, textStaus, jqXHR){
-					if ( data.d.results.length > 0 ) {
-						ds.stor.formSettings = data.d.results;
-						ds.stor.formSettingsId = data.d.results[0].Id;
-						ds.lists.dsformsettings.items = ds.lists.dsformsettings.items || {};
-						ds.lists.dsformsettings.items.results = data.d.results;
-						if ( ds.stor.formSettings.length === 1 ) {
-							ds.util.log("found settings for current form", true);
-							ds.stor.newRelated = ds.stor.newRelated || {};
-							ds.stor.updateRelated = ds.stor.updateRelated || {};
-							ds.stor.formSettings = JSON.parse(ds.stor.formSettings[0].blbRelRecs);
-							ds.stor.existingFormSettings = true;
-							if ( typeof(ds.stor.formSettings.relatedRecords) !== "undefined" ) {
-								for ( var iFS = 0; iFS < ds.stor.formSettings.relatedRecords.length; iFS++ ) {
-									var fx = function(i){
-										try{eval("ds.stor.newRelated[ds.stor.formSettings.relatedRecords[i].listName] = "+ ds.stor.formSettings.relatedRecords[i].psudoPopupSaveNewFx +";");}catch(err){}
-										try{eval("ds.stor.updateRelated[ds.stor.formSettings.relatedRecords[i].listName] = "+ ds.stor.formSettings.relatedRecords[i].psudoPopupSaveUpdateFx +";");}catch(err){}
-										try{eval("ds.stor.formSettings.relatedRecords[i].psudoPopupSaveNewFx = "+ ds.stor.formSettings.relatedRecords[i].psudoPopupSaveNewFx +";");}catch(err){}
-										try{eval("ds.stor.formSettings.relatedRecords[i].psudoPopupSaveUpdateFx = "+ ds.stor.formSettings.relatedRecords[i].psudoPopupSaveUpdateFx +";");}catch(err){}
-									};
-									fx(iFS);
+				if ( typeof(ds.lists.dsformsettings) !== "undefined" && ds.stor.session.bDontCreateSettingsList === false ) {
+					//restURL = ds.lists.dsformsettings.Items.__deferred.uri +"?$filter=Title eq '"+ds.p.pageListName+"' and FormNameURL eq '"+ds.p.pageFormName+"'&$select=Id,Title,FormNameURL,blbRelRecs";
+					restURL = ds.lists.dsformsettings.Items.__deferred.uri +"?$filter=Title eq '"+_spPageContextInfo.serverRequestPath+"' and FormNameURL eq '"+ds.p.pageFormName+"'&$select=Id,Title,FormNameURL,blbRelRecs";
+					
+					ds.rest.getDataFromURI(restURL, function(data, textStaus, jqXHR){
+						if ( data.d.results.length > 0 ) {
+							ds.stor.formSettings = data.d.results;
+							ds.stor.formSettingsId = data.d.results[0].Id;
+							ds.lists.dsformsettings.items = ds.lists.dsformsettings.items || {};
+							ds.lists.dsformsettings.items.results = data.d.results;
+							if ( ds.stor.formSettings.length === 1 ) {
+								ds.util.log("found settings for current form", true);
+								ds.stor.newRelated = ds.stor.newRelated || {};
+								ds.stor.updateRelated = ds.stor.updateRelated || {};
+								ds.stor.formSettings = JSON.parse(ds.stor.formSettings[0].blbRelRecs);
+								ds.stor.existingFormSettings = true;
+								if ( typeof(ds.stor.formSettings.relatedRecords) !== "undefined" ) {
+									for ( var iFS = 0; iFS < ds.stor.formSettings.relatedRecords.length; iFS++ ) {
+										var fx = function(i){
+											try{eval("ds.stor.newRelated[ds.stor.formSettings.relatedRecords[i].listName] = "+ ds.stor.formSettings.relatedRecords[i].psudoPopupSaveNewFx +";");}catch(err){}
+											try{eval("ds.stor.updateRelated[ds.stor.formSettings.relatedRecords[i].listName] = "+ ds.stor.formSettings.relatedRecords[i].psudoPopupSaveUpdateFx +";");}catch(err){}
+											try{eval("ds.stor.formSettings.relatedRecords[i].psudoPopupSaveNewFx = "+ ds.stor.formSettings.relatedRecords[i].psudoPopupSaveNewFx +";");}catch(err){}
+											try{eval("ds.stor.formSettings.relatedRecords[i].psudoPopupSaveUpdateFx = "+ ds.stor.formSettings.relatedRecords[i].psudoPopupSaveUpdateFx +";");}catch(err){}
+										};
+										fx(iFS);
+									}
 								}
-							}
-							if ( typeof(ds.stor.formSettings.masterSettings) !== "undefined" ) {
-								try{eval("ds.stor.formSettings.masterSettings.initFx = "+ ds.stor.formSettings.masterSettings.initFx +";");}catch(err){}
-								try{eval("ds.stor.formSettings.masterSettings.afterFx = "+ ds.stor.formSettings.masterSettings.afterFx +";");}catch(err){}
-								if ( bExecuteMasterInit === true ) {
-									ds.util.log("Attempting to run ds.stor.formSettings.masterSettings.initFx",true);
-									if ( typeof(ds.stor.formSettings.masterSettings.initFx) === "function" ) { ds.stor.formSettings.masterSettings.initFx(); }
-									if ( typeof(ds.stor.formSettings.masterSettings.afterFx) === "function" ) { ds.stor.formSettings.masterSettings.afterFx(); }
+								if ( typeof(ds.stor.formSettings.masterSettings) !== "undefined" ) {
+									try{eval("ds.stor.formSettings.masterSettings.initFx = "+ ds.stor.formSettings.masterSettings.initFx +";");}catch(err){}
+									try{eval("ds.stor.formSettings.masterSettings.afterFx = "+ ds.stor.formSettings.masterSettings.afterFx +";");}catch(err){}
+									if ( bExecuteMasterInit === true ) {
+										ds.util.log("Attempting to run ds.stor.formSettings.masterSettings.initFx",true);
+										if ( typeof(ds.stor.formSettings.masterSettings.initFx) === "function" ) { ds.stor.formSettings.masterSettings.initFx(); }
+										if ( typeof(ds.stor.formSettings.masterSettings.afterFx) === "function" ) { ds.stor.formSettings.masterSettings.afterFx(); }
+									}
 								}
 							}
 						}
-					}
-					else {
-						ds.util.log("no settings exist for the current page... returning a empty settings object", true);
-						ds.stor.existingFormSettings = false;
-						//ds.stor.formSettings = {"masterSettings":{"hideAddRelatedRecordButtons":true,"hideFilterTab":true,"initFx":"function() {}","afterFx":"function() {}"},"relatedRecords":[]};
-						ds.stor.formSettings = {"masterSettings":{"initFx":"function() {}","afterFx":"function() {}"},"relatedRecordsSettings":{"hideAddRelatedRecordButtons":true,"hideFilterTab":true},"relatedRecords":[]};
-					}
-					if ( typeof(afterFx) === "function" ) {
-						afterFx(ds.stor.formSettings);
-					}
-					/*
-					for ( item in ds.lists.dsformsettings.items.results ) {
-						ds.util.log("found settings for current form", true);
-						ds.stor.newRelated = ds.stor.newRelated || {};
-						ds.stor.updateRelated = ds.stor.updateRelated || {};
-						formSettings = JSON.parse(ds.lists.dsformsettings.items.results[item].blbRelRecs);
-						if ( typeof(formSettings.relatedRecords) !== "undefined" ) {
-							for ( var iFS = 0; iFS < formSettings.relatedRecords.length; iFS++ ) {
-								var fx = function(i){
-									try{eval("ds.stor.newRelated[formSettings.relatedRecords[i].listName] = "+ formSettings.relatedRecords[i].psudoPopupSaveNewFx +";");}catch(err){}
-									try{eval("ds.stor.updateRelated[formSettings.relatedRecords[i].listName] = "+ formSettings.relatedRecords[i].psudoPopupSaveUpdateFx +";");}catch(err){}
-									try{eval("formSettings.relatedRecords[i].psudoPopupSaveNewFx = "+ formSettings.relatedRecords[i].psudoPopupSaveNewFx +";");}catch(err){}
-									try{eval("formSettings.relatedRecords[i].psudoPopupSaveUpdateFx = "+ formSettings.relatedRecords[i].psudoPopupSaveUpdateFx +";");}catch(err){}
-								};
-								fx(iFS);
-							}
+						else {
+							ds.util.log("no settings exist for the current page... returning a empty settings object", true);
+							ds.stor.existingFormSettings = false;
+							//ds.stor.formSettings = {"masterSettings":{"hideAddRelatedRecordButtons":true,"hideFilterTab":true,"initFx":"function() {}","afterFx":"function() {}"},"relatedRecords":[]};
+							ds.stor.formSettings = {"masterSettings":{"initFx":"function() {}","afterFx":"function() {}"},"relatedRecordsSettings":{"hideAddRelatedRecordButtons":true,"hideFilterTab":true},"relatedRecords":[]};
 						}
-						ds.stor.formSettings = data;
 						if ( typeof(afterFx) === "function" ) {
-							afterFx(formSettings);
+							afterFx(ds.stor.formSettings);
 						}
-					}
-					*/
-				});
+					});
+				}
 			},
 			createSettingsList: function(afterCreatingSettingsListFx){
 				var sListDisplayName = "dsFormSettings";
@@ -2223,29 +2434,30 @@ if ( bMasterLoad === true ) {
 			},
 			conditionallyShowDsMagicConfigurationButton: function(){
 				// show dsMagic config button in lower-right corner if user has permissions to edit that list
-				var intvl = ds.intvls.newIntvl("wf_list_dsformsettings");
-				ds.intvls[intvl].pauseMS = 100;
-				ds.intvls[intvl].forFx = 'ds.util.conditionallyShowDsMagicConfigurationButton()';
-				ds.intvls[intvl].timeoutMS = 10000;
-				ds.intvls[intvl].doWorkFx = function(){
-					if ( typeof(ds.lists.dsformsettings) !== "undefined" ) {
-						if ( typeof(ds.lists.dsformsettings.EffectiveBasePermissions.High) !== "undefined" ) {
-							ds.intvls[intvl].bDone = true;
+				if ( typeof(ds.lists.dsformsettings) !== "undefined" && ds.stor.session.bDontCreateSettingsList === false ) {
+					var intvl = ds.intvls.newIntvl("wf_list_dsformsettings");
+					ds.intvls[intvl].pauseMS = 100;
+					ds.intvls[intvl].forFx = 'ds.util.conditionallyShowDsMagicConfigurationButton()';
+					ds.intvls[intvl].timeoutMS = 10000;
+					ds.intvls[intvl].doWorkFx = function(){
+						if ( typeof(ds.lists.dsformsettings) !== "undefined" ) {
+							if ( typeof(ds.lists.dsformsettings.EffectiveBasePermissions.High) !== "undefined" ) {
+								ds.intvls[intvl].bDone = true;
+							}
 						}
-					}
-					return ds.intvls[intvl].bDone;
-				};
-				ds.intvls[intvl].successFx = function (){
-					ds.util.log('ds.intvls.'+intvl+'.intvl... SUCCESSFULLY FINISHED WAITING',true);
-					ds.stor.session.userEditDsFormSettingsAccess = ds.util.checkForItemEditAddDelete("dsformsettings", function(hasPermissions){
-						if ( hasPermissions === true ) {
-							ds.$("#s4-workspace").append("<table class='ds-magic-enterSetupButton-wrapper' border='0' cellspacing='0' cellpadding='0'><tbody><tr><td class='ds-magic-enterSetupButton' title='Enter ds magic setup'><i class='fa fa-ellipsis-v'></i></td></tr></tbody></table>");
-							/*ds.util.appendToMain("<table class='ds-magic-enterSetupButton-wrapper' border='0' cellspacing='0' cellpadding='0'><tbody><tr><td class='ds-magic-enterSetupButton' title='Enter ds magic setup'><i class='fa fa-ellipsis-v'></i></td></tr></tbody></table>");*/
-							ds.$(".ds-magic-enterSetupButton").click(function(){ds.configure.load();});
-						}
-					});
-				};
-				ds.intvls[intvl].intvl = setInterval(ds.intvls[intvl].loopingFx, ds.intvls[intvl].pauseMS);
+						return ds.intvls[intvl].bDone;
+					};
+					ds.intvls[intvl].successFx = function (){
+						ds.util.log('ds.intvls.'+intvl+'.intvl... SUCCESSFULLY FINISHED WAITING',true);
+						ds.stor.session.userEditDsFormSettingsAccess = ds.util.checkForItemEditAddDelete("dsformsettings", function(hasPermissions){
+							if ( hasPermissions === true ) {
+								document.getElementById("s4-workspace").innerHTML = document.getElementById("s4-workspace").innerHTML + "<table class='ds-magic-enterSetupButton-wrapper' border='0' cellspacing='0' cellpadding='0'><tbody><tr><td class='ds-magic-enterSetupButton' id='dsMagicEnterSetupButton' title='Enter ds magic setup'><i class='fa fa-ellipsis-v'></i></td></tr></tbody></table>";
+								document.getElementById("dsMagicEnterSetupButton").addEventListener("click",function(elm,event){ds.configure.load();});
+							}
+						});
+					};
+					ds.intvls[intvl].intvl = setInterval(ds.intvls[intvl].loopingFx, ds.intvls[intvl].pauseMS);
+				}
 			},
 			getListFormFieldByDisplayName: function(sName){
 				var $listFormTableRow = ds.$(".ms-formlabel:contains('"+sName+"')").parents("tr").eq(0);
@@ -5871,6 +6083,7 @@ if ( bMasterLoad === true ) {
 				}
 			});
 			ds.util.log("DS Namespace jQuery extended with additional functions",true);
+			/*SP.SOD.executeFunc('sp.js', 'SP.ClientContext', sharePointReady);*/
 			ExecuteOrDelayUntilScriptLoaded(function(){
 				ds.$(document).ready(function(){
 					ds.util.log("Document.ready event fired",true);
