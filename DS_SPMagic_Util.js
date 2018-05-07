@@ -1,5 +1,6 @@
 var dsU = {
     p: {
+        scRoot: window.location.protocol + '//' + window.location.host + _spPageContextInfo.siteServerRelativeUrl,
         root: window.location.protocol + '//' + window.location.host + _spPageContextInfo.webServerRelativeUrl,
         rootNs: window.location.protocol + '//' + window.location.host + _spPageContextInfo.webServerRelativeUrl.substr(0, _spPageContextInfo.webServerRelativeUrl.length - 1),
         page: window.location.protocol + '//' + window.location.host + _spPageContextInfo.webServerRelativeUrl + _spPageContextInfo.serverRequestPath,
@@ -343,6 +344,26 @@ var dsU = {
         existingFormSettings: false,
         commonContent: {}
     },
+    theme: {
+        getThemeColors: function(afterFx){
+            var elm = document.createElement("div"), collColors = null, x1 = null; 
+            dsU.ajax.readXML(dsU.p.scRoot+"/_catalogs/theme/15/palette015.spcolor",function(xhr,data){
+                dsU.log(xhr);
+                x1 = xhr.response;
+                elm.innerHTML = x1.replace(/ \/\>/igm,"></s:color>");
+                /*dsU.log(elm.innerHTML);*/
+                collColors = elm.getElementsByTagName("s:color");
+                /*dsU.log(collColors);*/
+                for ( var iC = 0; iC < collColors.length; iC++ ){
+                    /*dsU.log(collColors[iC]);*/
+                    dsU.theme[collColors[iC].getAttribute("name")] = "#"+collColors[iC].getAttribute("value");
+                }
+                if ( typeof(afterFx) === "function" ){
+                    afterFx();
+                }
+            });
+        }
+    },
     spObjs: {
         list: function(listTitle, listTemplateNum, listDescription){
             return {
@@ -450,6 +471,12 @@ var dsU = {
             dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
             var xhr = new XMLHttpRequest();
             xhr.open('GET', restURL, true);
+            var now = new Date();
+            /* 4 hours later */
+            var later = new Date(now.valueOf()+(1000*60*60*4));
+            xhr.setRequestHeader("Expires", later);
+            xhr.setRequestHeader("Last-Modified", now);
+            xhr.setRequestHeader("Cache-Control", "Public");
             xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
             xhr.setRequestHeader("accept", "application/json;odata=verbose");
             xhr.setRequestHeader("content-type", "application/json;odata=verbose");
@@ -482,6 +509,12 @@ var dsU = {
             dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
             var xhr = new XMLHttpRequest();
             xhr.open('GET', restURL, true);
+            var now = new Date();
+            /* 4 hours later */
+            var later = new Date(now.valueOf()+(1000*60*60*4));
+            xhr.setRequestHeader("Expires", later);
+            xhr.setRequestHeader("Last-Modified", now);
+            xhr.setRequestHeader("Cache-Control", "Public");
             xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
             xhr.setRequestHeader("accept", "text/css");
             xhr.setRequestHeader("content-type", "text/css");
@@ -496,6 +529,41 @@ var dsU = {
                         }
                     } else {
                         var resp = xhr.response;
+                        dsU.ajax.lastCall.data = resp;
+                        if (typeof(fxCallback) === "function") {
+                            fxCallback(xhr, resp);
+                        }
+                    }
+                }
+            };
+            xhr.send();
+        },
+        readXML: function(restURL, fxCallback, fxFailed) {
+            dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', restURL, true);
+            var now = new Date();
+            /* 4 hours later */
+            var later = new Date(now.valueOf()+(1000*60*60*4));
+            xhr.setRequestHeader("Expires", later);
+            xhr.setRequestHeader("Last-Modified", now);
+            xhr.setRequestHeader("Cache-Control", "Public");
+            xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
+            xhr.setRequestHeader("accept", "text/css");
+            xhr.setRequestHeader("content-type", "text/css");
+            xhr.onreadystatechange = function() {
+                dsU.ajax.lastCall.readyState = xhr.readyState;
+                dsU.ajax.lastCall.status = xhr.status;
+                if (xhr.readyState === 4) {
+                    if (xhr.status !== 200) {
+                        dsU.ajax.lastCall.xhr = xhr;
+                        dsU.ajax.lastCall.data = xhr.responseXML;
+                        if (typeof(fxFailed) === "function") {
+                            fxFailed(xhr, xhr.response, xhr.status);
+                        }
+                    } else {
+                        var resp = xhr.responseXML;
+                        dsU.ajax.lastCall.xhr = xhr;
                         dsU.ajax.lastCall.data = resp;
                         if (typeof(fxCallback) === "function") {
                             fxCallback(xhr, resp);
@@ -529,12 +597,12 @@ var dsU = {
             }
             dsU.ajax.read(restURL, fxCallback, fxLastPage, fxFailed);
 		},
-		captureNamedArray: function(restURL, strCaptureResultsIn, strNameByProperty, fxLastPage, fxFailed){
+		captureNamedArray: function(restURL, strCaptureResultsIn, strNameByProperty, fxCallback, fxLastPage, fxFailed){
 			if ( typeof(strNameByProperty) === "undefined" ) { var strNameByProperty = "Id"; }
 			if (typeof(eval(strCaptureResultsIn)) !== "object") {
 				eval(strCaptureResultsIn + "={};");
 			}
-			var fxCallback = function(xhr, data) {
+			var fxEachPage = function(xhr, data) {
                 if (typeof(data.d.results) !== undefined) {
                     if ( data.d.results.length > 0 ){
                         if (typeof(eval(strCaptureResultsIn + "['" + data.d.results[0][strNameByProperty] + "']")) !== "object") {
@@ -544,7 +612,8 @@ var dsU = {
                             eval(strCaptureResultsIn + "['"+data.d.results[i][strNameByProperty]+"'] = " + JSON.stringify(data.d.results[i]) + ";");
                         }
                     }
-                } else {
+                } 
+                else {
 					if (typeof(eval(strCaptureResultsIn + "['" + data.d[strNameByProperty] + "']")) !== "object") {
 						eval(strCaptureResultsIn + "['" + data.d[strNameByProperty] + "']={};");
 					}
@@ -552,8 +621,11 @@ var dsU = {
                         eval(strCaptureResultsIn + "['" + data.d[strNameByProperty] + "'][" + prop + "] = " + data.d[prop] + ";");
                     }
                 }
+                if ( typeof(fxCallback) === "function" ){ 
+                    fxCallback(xhr, data);
+                }
             }
-            dsU.ajax.read(restURL, fxCallback, fxLastPage, fxFailed);
+            dsU.ajax.read(restURL, fxEachPage, fxLastPage, fxFailed);
 		},
         expandDeferred: function(strCaptureResultsFrom, fxCallBack, fxLastPage) {
             /*
@@ -591,13 +663,38 @@ var dsU = {
             }
 			dsU.ajax.read(restURL, fxCallback);
 		}
-	},
+    },
+    rest: {
+        lastCall: {},
+        lastSubCall: {},
+        getDataFromURI: function(restURL, fxCallback, fxAfterLastPage, fxOnFailed) {
+            dsU.log("dsU.rest.getDataFromURI function called with arguments... |"+ encodeURI(restURL) +"|");
+            dsU.ajax.read(restURL, fxCallback, fxAfterLastPage, fxOnFailed);
+        },
+        coll: {
+            getLists: function(bGetFieldDefs, afterFx){
+                dsU.log("Requesting definitions for all lists and libraries in this site");
+                dsU.ajax.captureNamedArray(dsU.p.rest.lists2013+"?$expand=Fields,Views", "dsU.lists", "Title", function(xhr,data){
+                    dsU.log("page");
+                    for ( var i = 0; i < data.d.results.length; i++ ) {
+                        try{
+                            var listTitle = data.d.results[i].Title;
+                            dsU.lists[listTitle].gotDef = true;
+                            dsU.lists[listTitle].gotItemPermissions = true;
+                            dsU.lists[listTitle].gotFields = true;
+                            dsU.log("Got list definition for list |"+ listTitle +"|");
+                        }catch(err){}
+                    }
+                }, afterFx, undefined);
+            }
+        }
+    },
     log: function(message, bIgnoreDebugReq) {
         if (typeof(bIgnoreDebugReq) === "undefined") { var bIgnoreDebugReq = false; }
         if (dsU.settings.bDebug === true || bIgnoreDebugReq === true) {
             try { console.log(message); } catch (err) {}
         }
-	},
+    },
 	forms:{
 		getListFormFieldByDisplayName: function(sName) {
             var $listFormTableRow = dsU.$(".ms-formlabel:contains('" + sName + "')").parents("tr").eq(0);
@@ -1238,6 +1335,11 @@ var dsU = {
                     })
                 }
             });
+
+            //simplier works on eov
+            dsU.lists.Meetings.Fields.results.forEach(function(e){
+                if ( e.Title === "Attendees" ) { dsU.log(e); } 
+            });
             */
             var oReturn = [];
             var bMatch = true;
@@ -1423,12 +1525,16 @@ var dsU = {
                 return false;
             }
 		},
-        appendToMain: function(html) {
+        appendToMain: function(html, idAppendElem) {
+            if ( typeof(idAppendElem) === "undefined" ) { var idAppendElem = "DeltaPlaceHolderMain"; }
+            var elem = document.createElement("span");
             if (typeof(html) === "string") {
-                return document.getElementById("DeltaPlaceHolderMain").innerHTML = document.getElementById("DeltaPlaceHolderMain").innerHTML + html;
-            } else if (typeof(html) === "array" || typeof(html) === "object") {
-                return document.getElementById("DeltaPlaceHolderMain").innerHTML = document.getElementById("DeltaPlaceHolderMain").innerHTML + html.join("");
+                elem.innerHTML = html;
             }
+            else if (typeof(html) === "array" || typeof(html) === "object") {
+                elem.innerHTML = html.join("");
+            }
+            return document.getElementById(idAppendElem).appendChild(elem);
         },
         getPageRelativeURL: function() {
             var relativeURL = _spPageContextInfo.serverRequestPath;
@@ -1533,77 +1639,21 @@ var dsU = {
                 }
             }
         },
-        getWPZByRowAndColumn: function(row, col) {
-            var jqSelWPP = ["TABLE.ms-webpartPage-root > TBODY"];
-            if (typeof(row) === "object" && typeof(col) === "object") {
-                for (var i = 0; i < row.length; i++) {
-                    if (i > 0) {
-                        jqSelWPP.push(" TABLE > TBODY");
-                    }
-                    if ((i + 1) === row.length) {
-                        jqSelWPP.push(" > TR:eq(" + row[i] + ") > TD[name='_invisibleIfEmpty']:eq(" + col[i] + ")");
-                    } else {
-                        jqSelWPP.push(" > TR:eq(" + row[i] + ") > TD:eq(" + col[i] + ")");
-                    }
-                }
-            } else {
-                jqSelWPP.push(" > TR:eq(" + row + ") > TD[name='_invisibleIfEmpty']:eq(" + col + ")");
-            }
-            jqSelWPP.push(" > .ms-webpart-zone > [id^='MSOZoneCell_WebPartWPQ']");
-            dsU.log("WPP web part zone selector length = " + dsU.$(jqSelWPP.join("")).length + " |" + jqSelWPP.join("") + "|");
-            if (dsU.$(jqSelWPP.join("")).length > 0) {
-                return dsU.$(jqSelWPP.join(""));
-            } else {
-                var jqSelWiki = ["TABLE#layoutsTable > TBODY"];
-                if (typeof(row) === "object" && typeof(col) === "object") {
-                    for (var i = 0; i < row.length; i++) {
-                        if (i > 0) {
-                            jqSelWiki.push(" TABLE > TBODY");
-                        }
-                        if ((i + 1) === row.length) {
-                            jqSelWiki.push(" > TR:eq(" + row[i] + ") > TD:eq(" + col[i] + ")");
-                        } else {
-                            jqSelWiki.push(" > TR:eq(" + row[i] + ") > TD:eq(" + col[i] + ")");
-                        }
-                    }
-                } else {
-                    jqSelWiki.push(" > TR:eq(" + row + ") > TD:eq(" + col + ")");
-                }
-                jqSelWiki.push(" > .ms-rte-layoutszone-outer > .ms-rte-layoutszone-inner > [id^='MSOZoneCell_WebPartWPQ']");
-                dsU.log("Wiki web part zone selector length = " + dsU.$(jqSelWiki.join("")).length + " |" + jqSelWiki.join("") + "|");
-                if (dsU.$(jqSelWiki.join("")).length > 0) {
-                    return dsU.$(jqSelWiki.join(""));
-                } else {
-                    return false;
-                }
-            }
-        },
         getSiblingsOfWebPartWithTitle: function(sWebPartTitle) {
-            var oRet;
-            dsU.$("[id^='MSOZoneCell_WebPartWPQ'] .ms-webpart-chrome-title").each(function(iWP, elmWP) {
-                if (dsU.$(this).text().trim() === sWebPartTitle) {
-                    oRet = dsU.$(this).parents("TD[id='_invisibleIfEmpty'], .ms-rte-layoutszone-inner").find("[id^='MSOZoneCell_WebPartWPQ']");
-                    return false;
+            var oRet = null;
+            var collWPTitles = document.getElementsByClassName("ms-webpart-chrome-title");
+            for ( var i = 0; i < collWPTitles.length; i++ ) { 
+                if ( collWPTitles[i].innerText.trim() === sWebPartTitle ) {
+                    oRet = document.getElementById("MSOZoneCell_"+collWPTitles[i].id.replace("_ChromeTitle","")).parentElement.parentElement.parentElement.getElementsByClassName("ms-webpartzone-cell");
+                    break;
                 }
-            });
+            }
             return oRet;
         },
         checkFileAccess: function(relativeFilePath, fxSuccess, fxFail, fxAlways) {
-            dsU.$.ajax({
-                url: dsU.p.root + dsU.p.rest[2013].web + "/GetFileByServerRelativeUrl('" + relativeFilePath + "')",
-                method: "GET"
-            }).always(function() {
-                dsU.log("ds.util.checkFileAccess... Always!", true);
-                if (typeof(fxAlways) === "function") { fxAlways(); }
-            }).done(function(d, s, x) {
-                dsU.log("ds.util.checkFileAccess... Success!", true);
-                dsU.log(x);
-                if (typeof(fxSuccess) === "function") { fxSuccess(d, s, x); }
-            }).fail(function(x, s, e) {
-                dsU.log("ds.util.checkFileAccess... Fail!", true);
-                dsU.log(x);
-                if (typeof(fxFail) === "function") { fxFail(x, s, e); }
-            });
+            var restURL = dsU.p.rest[2013].web + "/GetFileByServerRelativeUrl('" + relativeFilePath + "')";
+            if ( typeof(fxAlways) !== "function" ){ var fxAlways = function(){ dsU.log("Checked file access to relative path |"+ relativeFilePath +"|"); }; }
+            dsU.ajax.read(restURL, function(xhr,data){dsU.log("page");}, function(xhr,data){if (typeof(fxAlways) === "function") { fxAlways(); } dsU.log("ds.util.checkFileAccess... Success!"); if (typeof(fxSuccess) === "function") { fxSuccess(xhr,data); }}, function(xhr,data,status){if (typeof(fxAlways) === "function") { fxAlways(); } dsU.log("ds.util.checkFileAccess... Fail!"); if (typeof(fxFail) === "function") { fxFail(xhr,data,status); }} );
         },
         checkUserGroupMembership: function(oUser, groupPropertyName, groupPropertyValue, fxOnMembershipFound, fxOnMembershipNotFound) {
             /*ds.util.checkUserGroupMembership(dsU.stor.currentUser, "Title", "DS Magic for SharePoint Owners", function(){alert("User is a member of the group");}, function(){alert("User is not a member of the group");});*/
@@ -1715,19 +1765,71 @@ var dsU = {
             return dsU.stor.session.browserName;
         },
         getPageType: function(afterFx) {
-            if (dsU.$("#_wikiPageMode").length > 0) {
-                dsU.stor.session.pageType = 'Wiki';
-            }
+            dsU.stor.session.pageType = 'WebPartsPage';
             if (GetUrlKeyValue("IsDlg") === "1") {
-                dsU.stor.session.pageType = 'Dialog';
-                if (dsU.$("#_wikiPageMode").length > 0) {
-                    dsU.stor.session.pageType += ' Wiki';
-                }
+                dsU.stor.session.pageType += ' Dialog';
+            }
+            if (!document.getElementById("ctl00_PlaceHolderMain_WikiField") === false ) {
+                dsU.stor.session.pageType += ' Wiki';
+                /*
+                    document.getElementById("_wikiPageCommand")
+                    document.getElementById("_wikiPageMode")
+                */
             }
             if (typeof(afterFx) === "function") {
                 afterFx(dsU.stor.session.pageType);
             }
             return dsU.stor.session.pageType;
+        },
+        checkIfAllListDefsRetrieved: function(bRequireFields, afterFx){
+            var bReturn = true;
+            for ( e in dsU.lists ) {
+                if ( typeof(dsU.lists[e]) !== "undefined" ) {
+                    if ( dsU.lists[e].gotDef === true ) {
+                        if ( bRequireFields === true ) {
+                            if ( dsU.lists[e].gotFields === true ) {
+                                dsU.log("List |"+ dsU.lists[e].Title +"| and its fields have been retrieved");
+                            }
+                            else {
+                                switch (e) {
+                                    case "apppackages":
+                                        dsU.log("List |"+ dsU.lists[e].Title +"| has been retrieved, but we don't care about its fields");
+                                        break;
+                                    case "userinformationlist":
+                                        dsU.log("List |"+ dsU.lists[e].Title +"| has been retrieved, but we don't care about its fields");
+                                        break;
+                                    default:
+                                        dsU.log("List |"+ dsU.lists[e].Title +"| is retrieved, but we don't have the fields we're looking for", true);
+                                        bReturn = false;
+                                }
+                                if ( bReturn === false ) {
+                                    break;
+                                }
+                            }
+                        }
+                        else {
+                            dsU.log("List |"+ dsU.lists[e].Title +"| has been retrieved, but we don't care about its fields");
+                        }
+                    }
+                    else {
+                        dsU.util.log("List |"+ dsU.lists[e].Title +"| has not yet been retrieved", true);
+                        bReturn = false;
+                        break;
+                        //return false;
+                    }
+                }
+                else {
+                    dsU.util.log("List |"+ dsU.lists[e].Title +"| is somehow undefined?", true);
+                    bReturn = false;
+                    break;
+                    //return false;
+                }
+            }
+            if ( bReturn === true ) {
+                dsU.util.log("dsU.util.checkIfAllListDefsRetrieved function returning true", true);
+                if ( typeof(afterFx) === "function" ) { afterFx(); }
+            }
+            return bReturn;
         }
     },
     evts: {},
@@ -1980,18 +2082,25 @@ var dsU = {
             dsU.$("#DeltaSiteLogo").empty().append("<div class='ds-magic-logo-wrapper' unselectable='on'><span class='ds-magic-logo-content-letter' unselectable='on'>d</span><span class='ds-magic-logo-content-letter' unselectable='on'>s</span><span class='ds-magic-logo-content-fa' unselectable='on'><i class='fa fa-magic'></i></span></div>");
         }
     },
+    onSharePointReady: function(){
+        dsU.log("SP.ClientContext detected via SP.SOD.executeFuc... fired dsU.onSharePointReady", true);
+        dsU.util.getSPUIVersion(function() { dsU.log("DS Namespace detected SP UI version of |" + dsU.stor.session.uiVersion + "|", true); });
+        dsU.util.getPageType(function() { dsU.log("DS Namespace detected page type of |" + dsU.stor.session.pageType + "|", true); });
+        if (dsU.util.isPageInEditMode() === false && dsU.util.isPageInDialog() === false) {
+            /*dsU.intvls.wfIdleToLoadResources.intvl = setInterval(dsU.intvls.wfIdleToLoadResources.loopingFx, dsU.intvls.wfIdleToLoadResources.pauseMS);*/
+            dsU.util.getWebParts();
+            dsU.theme.getThemeColors();
+        }
+    },
     onLoad: setTimeout(function() {
         dsU.log("DS SPMagic Util Namespace loaded", true);
         document.onreadystatechange = function() {
             if (document.readyState === "complete") {
-                ExecuteOrDelayUntilScriptLoaded(function() {
-                    dsU.log("Document.ready event fired", true);
-                    dsU.util.getSPUIVersion(function() { dsU.log("DS Namespace detected SP UI version of |" + dsU.stor.session.uiVersion + "|", true); });
-                    dsU.util.getPageType(function() { dsU.log("DS Namespace detected page type of |" + dsU.stor.session.pageType + "|", true); });
-                    if (dsU.util.isPageInEditMode() === false && dsU.util.isPageInDialog() === false) {
-                        /*ds.intvls.wfIdleToLoadResources.intvl = setInterval(dsU.intvls.wfIdleToLoadResources.loopingFx, dsU.intvls.wfIdleToLoadResources.pauseMS);*/
-                    }
-                }, "sp.js");
+                dsU.log("document.onreadystatechange event fired and document.readyState is 'complete'", true);
+                SP.SOD.executeFunc('sp.js', 'SP.ClientContext', dsU.onSharePointReady);
+                /*ExecuteOrDelayUntilScriptLoaded(function() {*/
+
+                /*}, "sp.js");*/
             }
         }
     }, 100)
