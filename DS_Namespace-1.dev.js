@@ -5512,6 +5512,45 @@ if ( bMasterLoad === true ) {
 						/*});*/
 					});
 				},
+				contentIconHtml: {
+					folder: "<img border='0' alt='folder' src='/_layouts/15/images/folder.gif'/>",
+					file: "<img border='0' alt='file' src='/_layouts/15/images/icgen.gif'/>",
+					list: "<img border='0' alt='list' src='/_layouts/15/images/list.gif'/>",
+					wikiPage: "<img border='0' alt='wiki page' src='/_layouts/15/images/ichtm.gif'/>",
+					webPartPage: "<img border='0' alt='web part page' src='/_layouts/15/images/icsmrtpg.gif'/>",
+					item: "<span unselectable='on' class='ms-cui-img-16by16 ms-cui-img-cont-float'><img unselectable='on' alt='item' src='/_layouts/15/1033/images/formatmap16x16.png?rev=23' style='top: -107px; left: -37px;'></span>",
+					version: "<span class='ms-cui-img-16by16 ms-cui-img-cont-float ms-cui-imageDisabled' unselectable='on'><img class='' style='top: -99px;left: -55px;' unselectable='on' src='/_layouts/15/1033/images/formatmap16x16.png?rev=23'></span>"
+				},
+				buildItemHtml: function(primaryClass, bExpandable, htmlIcon, itemURL, itemName, itemChildren, itemSize, itemVersionLabel){
+					var arrH = ["<li class='"];
+					arrH.push(primaryClass);
+					if ( bExpandable === true ) {
+						arrH.push(" dynamic");
+					}
+					arrH.push("'><table><tbody><tr><td class='expandControl'>");
+					if ( bExpandable === true ) {
+						arrH.push("<img border='0' alt='expand' src='/_layouts/15/images/collapseplus.gif'/>");
+					}
+					arrH.push("</td><td class='contentIcon'>");
+					arrH.push(htmlIcon);
+					arrH.push("</td><td class='contentLink'><a href='");
+					arrH.push(itemURL)
+					arrH.push("'>");
+					arrH.push(itemName)
+					arrH.push("</a></td><td class='versionCount'>");
+					arrH.push(itemChildren);
+					arrH.push("</td><td class='contentSize'>");
+					arrH.push(itemSize);
+					arrH.push("</td><td class='versionLabel'>");
+					arrH.push(itemVersionLabel);
+					arrH.push("</td><td></td>");
+					arrH.push("<td class='viewContent'><span class='viewFile'>View</span></td>");
+					arrH.push("<td class='downloadContent'><span class='downloadFile'>Download</span></td>");
+					arrH.push("</tr><tr><td colspan='2'></td><td colspan='6'><ul class='");
+					arrH.push(primaryClass);
+					arrH.push("Versions'></ul></td></tr></tbody></table></li>");
+					return arrH.join("");
+				},
 				outputItem: function(list, item, contentType, fileType, listRelativeURL){
 					try{
 						if ( item.Attachments === true ) {

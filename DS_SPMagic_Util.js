@@ -674,7 +674,7 @@ var dsU = {
         coll: {
             getLists: function(bGetFieldDefs, afterFx){
                 dsU.log("Requesting definitions for all lists and libraries in this site");
-                dsU.ajax.captureNamedArray(dsU.p.rest.lists2013+"?$expand=Fields,Views", "dsU.lists", "Title", function(xhr,data){
+                dsU.ajax.captureNamedArray(dsU.p.rest.lists2013+"?$expand=Fields,Views,Items,Forms&$filter=Hidden eq false", "dsU.lists", "Title", function(xhr,data){
                     dsU.log("page");
                     for ( var i = 0; i < data.d.results.length; i++ ) {
                         try{
