@@ -393,13 +393,13 @@ var dsU = {
                 dsU.ajax.lastCall.readyState = xhr.readyState;
                 dsU.ajax.lastCall.status = xhr.status;
                 if (xhr.readyState === 4) {
-                    if (xhr.status !== 200) {
+                    if (xhr.status !== 201) {
                         dsU.ajax.lastCall.data = xhr.response;
                         if (typeof(fxFailed) === "function") {
                             fxFailed(xhr, xhr.response, xhr.status);
                         }
                     } else {
-                        var resp = JSON.parse(xhr.response);
+                        var resp = xhr.response;
                         dsU.ajax.lastCall.data = resp;
                         if (typeof(fxCallback) === "function") {
                             fxCallback(xhr, resp);
@@ -407,6 +407,7 @@ var dsU = {
                     }
                 }
             };
+            dsU.ajax.lastCall.xhr = xhr;
             xhr.send(object);
         },
         update: function(restURL, object, fxCallback) {
@@ -422,13 +423,13 @@ var dsU = {
                 dsU.ajax.lastCall.readyState = xhr.readyState;
                 dsU.ajax.lastCall.status = xhr.status;
                 if (xhr.readyState === 4) {
-                    if (xhr.status !== 200) {
+                    if (xhr.status !== 200 && xhr.status !== 204) {
                         dsU.ajax.lastCall.data = xhr.response;
                         if (typeof(fxFailed) === "function") {
                             fxFailed(xhr, xhr.response, xhr.status);
                         }
                     } else {
-                        var resp = JSON.parse(xhr.response);
+                        var resp = xhr.response;
                         dsU.ajax.lastCall.data = resp;
                         if (typeof(fxCallback) === "function") {
                             fxCallback(xhr, resp);
@@ -436,9 +437,25 @@ var dsU = {
                     }
                 }
             };
+            dsU.ajax.lastCall.xhr = xhr;
             xhr.send(object);
         },
         delete: function(restURL, object, fxCallback) {
+            /*
+            alternatively, post no data to this url
+                _spPageContextInfo.webAbsoluteUrl+"/_vti_bin/owssvr.dll
+                    ?CS=65001
+                    &Cmd=Delete
+                    &List={EC2191D8-2791-4556-A469-22359A0F5961}
+                    &ID=2265
+                    &NextUsing=http%3A%2F%2F1%2Edsmagicsp%2Ecloudappsportal%2Ecom%2FLists%2FMeetingAttendance%2FDatasheet%2Easpx%23InplviewHashe7e56f4a%2D9aa2%2D4e77%2D9d0e%2D1f9d912cc78b%3DShowInGrid%253DTrue
+                    &ContentTypeId=0x010093B793139FFA994596BC507F5A02C22F
+                    
+                var listGUID = SP.ListOperation.Selection.getSelectedList();
+                var itemID = SP.ListOperation.Selection.getSelectedItems()[0].id;
+                http://1.dsmagicsp.cloudappsportal.com/_api/web/lists(guid'"+listGUID+"')/Items(itemID)?$expand=ParentList
+                has contentTypeId, and can give parent list ID
+            */
             dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
             var xhr = new XMLHttpRequest();
             xhr.open('POST', restURL, true);
@@ -451,13 +468,13 @@ var dsU = {
                 dsU.ajax.lastCall.readyState = xhr.readyState;
                 dsU.ajax.lastCall.status = xhr.status;
                 if (xhr.readyState === 4) {
-                    if (xhr.status !== 200) {
+                    if (xhr.status >= 300) {
                         dsU.ajax.lastCall.data = xhr.response;
                         if (typeof(fxFailed) === "function") {
                             fxFailed(xhr, xhr.response, xhr.status);
                         }
                     } else {
-                        var resp = JSON.parse(xhr.response);
+                        var resp = xhr.response;
                         dsU.ajax.lastCall.data = resp;
                         if (typeof(fxCallback) === "function") {
                             fxCallback(xhr, resp);
@@ -465,6 +482,7 @@ var dsU = {
                     }
                 }
             };
+            dsU.ajax.lastCall.xhr = xhr;
             xhr.send(object);
         },
         read: function(restURL, fxCallback, fxLastPage, fxFailed, sDataType) {
@@ -2069,36 +2087,46 @@ var dsU = {
     },
     pages: {
         all: function() {
+            var intvl = dsU.intvls.newIntvl("idleTime");
+            dsU.intvls[intvl].doWorkFx = function(){dsU.settings.idleTime += dsU.intvls[intvl].pauseMS;}
+            dsU.intvls[intvl].timeoutMS = 9999999;
+            dsU.intvls[intvl].intvl = setInterval(dsU.intvls[intvl].loopingFx, dsU.intvls[intvl].pauseMS);
+
             dsU.log("Setting up event handlers used on all pages", true);
-            dsU.$("BODY").on("keypress", function(e) {
+            document.body.addEventListener("keypress", function(e){
+                dsU.log("body.keypress event fired");
                 dsU.settings.idleTime = 0;
                 dsU.evts.keyPressBody = e;
             });
-            dsU.$("BODY").on("mousedown", function(e) {
+            document.body.addEventListener("mousedown", function(e){
+                dsU.log("body.mousedown event fired");
                 dsU.settings.idleTime = 0;
                 dsU.evts.mouseDownBody = e;
             });
-            dsU.$("BODY").on("mouseup", function(e) {
+            document.body.addEventListener("mouseup", function(e){
+                dsU.log("body.mouseup event fired");
                 dsU.settings.idleTime = 0;
                 dsU.evts.mouseUpBody = e;
             });
-            dsU.$("BODY").on("mousemove", function(e) {
+            document.body.addEventListener("mousemove", function(e){
+                dsU.log("body.mousemove event fired");
                 dsU.settings.idleTime = 0;
                 dsU.evts.mouseMoveBody = e;
                 dsU.stor.session.mouseX = e.clientX;
                 dsU.stor.session.mouseY = e.clientY;
             });
-            dsU.$(window).on("blur", function(e) {
+            window.addEventListener("blur", function(e) {
                 dsU.stor.session.windowFocus = false;
                 dsU.settings.idleTime = dsU.intvls.wfIdleToLoadResources.timeoutMS + 1;
                 dsU.evts.blurWindow = e;
             });
-            dsU.$(window).on("focus", function(e) {
+            window.addEventListener("focus", function(e) {
                 dsU.stor.session.windowFocus = true;
                 dsU.evts.focusWindow = e;
             });
-            dsU.util.getBrowserNameAndVersion(function(oBrowser) { dsU.log("DS Magic for SharePoint namespace detected browser as |" + oBrowser.browserName + "| and version |" + oBrowser.browserVersion + "|", true); });
-            dsU.$("#DeltaSiteLogo").empty().append("<div class='ds-magic-logo-wrapper' unselectable='on'><span class='ds-magic-logo-content-letter' unselectable='on'>d</span><span class='ds-magic-logo-content-letter' unselectable='on'>s</span><span class='ds-magic-logo-content-fa' unselectable='on'><i class='fa fa-magic'></i></span></div>");
+            dsU.util.getBrowserNameAndVersion(function(oBrowser) { 
+                dsU.log("DS Magic for SharePoint namespace detected browser as |" + oBrowser.browserName + "| and version |" + oBrowser.browserVersion + "|", true); 
+            });
         }
     },
     onSharePointReady: function(){
