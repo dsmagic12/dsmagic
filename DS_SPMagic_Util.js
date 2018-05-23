@@ -467,7 +467,10 @@ var dsU = {
             };
             xhr.send(object);
         },
-        read: function(restURL, fxCallback, fxLastPage, fxFailed) {
+        read: function(restURL, fxCallback, fxLastPage, fxFailed, sDataType) {
+            if ( typeof(sDataType) === "undefined" ){
+                var sDataType = "json";
+            }
             dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
             var xhr = new XMLHttpRequest();
             xhr.open('GET', restURL, true);
@@ -478,8 +481,27 @@ var dsU = {
             xhr.setRequestHeader("Last-Modified", now);
             xhr.setRequestHeader("Cache-Control", "Public");
             xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
-            xhr.setRequestHeader("accept", "application/json;odata=verbose");
-            xhr.setRequestHeader("content-type", "application/json;odata=verbose");
+            switch (sDataType) {
+                case "json":
+                    xhr.setRequestHeader("accept", "application/json;odata=verbose");
+                    xhr.setRequestHeader("content-type", "application/json;odata=verbose");
+                    break;
+                case "xml":
+                    xhr.setRequestHeader("content-type", "text/xml");
+                    break;
+                case "html":
+                    xhr.setRequestHeader("content-type", "text/html");
+                    break;
+                case "text":
+                    xhr.setRequestHeader("content-type", "text/plain");
+                    break;
+                case "css":
+                    xhr.setRequestHeader("accept", "text/css");
+                    xhr.setRequestHeader("content-type", "text/css");
+                    break;
+                default:
+                    picker.log("picker.ajax.read... unknown sDataType value |"+ sDataType +"|",true);
+            }
             xhr.onreadystatechange = function() {
                 dsU.ajax.lastCall.readyState = xhr.readyState;
                 dsU.ajax.lastCall.status = xhr.status;
@@ -490,7 +512,20 @@ var dsU = {
                             fxFailed(xhr, xhr.response, xhr.status);
                         }
                     } else {
-                        var resp = JSON.parse(xhr.response);
+                        switch (sDataType){
+                            case "json":
+                                var resp = JSON.parse(xhr.response);
+                                break;
+                            case "html":
+                                var resp = document.createElement("div");
+                                resp.innerHTML = xhr.response;                            
+                                break;
+                            case "xml":
+                                var resp = xhr.responseXML;
+                                break;
+                            default: 
+                                var resp = xhr.response;
+                        }
                         dsU.ajax.lastCall.data = resp;
                         if (typeof(fxCallback) === "function") {
                             fxCallback(xhr, resp);
@@ -503,75 +538,14 @@ var dsU = {
                     }
                 }
             };
+            dsU.ajax.lastCall.xhr = xhr;
             xhr.send();
         },
         readCSS: function(restURL, fxCallback, fxFailed) {
-            dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', restURL, true);
-            var now = new Date();
-            /* 4 hours later */
-            var later = new Date(now.valueOf()+(1000*60*60*4));
-            xhr.setRequestHeader("Expires", later);
-            xhr.setRequestHeader("Last-Modified", now);
-            xhr.setRequestHeader("Cache-Control", "Public");
-            xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
-            xhr.setRequestHeader("accept", "text/css");
-            xhr.setRequestHeader("content-type", "text/css");
-            xhr.onreadystatechange = function() {
-                dsU.ajax.lastCall.readyState = xhr.readyState;
-                dsU.ajax.lastCall.status = xhr.status;
-                if (xhr.readyState === 4) {
-                    if (xhr.status !== 200) {
-                        dsU.ajax.lastCall.data = xhr.response;
-                        if (typeof(fxFailed) === "function") {
-                            fxFailed(xhr, xhr.response, xhr.status);
-                        }
-                    } else {
-                        var resp = xhr.response;
-                        dsU.ajax.lastCall.data = resp;
-                        if (typeof(fxCallback) === "function") {
-                            fxCallback(xhr, resp);
-                        }
-                    }
-                }
-            };
-            xhr.send();
+            dsU.ajax.read(restURL, fxCallback, undefined, fxFailed, "css");
         },
         readXML: function(restURL, fxCallback, fxFailed) {
-            dsU.ajax.lastCall = { xhr: null, readyState: null, data: null, status: null, url: restURL, error: null };
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', restURL, true);
-            var now = new Date();
-            /* 4 hours later */
-            var later = new Date(now.valueOf()+(1000*60*60*4));
-            xhr.setRequestHeader("Expires", later);
-            xhr.setRequestHeader("Last-Modified", now);
-            xhr.setRequestHeader("Cache-Control", "Public");
-            xhr.setRequestHeader("X-RequestDigest", document.getElementById("__REQUESTDIGEST").value);
-            xhr.setRequestHeader("accept", "text/css");
-            xhr.setRequestHeader("content-type", "text/css");
-            xhr.onreadystatechange = function() {
-                dsU.ajax.lastCall.readyState = xhr.readyState;
-                dsU.ajax.lastCall.status = xhr.status;
-                if (xhr.readyState === 4) {
-                    if (xhr.status !== 200) {
-                        dsU.ajax.lastCall.xhr = xhr;
-                        dsU.ajax.lastCall.data = xhr.responseXML;
-                        if (typeof(fxFailed) === "function") {
-                            fxFailed(xhr, xhr.response, xhr.status);
-                        }
-                    } else {
-                        var resp = xhr.responseXML;
-                        dsU.ajax.lastCall.xhr = xhr;
-                        dsU.ajax.lastCall.data = resp;
-                        if (typeof(fxCallback) === "function") {
-                            fxCallback(xhr, resp);
-                        }
-                    }
-                }
-            };
-            xhr.send();
+            dsU.ajax.read(restURL, fxCallback, undefined, fxFailed, "xml");
         },
         captureArray: function(restURL, strCaptureResultsIn, fxLastPage, fxFailed) {
 			if (typeof(eval(strCaptureResultsIn)) !== "object") {
@@ -662,7 +636,55 @@ var dsU = {
 				eval(strCaptureResultsIn+".EffectiveBasePermissions = "+JSON.stringify(data.d.EffectiveBasePermissions)+";");
             }
 			dsU.ajax.read(restURL, fxCallback);
-		}
+        },
+        getVersions: function(listId, itemId, afterFx){
+            /*
+            dsU.ajax.getVersions("33c2cf0e-9716-4dcf-ba2e-924397ac77e3",1,function(parsedVersions){
+                dsU.log(parsedVersions,true);
+            });
+            */
+            var url = dsU.p.root;
+            var versionsUrl = url + '_layouts/15/versions.aspx?list=' + listId + '&ID=' + itemId;
+            dsU.ajax.read(versionsUrl, function(x,d){
+                dsU.log(x,true);
+                dsU.log(d,true);
+                var versionEntries = dsU.ajax.parseVersions(d);
+                if ( typeof(afterFx) === "function" ){
+                    afterFx(versionEntries);
+                }
+            }, undefined, undefined, "html");
+        },
+        parseVersions: function(versionsData){
+            var entries = {};
+            var versionList = versionsData.querySelectorAll('table.ms-settingsframe > TBODY > TR');
+            versionList.forEach(function(elm, i){
+                if(i > 0 && (i-1) % 2 == 0) {
+                    var verRow = elm; /*get version row*/
+                    dsU.log(verRow,true);
+                    var propsRow = verRow.nextSibling; /*get properties row*/
+                    dsU.log(propsRow,true);
+                    var versionLabel = verRow.querySelectorAll('td')[0].innerHTML.trim();
+                    if ( !versionLabel === false ) {
+                        entries[versionLabel] = {};
+                        entries[versionLabel].id = verRow.querySelector("td.ms-vb-title > table").getAttribute("id");
+                        entries[versionLabel].verid = verRow.querySelector("td.ms-vb-title > table").getAttribute("verid");
+                        entries[versionLabel].verurl = verRow.querySelector("td.ms-vb-title > table").getAttribute("verurl");
+                        entries[versionLabel].iscur = verRow.querySelector("td.ms-vb-title > table").getAttribute("iscur");
+                        entries[versionLabel].canviewproperty = verRow.querySelector("td.ms-vb-title > table").getAttribute("canviewproperty");
+                        entries[versionLabel].level = verRow.querySelector("td.ms-vb-title > table").getAttribute("level");
+                        entries[versionLabel].otype = verRow.querySelector("td.ms-vb-title > table").getAttribute("otype");
+                        entries[versionLabel].ismostcur = verRow.querySelector("td.ms-vb-title > table").getAttribute("ismostcur");
+                        entries[versionLabel].perm = verRow.querySelector("td.ms-vb-title > table").getAttribute("perm");
+                        entries[versionLabel].ctxname = verRow.querySelector("td.ms-vb-title > table").getAttribute("ctxname");
+                        /*extract item properties from propsRow goes here*/
+                        var collProps = propsRow.querySelectorAll("td > table > tbody > tr");
+                        collProps.forEach(function(elmProp,iProp){
+                            entries[versionLabel][elmProp.querySelector("td.ms-propertysheet").innerText.trim()] = elmProp.querySelector("td.ms-vb").innerText.trim();
+                        });
+                    }
+                }
+            });
+        }
     },
     rest: {
         lastCall: {},
@@ -696,33 +718,17 @@ var dsU = {
         }
     },
 	forms:{
-		getListFormFieldByDisplayName: function(sName) {
-            var $listFormTableRow = dsU.$(".ms-formlabel:contains('" + sName + "')").parents("tr").eq(0);
-            var $formField = $listFormTableRow.children(".ms-formbody").find("TEXTAREA[title^='" + sName + "'],INPUT[title^='" + sName + "'],SELECT[title^='" + sName + "']");
-            return $formField;
-        },
-        getListFormFieldValueByDisplayName: function(sName) {
-            var $listFormTableRow = dsU.$(".ms-formlabel:contains('" + sName + "')").parents("tr").eq(0);
-            var $formField = $listFormTableRow.children(".ms-formbody").find("TEXTAREA[title^='" + sName + "'],INPUT[title^='" + sName + "'],SELECT[title^='" + sName + "']");
-            if ($formField[0].tagName.toUpperCase() === "SELECT") {
-                if ($formField.prop("multiple") === true) {
-                    var $options = $formField.find("OPTION[selected]");
-                    var arrReturn = [];
-                    $options.each(function() {
-                        arrReturn.push([ds.$(this).val(), dsU.$(this).text()]);
-                    });
-                    return arrReturn;
-                } else {
-                    var $options = $formField.find("OPTION[selected]");
-                    return [$options.val(), $options.text()];
-                }
-            } else {
-                return $formField.val();
-            }
-        },
-        getFieldFromCtx: function(sFieldName, fxCallback){
+		getFieldFromCtx: function(sFieldName, fxCallback){
             /*
                 dsU.forms.getFieldFromCtx("Choice Dropdown", function(oField){dsU.log("Found field with Title = |"+ oField.Title +"|");});
+                dsU.forms.getFieldFromCtx("PrimaryResource", function(oField){
+                    dsU.log("Found field with Title = |"+ oField.Title +"|",true); 
+                    dsU.log(oField,true); 
+                    dsU.forms.getFieldControlType(oField, function(oFieldObj){
+                        dsU.log(oFieldObj,true);
+                        dsU.log(oFieldObj.get(),true);
+                    });
+                });
             */
             dsU.util.getWebParts(function(webParts){
                 var bFound = false;
@@ -1301,6 +1307,19 @@ var dsU = {
             }
             //ds.log(oReturn);
             /*return oReturn;*/
+        },
+        getValue: function(fieldDisplayName){
+            var sReturn = null;
+            dsU.forms.getFieldFromCtx(fieldDisplayName, function(oField){
+                dsU.log("Found field with Title = |"+ oField.Title +"|",true); 
+                dsU.log(oField,true); 
+                dsU.forms.getFieldControlType(oField, function(oFieldObj){
+                    dsU.log(oFieldObj,true);
+                    dsU.log(oFieldObj.get(),true);
+                    sReturn = oFieldObj.get();
+                });
+            });
+            return sReturn;
         }
 	},
     util: {
