@@ -518,7 +518,7 @@ var dsU = {
                     xhr.setRequestHeader("content-type", "text/css");
                     break;
                 default:
-                    picker.log("picker.ajax.read... unknown sDataType value |"+ sDataType +"|",true);
+                    dsU.log("dsU.ajax.read... unknown sDataType value |"+ sDataType +"|",true);
             }
             xhr.onreadystatechange = function() {
                 dsU.ajax.lastCall.readyState = xhr.readyState;
