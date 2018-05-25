@@ -704,7 +704,9 @@ var dsU = {
             });
         },
         sendEmail: function(arrToLoginNames, subject, body){
+            /*both work from EoL site*/
             /*dsU.ajax.sendEmail([_spPageContextInfo.systemUserKey], "Sent via REST", "Testing 1 2 3");*/
+            /*dsU.ajax.sendEmail(["dschauer12@gmail.com"], "Sent via REST", "Testing 1 2 3")*/
             var oEmail = {
                 properties: {
                     "__metadata": { "type": "SP.Utilities.EmailProperties" },
