@@ -702,6 +702,37 @@ var dsU = {
                     }
                 }
             });
+        },
+        sendEmail: function(arrToLoginNames, subject, body){
+            /*dsU.ajax.sendEmail([_spPageContextInfo.systemUserKey], "Sent via REST", "Testing 1 2 3");*/
+            var oEmail = {
+                properties: {
+                    "__metadata": { "type": "SP.Utilities.EmailProperties" },
+                    To: { "results": arrToLoginNames },
+                    Subject: subject,
+                    Body: body,
+                    AdditionalHeaders: {
+                        "__metadata": {
+                            "type": "Collection(SP.KeyValue)"
+                        },
+                        "results": [{
+                            "__metadata": {
+                                "type": "SP.KeyValue"
+                            },
+                            "Key": "content-type",
+                            "Value": "text/html",
+                            "ValueType": "Edm.String"
+                        }]
+                    }
+                }
+            };
+            /* this will send an e-mil to the address specified under the user's profile at http://expertsoverlunch.com/sandbox/_layouts/15/userdisp.aspx?ID={userId} */
+            var restURL = _spPageContextInfo.siteAbsoluteUrl +"/_api/SP.Utilities.Utility.SendEmail";
+            dsU.ajax.create(restURL, JSON.stringify(oEmail), function(){
+                dsU.log("Success",true);
+            }, function(){
+                dsU.log("Failed",true);
+            })
         }
     },
     rest: {
@@ -1867,6 +1898,19 @@ var dsU = {
                 if ( typeof(afterFx) === "function" ) { afterFx(); }
             }
             return bReturn;
+        },
+        addScriptReference: function(scriptURL, afterFx, selAppendTo){
+            var elem = document.createElement("SCRIPT");
+            elem.src = scriptURL;
+            if ( typeof(selAppendTo) === "string" ) {
+                document.querySelector(selAppendTo).appendChild(elem);
+            }
+            else{
+                document.head.appendChild(elem);
+            }
+            if ( typeof(afterFx) === "function" ){
+                afterFx();
+            }
         }
     },
     evts: {},
