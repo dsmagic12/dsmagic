@@ -347,22 +347,66 @@ var dsU = {
     theme: {
         getThemeColors: function(afterFx){
             var elm = document.createElement("div"), collColors = null, x1 = null; 
-            dsU.ajax.readXML(dsU.p.scRoot+"/_catalogs/theme/15/palette015.spcolor",function(xhr,data){
-                dsU.log(xhr);
-                x1 = xhr.response;
-                elm.innerHTML = x1.replace(/ \/\>/igm,"></s:color>");
-                /*dsU.log(elm.innerHTML);*/
-                collColors = elm.getElementsByTagName("s:color");
-                /*dsU.log(collColors);*/
-                for ( var iC = 0; iC < collColors.length; iC++ ){
-                    /*dsU.log(collColors[iC]);*/
-                    dsU.theme[collColors[iC].getAttribute("name")] = "#"+collColors[iC].getAttribute("value");
-                }
-                if ( typeof(afterFx) === "function" ){
-                    afterFx();
-                }
-            });
-        }
+            dsU.ajax.read(
+                _spPageContextInfo.siteAbsoluteUrl+"/_api/Web/Lists/GetByTitle('Composed Looks')/Items?$filter=Name eq 'Current'",
+                function(x,d){
+                    dsU.log(x);
+                    dsU.log(d);
+                    dsU.log("Page");
+                    dsU.ajax.readXML(d.d.results[0].ThemeUrl.Url,function(xhr,data){
+                        dsU.log(xhr);
+                        x1 = xhr.response;
+                        elm.innerHTML = x1.replace(/ \/\>/igm,"></s:color>");
+                        collColors = elm.getElementsByTagName("s:color");
+                        for ( var iC = 0; iC < collColors.length; iC++ ){
+                            dsU.theme.colors[collColors[iC].getAttribute("name")] = "#"+collColors[iC].getAttribute("value");
+                        }
+                        if ( typeof(afterFx) === "function" ){
+                            afterFx();
+                        }
+                    });
+                    dsU.ajax.readXML(d.d.results[0].FontSchemeUrl.Url,function(xhr,data){
+                        dsU.log(xhr);
+                        x1 = xhr.response;
+                        
+                        elm.innerHTML = x1;
+                        collSlots = elm.getElementsByTagName("s:fontSlot");
+                        for ( var iS = 0; iS < collSlots.length; iS++ ){
+                            var fontSlot = collSlots[iS];
+                            dsU.theme.fonts[fontSlot.getAttribute("name")] = {};
+                            var slotFonts = fontSlot.getElementsByTagName("s:latin");
+                            for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
+                                dsU.theme.fonts[fontSlot.getAttribute("name")]["latin"] = slotFonts[iSF].getAttribute("typeface");
+                            }
+                            var slotFonts = fontSlot.getElementsByTagName("s:cs");
+                            for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
+                                dsU.theme.fonts[fontSlot.getAttribute("name")]["cs"] = slotFonts[iSF].getAttribute("typeface");
+                            }
+                            var slotFonts = fontSlot.getElementsByTagName("s:ea");
+                            for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
+                                dsU.theme.fonts[fontSlot.getAttribute("name")]["ea"] = slotFonts[iSF].getAttribute("typeface");
+                            }
+                            var slotFonts = fontSlot.getElementsByTagName("s:font");
+                            for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
+                                dsU.theme.fonts[fontSlot.getAttribute("name")][slotFonts[iSF].getAttribute("script")] = slotFonts[iSF].getAttribute("typeface");
+                            }
+                        }                        
+                        if ( typeof(afterFx) === "function" ){
+                            afterFx();
+                        }
+                    });
+                },
+                function(){
+                    dsU.log("Last page");
+                },
+                function(){
+                    dsU.log("Failed");
+                },
+                "json"
+            );
+        },
+        colors: {},
+        fonts: {}
     },
     spObjs: {
         list: function(listTitle, listTemplateNum, listDescription){
@@ -548,10 +592,18 @@ var dsU = {
                         if (typeof(fxCallback) === "function") {
                             fxCallback(xhr, resp);
                         }
-                        if (typeof(resp.d.__next) !== "undefined") {
-                            dsU.ajax.read(resp.d.__next, fxCallback, fxLastPage);
-                        } else if (typeof(fxLastPage) === "function") {
-                            fxLastPage(xhr, resp);
+                        try{
+                            if (typeof(resp.d.__next) !== "undefined") {
+                                dsU.ajax.read(resp.d.__next, fxCallback, fxLastPage);
+                            } 
+                            else if (typeof(fxLastPage) === "function") {
+                                fxLastPage(xhr, resp);
+                            }    
+                        }
+                        catch(err){
+                            if (typeof(fxLastPage) === "function") {
+                                fxLastPage(xhr, resp);
+                            }
                         }
                     }
                 }
