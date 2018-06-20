@@ -32,8 +32,9 @@ var dsU = {
                 fields: window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + '/_api/web/Fields',
                 folders: window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + '/_api/web/Folders',
                 lists: window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + '/_api/web/Lists',
-                listByGUID: function(guid){ return window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + "_api/web/Lists(guid'" + guid + "')"; },
-                listByTitle: function(title){ return window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + "_api/web/Lists/GetByTitle('" + title + "')"; },
+                listByGUID: function(guid){ return window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + "/_api/web/Lists(guid'" + guid + "')"; },
+                listByTitle: function(title){ return window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + "/_api/web/Lists/GetByTitle('" + title + "')"; },
+                listsRelated: function(parentListGUID){ return window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + "/_api/web/Lists(guid'" + parentListGUID + "')/getrelatedfields"; },
                 listTemplates: window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + '/_api/web/ListTemplates',
                 navigation: window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + '/_api/web/Navigation',
                 parentWeb: window.location.protocol + '//'+ window.location.host + _spPageContextInfo.webServerRelativeUrl + '/_api/web/ParentWeb',
@@ -348,56 +349,60 @@ var dsU = {
         getThemeColors: function(afterFx){
             var elm = document.createElement("div"), collColors = null, x1 = null; 
             dsU.ajax.read(
-                _spPageContextInfo.siteAbsoluteUrl+"/_api/Web/Lists/GetByTitle('Composed Looks')/Items?$filter=Name eq 'Current'",
-                function(x,d){
-                    dsU.log(x);
-                    dsU.log(d);
+                _spPageContextInfo.siteAbsoluteUrl+"/_api/Web?$select=ThemedCssFolderUrl",
+                function(xWeb, dWeb){
                     dsU.log("Page");
-                    dsU.ajax.readXML(d.d.results[0].ThemeUrl.Url,function(xhr,data){
-                        dsU.log(xhr);
-                        x1 = xhr.response;
-                        elm.innerHTML = x1.replace(/ \/\>/igm,"></s:color>");
-                        collColors = elm.getElementsByTagName("s:color");
-                        for ( var iC = 0; iC < collColors.length; iC++ ){
-                            dsU.theme.colors[collColors[iC].getAttribute("name")] = "#"+collColors[iC].getAttribute("value");
-                        }
-                        if ( typeof(afterFx) === "function" ){
-                            afterFx();
-                        }
-                    });
-                    dsU.ajax.readXML(d.d.results[0].FontSchemeUrl.Url,function(xhr,data){
-                        dsU.log(xhr);
-                        x1 = xhr.response;
-                        
-                        elm.innerHTML = x1;
-                        collSlots = elm.getElementsByTagName("s:fontSlot");
-                        for ( var iS = 0; iS < collSlots.length; iS++ ){
-                            var fontSlot = collSlots[iS];
-                            dsU.theme.fonts[fontSlot.getAttribute("name")] = {};
-                            var slotFonts = fontSlot.getElementsByTagName("s:latin");
-                            for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
-                                dsU.theme.fonts[fontSlot.getAttribute("name")]["latin"] = slotFonts[iSF].getAttribute("typeface");
-                            }
-                            var slotFonts = fontSlot.getElementsByTagName("s:cs");
-                            for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
-                                dsU.theme.fonts[fontSlot.getAttribute("name")]["cs"] = slotFonts[iSF].getAttribute("typeface");
-                            }
-                            var slotFonts = fontSlot.getElementsByTagName("s:ea");
-                            for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
-                                dsU.theme.fonts[fontSlot.getAttribute("name")]["ea"] = slotFonts[iSF].getAttribute("typeface");
-                            }
-                            var slotFonts = fontSlot.getElementsByTagName("s:font");
-                            for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
-                                dsU.theme.fonts[fontSlot.getAttribute("name")][slotFonts[iSF].getAttribute("script")] = slotFonts[iSF].getAttribute("typeface");
-                            }
-                        }                        
-                        if ( typeof(afterFx) === "function" ){
-                            afterFx();
-                        }
-                    });
                 },
-                function(){
+                function(xlWeb, dlWeb){
                     dsU.log("Last page");
+                    dsU.ajax.readXML(
+                        dlWeb.d.ThemedCssFolderUrl+"/theme.spcolor",
+                        function(xColors, dColors){
+                            dsU.log(xColors);
+                            x1 = xColors.response;
+                            /* also parse s:colorPalette */
+                            elm.innerHTML = x1.replace(/ \/\>/igm,"></s:color>");
+                            collColors = elm.getElementsByTagName("s:color");
+                            for ( var iC = 0; iC < collColors.length; iC++ ){
+                                dsU.theme.colors[collColors[iC].getAttribute("name")] = "#"+collColors[iC].getAttribute("value");
+                            }
+                            dsU.ajax.readXML(
+                                dlWeb.d.ThemedCssFolderUrl+"/theme.spfont",
+                                function(xFonts, dFonts){
+                                    dsU.log(xFonts);
+                                    x1 = xFonts.response;
+                                    elm.innerHTML = x1;
+                                    collSlots = elm.getElementsByTagName("s:fontSlot");
+                                    for ( var iS = 0; iS < collSlots.length; iS++ ){
+                                        var fontSlot = collSlots[iS];
+                                        dsU.theme.fonts[fontSlot.getAttribute("name")] = {};
+                                        var slotFonts = fontSlot.getElementsByTagName("s:latin");
+                                        for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
+                                            dsU.theme.fonts[fontSlot.getAttribute("name")]["latin"] = slotFonts[iSF].getAttribute("typeface");
+                                        }
+                                        var slotFonts = fontSlot.getElementsByTagName("s:cs");
+                                        for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
+                                            dsU.theme.fonts[fontSlot.getAttribute("name")]["cs"] = slotFonts[iSF].getAttribute("typeface");
+                                        }
+                                        var slotFonts = fontSlot.getElementsByTagName("s:ea");
+                                        for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
+                                            dsU.theme.fonts[fontSlot.getAttribute("name")]["ea"] = slotFonts[iSF].getAttribute("typeface");
+                                        }
+                                        var slotFonts = fontSlot.getElementsByTagName("s:font");
+                                        for ( var iSF = 0; iSF < slotFonts.length; iSF++ ){
+                                            dsU.theme.fonts[fontSlot.getAttribute("name")][slotFonts[iSF].getAttribute("script")] = slotFonts[iSF].getAttribute("typeface");
+                                        }
+                                    }                        
+                                    if ( typeof(afterFx) === "function" ){
+                                        afterFx();
+                                    }
+                                }
+                            );
+                        },
+                        function(){
+                            dsU.log("Failed");
+                        }
+                    );
                 },
                 function(){
                     dsU.log("Failed");
@@ -420,7 +425,8 @@ var dsU = {
             };
         }
     },
-	lists: {},
+    lists: {},
+    relatedLists: [],
 	webParts: {},
     ajax: {
         lastCall: {},
@@ -699,11 +705,14 @@ var dsU = {
             }
             dsU.ajax.read(restURL, fxCallback, fxAfterLastPage);
 		},
-		getListPermissions: function(strCaptureResultsIn) {
+		getListPermissions: function(strCaptureResultsIn, afterFx) {
 			var restURL = eval(strCaptureResultsIn+".__metadata.uri");
 			restURL += "?$select=EffectiveBasePermissions";
 			var fxCallback = function(xhr, data) {
-				eval(strCaptureResultsIn+".EffectiveBasePermissions = "+JSON.stringify(data.d.EffectiveBasePermissions)+";");
+                eval(strCaptureResultsIn+".EffectiveBasePermissions = "+JSON.stringify(data.d.EffectiveBasePermissions)+";");
+                if ( typeof(afterFx) === "function" ){
+                    afterFx(eval(strCaptureResultsIn));
+                }
             }
 			dsU.ajax.read(restURL, fxCallback);
         },
@@ -758,7 +767,6 @@ var dsU = {
         sendEmail: function(arrToLoginNames, subject, body){
             /*both work from EoL site*/
             /*dsU.ajax.sendEmail([_spPageContextInfo.systemUserKey], "Sent via REST", "Testing 1 2 3");*/
-            /*dsU.ajax.sendEmail(["dschauer12@gmail.com"], "Sent via REST", "Testing 1 2 3")*/
             var oEmail = {
                 properties: {
                     "__metadata": { "type": "SP.Utilities.EmailProperties" },
@@ -787,6 +795,76 @@ var dsU = {
             }, function(){
                 dsU.log("Failed",true);
             })
+        },
+        getRelatedLists: function(parentListGUID, fxForEachRelatedField){
+            /*example: dsU.ajax.getRelatedLists(_spPageContextInfo.pageListId.replace("{","").replace("}",""));*/
+            if ( typeof(fxForEachRelatedField) === 'undefined' ){
+                var fxForEachRelatedField = function(iRelFieldIndex){
+                    var oField = dsU.relatedLists[iRelFieldIndex];
+                    dsU.log("list |"+ oField.ListId +"| contains related field |"+ oField.FieldId +"| with RelationshipDeleteBehavior |"+ oField.RelationshipDeleteBehavior +"|",true);
+                    var fxGetNewForm = function(listGUID, iRelFieldIndexToUpdate){
+                        dsU.ajax.read(
+                            _spPageContextInfo.webServerRelativeUrl +"/_api/web/lists(guid'"+listGUID+"')/Forms?$filter=FormType%20eq%208&$select=ServerRelativeUrl",
+                            undefined,
+                            function(x,d){
+                                dsU.relatedLists[iRelFieldIndexToUpdate].htmlFormPath = d.d.results[0].ServerRelativeUrl;
+                                dsU.ajax.read(
+                                    d.d.results[0].ServerRelativeUrl,
+                                    undefined,
+                                    function(xForm,dForm){
+                                        dsU.log(dForm,true);
+                                        /*dsU.relatedLists[iRelFieldIndexToUpdate].htmlForm = dForm.getElementsByClassName("ms-formtable")[0];*/
+                                        dsU.relatedLists[iRelFieldIndexToUpdate].htmlForm = dForm.querySelector("#onetIDListForm");
+                                        var formWebPartId = dForm.querySelector("[webpartid]").getAttribute("webpartid")
+                                        var newWP = document.createElement("div");
+                                        newWP.id = "MSOZoneCell_WebPartWPQ"+(4+iRelFieldIndexToUpdate);
+                                        newWP.className = "s4-wpcell-plain ms-webpartzone-cell ms-webpart-cell-vertical ms-fullWidth";
+                                        var arrInnerHtml = ["<div webpartid='"];
+                                        arrInnerHtml.push(formWebPartId);
+                                        arrInnerHtml.push("' haspers='false' id='WebPartWPQ'");
+                                        arrInnerHtml.push((4+iRelFieldIndexToUpdate));
+                                        arrInnerHtml.push("' width='100%' allowdelete='false'>");
+                                        arrInnerHtml.push(dsU.relatedLists[iRelFieldIndexToUpdate].htmlForm.innerHTML);
+                                        arrInnerHtml.push("</div>");
+                                        newWP.innerHTML = arrInnerHtml.join("");
+                                        document.querySelector(".ms-webpart-zone.ms-fullWidth").appendChild(newWP);
+                                    },
+                                    function(){
+                                        dsU.log("Failed",true);
+                                    },
+                                    "html"
+                                )
+                            },
+                            function(){
+                                dsU.log("Failed",true);
+                            },
+                            "json"
+                        )    
+
+                    }
+                    fxGetNewForm(oField.ListId, iRelFieldIndex);
+                    /*http://expertsoverlunch.com/sandbox/ProjectTracking/_api/web/lists(guid'"+oField.ListId+"')/Forms?$filter=FormType%20eq%208&$select=ServerRelativeUrl*/
+                }
+            }
+            dsU.relatedLists = [];
+            dsU.ajax.read(
+                dsU.p.rest['2013'].listsRelated(parentListGUID),
+                function(x,d){
+                    dsU.relatedLists = dsU.relatedLists.concat(d.d.results);
+                },
+                function(xL,dL){
+                    dsU.log("Got all related lists",true);
+                    for ( var iRelField = 0; iRelField < dsU.relatedLists.length; iRelField++ ){
+                        if ( typeof(fxForEachRelatedField) === "function" ){
+                            fxForEachRelatedField(iRelField);
+                        }
+                    }
+                },
+                function(){
+                    dsU.log("Failed",true);
+                },
+                "json"
+            )
         }
     },
     rest: {
@@ -1623,14 +1701,28 @@ var dsU = {
 					formCtx: undefined,
 					listData: undefined,
                     schemaData: undefined,
-                    varPart: undefined
+                    varPart: undefined,
+                    html: {
+                        body: null,
+                        guid: null,
+                        id: null,
+                        num: null,
+                        title: null
+                    }
 				}
 				try{dsU.webParts[wp].title = document.getElementById("WebPart"+wp+"_ChromeTitle").innerText;}catch(err){}
 				try{dsU.webParts[wp].formCtx = eval(wp+"FormCtx;");}catch(err){}
 				try{dsU.webParts[wp].listData = eval(wp+"ListData;");}catch(err){}
                 try{dsU.webParts[wp].schemaData = eval(wp+"SchemaData;");}catch(err){}
                 try{dsU.webParts[wp].varPart = eval("varPart"+wp+";");}catch(err){}
-				if ( typeof(dsU.webParts[wp].formCtx) !== "undefined" ){ 
+                try { dsU.webParts[wp].html.num = collWPs[iWP].id.replace("MSOZoneCell_WebPartWPQ", ""); } catch (err) {}
+                try { dsU.webParts[wp].html.title = document.getElementById("WebPartTitleWPQ" + dsU.webParts[wp].seqID).innerHTML; } catch (err) {}
+                try { dsU.webParts[wp].html.body = document.getElementById("WebPartWPQ" + dsU.webParts[wp].seqID).innerHTML; } catch (err) {}
+                try { dsU.webParts[wp].html.guid = document.getElementById("WebPartWPQ" + dsU.webParts[wp].seqID).getAttribute("webpartid"); } catch (err) {}
+                if ( document.querySelectorAll("#MSOZoneCell_WebPartWPQ"+dsU.webParts[wp].seqID+" .ms-rtestate-field").length > 0 ) {
+                    dsU.webParts[wp].type = "CEWP"; 
+                }
+				else if ( typeof(dsU.webParts[wp].formCtx) !== "undefined" ){ 
 					dsU.webParts[wp].type = "form"; 
 					dsU.webParts[wp].listData = dsU.webParts[wp].formCtx.ListData;
 					dsU.webParts[wp].schemaData = dsU.webParts[wp].formCtx.ListSchema;
