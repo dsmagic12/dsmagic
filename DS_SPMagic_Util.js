@@ -443,7 +443,7 @@ var dsU = {
                 dsU.ajax.lastCall.readyState = xhr.readyState;
                 dsU.ajax.lastCall.status = xhr.status;
                 if (xhr.readyState === 4) {
-                    if (xhr.status !== 201) {
+                    if (xhr.status >= 300) {
                         dsU.ajax.lastCall.data = xhr.response;
                         if (typeof(fxFailed) === "function") {
                             fxFailed(xhr, xhr.response, xhr.status);
@@ -767,6 +767,10 @@ var dsU = {
         sendEmail: function(arrToLoginNames, subject, body){
             /*both work from EoL site*/
             /*dsU.ajax.sendEmail([_spPageContextInfo.systemUserKey], "Sent via REST", "Testing 1 2 3");*/
+            /* microsoft article for permissions required to send this e-mail? */
+            /*https://stackoverflow.com/questions/50826990/sp-utilities-utility-sendemail-access-denied --- users need 'Manage Alerts - Manage alerts for all users of the Web site' permissions */
+            /*MS article: Manage, view, or Delete SharePoint alerts https://support.office.com/en-us/article/manage-view-or-delete-sharepoint-alerts-99dfb19c-9a90-4a8c-aba1-aa8c8afb0de2 */
+            /*stackexchange sp: https://sharepoint.stackexchange.com/questions/16977/permissions-for-users-to-send-alerts-to-multiple-users*/
             var oEmail = {
                 properties: {
                     "__metadata": { "type": "SP.Utilities.EmailProperties" },
@@ -797,6 +801,7 @@ var dsU = {
             })
         },
         getRelatedLists: function(parentListGUID, fxForEachRelatedField){
+            if ( typeof(parentListGUID) === 'undefined' ){ var parentListGUID = _spPageContextInfo.pageListId.replace("{","").replace("}",""); }
             /*example: dsU.ajax.getRelatedLists(_spPageContextInfo.pageListId.replace("{","").replace("}",""));*/
             if ( typeof(fxForEachRelatedField) === 'undefined' ){
                 var fxForEachRelatedField = function(iRelFieldIndex){
@@ -865,6 +870,50 @@ var dsU = {
                 },
                 "json"
             )
+        },
+        getListNewForm: function(listGUID, formGUID, fxCallback){
+            /*
+                var relatedFormContext = undefined, relatedFormFieldContext = undefined;
+                dsU.ajax.read(_spPageContextInfo.webAbsoluteUrl+"/_api/web/lists(guid'02972c48-c7cc-413c-8558-7635de9e7953')/Forms",function(x,d){
+                dsU.ajax.getListNewForm("02972c48-c7cc-413c-8558-7635de9e7953",d.d.results[2].Id,function(form){
+                    dsU.log(form,true);
+                    relatedFormContext = form;
+                    relatedFormFieldContext = JSON.parse(form.d.RenderListFormData);
+                    dsU.log(relatedFormFieldContext,true);
+                    relatedFormFieldContext = SPClientTemplates.Utility.GetFormContextForCurrentField(relatedFormFieldContext);
+
+                    })
+                });
+            */
+            /*https://msdn.microsoft.com/en-us/library/office/dn531433.aspx#bk_ListRenderListFormData*/
+            dsU.ajax.create(
+                _spPageContextInfo.webAbsoluteUrl+"/_api/web/lists(guid'"+listGUID+"')/reserveListItemId",
+                null,
+                function(xRLID,dRLID){
+                    dsU.log(xRLID);
+                    dsU.log(JSON.parse(dRLID),true);
+                    var reservedItemId = JSON.parse(dRLID).d.ReserveListItemId;
+                    dsU.ajax.create(
+                        _spPageContextInfo.webAbsoluteUrl+"/_api/web/lists(guid'"+listGUID+"')/renderListFormData(itemid="+reservedItemId+", formid='"+formGUID+"', mode=3)", 
+                        null,
+                        function(xRLFD,dRLFD){
+                            dsU.log(xRLFD);
+                            dsU.log(JSON.parse(dRLFD),true);
+                            var formCtx = JSON.parse(dRLFD);
+                            dsU.log(formCtx,true);
+                            if ( typeof(fxCallback) === 'function' ){
+                                fxCallback(formCtx);
+                            }
+                        },
+                        function(){
+                            dsU.log("Failed to get list's NewForm",true);
+                        }
+                    );
+                },
+                function(){
+                    dsU.log("Failed to reserve a list item ID",true);
+                }
+            );
         }
     },
     rest: {
